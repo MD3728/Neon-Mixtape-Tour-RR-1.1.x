@@ -1,11 +1,25 @@
 /* Main JS File */
 //Version 1.1.0
 //To Do:
-//
-//
-//
-//
-//
+// Bug Fixes:
+// Stun Coloration Issue
+// Plant Coloration when damaged
+// Breakdancer Fixes and Level Fix
+// New EatTimer
+
+// Balancing:
+// Solar Tomato Nerfed
+// Puff Shroom Buffed
+// Shadow Zombie Needs More Appearances
+
+// Other:
+// Updated Readme
+// Ability to rent seed slot
+// Show starting sun on choose your seeds
+// Ability to import/export save stored in local storage
+// Add New Health/Shield System
+// Manage global variables
+// Change index.js
 
 //Changeable Stats
 let seedSlots = 7;
@@ -64,7 +78,7 @@ let transition = {trigger:false,anim:0,screen:screen};
 let displayPlant;//For showing plant in almanac
 let displayZombie;//For showing zombie in almanac
 let displayZombies = [];//For showing zombies in seed select
-let displayPlants=[]//for shop
+let displayPlants = [];//for shop
 
 //Current Plant Tiers (Default is all tier 1)
 let plantTier = [];
