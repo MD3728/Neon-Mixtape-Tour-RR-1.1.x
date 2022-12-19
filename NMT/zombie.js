@@ -1097,7 +1097,7 @@ class Zombie extends Entity{
       this.graphical.previousAttackAnim=20;
       for (let currentPlant of allPlants){
         if ((currentPlant.lane === this.lane)&&(currentPlant.x + 60 > this.x - 320)&&(currentPlant.x < this.x)){
-          currentPlant.health -= 15;
+          currentPlant.take(15)
         }
       }
     }
@@ -1108,7 +1108,7 @@ class Zombie extends Entity{
       new Particle(0, this.x, this.y+50);
       for (let currentPlant of allPlants){
         if ((currentPlant.x + 40 > this.x - 85)&&(currentPlant.x + 40 < this.x + 115)&&(currentPlant.lane >= this.lane - 1)&&(currentPlant.lane <= this.lane + 1)){//3x3 Range
-          currentPlant.health -= 2000;
+          currentPlant.health.take(2000)
         }
       }
     }
@@ -1320,7 +1320,7 @@ class Zombie extends Entity{
       for (let currentPlant of allPlants){
         if ((currentPlant.x + 60 > this.x - 80)&&(currentPlant.x < this.x + 110)
         &&(currentPlant.lane >= this.lane - 1)&&(currentPlant.lane <= this.lane + 1)&&(currentPlant.eatable === true)){//2.25 x 3 Microphone Swing
-          currentPlant.health -= 10;
+          currentPlant.take(10)
           this.eating = true;
         }
       }
@@ -1410,13 +1410,13 @@ class Zombie extends Entity{
         currentPlant.health = 0;
         new Particle(7,currentPlant.x+30,currentPlant.y+30);
       }else if (currentPlant.type === 15){//Garlic
-        currentPlant.health -= this.determineEatSpeed(this);
+        currentPlant.take(this.determineEatSpeed(this))
         if (this.type !== 18){//Not Gargantuar
           this.garlicCounter += levelSpeed;
         }
         this.rate[1] += this.determineEatSpeed(this);
       }else{
-        currentPlant.health -= this.determineEatSpeed(this);
+        currentPlant.take(this.determineEatSpeed(this))
         this.rate[1] += this.determineEatSpeed(this);
       }
     }
@@ -1532,7 +1532,7 @@ class Zombie extends Entity{
             }
           }
           if (rightPlant !== null){//Such plant exists
-            rightPlant.health -= 500;
+            rightPlant.take(500)
           }        
         }        
         return 2000;

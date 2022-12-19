@@ -26,6 +26,7 @@ class Plant extends Entity{
     this.stunTimer = 0;//Stun from stunner zombie and dazey zombie
     this.changed = changed;//Prevent Plant from changing multiple times from changer zombie
     this.tier = tier;//Keep track of tier, can be passed on to projectile
+    this.shakeTimer=0
     //Determine default reload time
     if ((this.eatable === false)||(this.type === 4)||(this.type === 9)){//Instant Use OR Potato Mine OR Primal Potato Mine
       this.reload = reload;
@@ -71,6 +72,9 @@ class Plant extends Entity{
     }
     translate(30,70);
     scale(this.size);
+    if(this.shakeTimer>0){
+      translate(sin(this.shakeTimer*24)*3,cos(this.shakeTimer*24)*3/2)
+    }
     noStroke();
     switch(this.type){
       case 1:
@@ -560,6 +564,9 @@ class Plant extends Entity{
       noStroke();
       ellipse(0,-30,75,75);
     }
+    if(this.shakeTimer>0){
+      translate(sin(this.shakeTimer*24)*-3,cos(this.shakeTimer*24)*-3/2)
+    }
     scale(1/this.size);
     translate(-this.x-30,-this.y-70);
   }
@@ -568,6 +575,9 @@ class Plant extends Entity{
     this.stunTimer -= levelSpeed;
     if (this.stunTimer <= 0){//Plant not stunned
       this.reload -= levelSpeed;
+    }
+    if(this.shakeTimer>0){
+      this.shakeTimer--
     }
     if (this.reload <= 0){
       switch (this.type){
@@ -761,6 +771,12 @@ class Plant extends Entity{
         currentProjectile.used = true;
         this.health -= currentProjectile.damage;
       }
+    }
+  }
+  take(damage){
+    this.health-=damage
+    if(this.shakeTimer<=0){
+      this.shakeTimer=15
     }
   }
 }
