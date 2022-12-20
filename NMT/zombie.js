@@ -1615,7 +1615,7 @@ class Zombie extends Entity{
   }
 
   //Calculate stun time of zombie
-  //Freeze
+  //Freeze (fix)
   determineStun(stunAmount){
     if ((this.stunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
       this.stunTimer = stunAmount;

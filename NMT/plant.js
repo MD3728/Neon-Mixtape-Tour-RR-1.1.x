@@ -26,7 +26,9 @@ class Plant extends Entity{
     this.stunTimer = 0;//Stun from stunner zombie and dazey zombie
     this.changed = changed;//Prevent Plant from changing multiple times from changer zombie
     this.tier = tier;//Keep track of tier, can be passed on to projectile
-    this.shakeTimer=0
+    this.shakeTimer = 0;
+    //
+    
     //Determine default reload time
     if ((this.eatable === false)||(this.type === 4)||(this.type === 9)){//Instant Use OR Potato Mine OR Primal Potato Mine
       this.reload = reload;
@@ -599,7 +601,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)
             &&(currentZombie.lane >= this.lane - 1)&&(currentZombie.lane <= this.lane + 1)){//Stun and given sun for zombies in 3x3
-              currentZombie.determineStun(this.splashDamage);
+              currentZombie.determineStun2(this.splashDamage);
               new Collectible(currentZombie.x + 10, currentZombie.y + 30, 1, this.damage, 1);
             }
           }
@@ -620,7 +622,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 170)&&(currentZombie.x < this.x + 230)&&(currentZombie.lane >= this.lane - 2)&&
             (currentZombie.lane <= this.lane + 2)){//Stun zombies in 5x5
-              currentZombie.determineStun2(this.splashDamage);
+              currentZombie.determineStun(this.splashDamage);
               currentZombie.determineChill(1.5*this.splashDamage);//Chill is half as long as stun
             }
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&
@@ -738,7 +740,7 @@ class Plant extends Entity{
         //Squash Area Around Specified X
         for (let currentZombie of allZombies){
           if ((currentZombie.x + 30 > lowestX - 40)&&(currentZombie.x < lowestX + 40)&&(currentZombie.lane === this.lane)&&(currentZombie.protected === false)){
-            currentZombie.determineDamage(this.damage)
+            currentZombie.determineDamage(this.damage);
           }
         }
         if(zombieX>this.x){

@@ -16,6 +16,7 @@ class SeedPacket extends Entity{
   }
 
   draw(){//Done by Hayden
+    this.recharge = 0;
     noStroke();
     fill(180,200,180);
     rect(this.x, this.y, 120, 40,2);

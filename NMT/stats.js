@@ -19,12 +19,14 @@
 const levels = {
   "l1": {//Level 1 Normal 2 Flag
     type: [1],
-    daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
+    //daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
+    daveSpeech: [],
+    startingSun: 99999,
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,0,0,0,0,0],
-    waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
+    waveDelay: [20,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
     waves:[
-      [[0,3]],  //[Zombie Type, Row, Column (Default is 9)]
+      [[2,3]],  //[Zombie Type, Row, Column (Default is 9)]
       [[0,2]],  //For rows: 5 is random, 0 -> 4 correspond to lanes 1 -> 5
       [[0,1], [0,3]],
       [[1,1]],
@@ -1278,24 +1280,24 @@ const plantStat = [
     name: "Solar Tomato",
     description: "Produces 50 sun for every zombie in a 3x3 area\nSpecial: Stuns Zombies (Denoted by splashDamage Field)",
     t1:{
-      sun: 150,
+      sun: 100,
       recharge: 900,
-      startingRecharge: 300,
+      startingRecharge: 600,
       health: 10000,
       eatable: false,
-      damage: 50,//Sun Given Per Zombie
+      damage: 25,//Sun Given Per Zombie
       splashDamage: 300,//Stun Time
       reload: 60,
       projectile: 0
     },
     t2:{
       sun: 0,
-      recharge: 2400,
-      startingRecharge: 300,
+      recharge: 3000,
+      startingRecharge: 600,
       health: 10000,
       eatable: false,
-      damage: 50,//Sun Given Per Zombie
-      splashDamage: 180,//Stun Time
+      damage: 25,//Sun Given Per Zombie
+      splashDamage: 600,//Stun Time
       reload: 60,
       projectile: 0
     }
@@ -1630,19 +1632,19 @@ const plantStat = [
     description: "Shoots puffs\nSpecial: Has 3 tile range",
     t1:{
       sun: 25,
-      recharge: 180,
-      startingRecharge: 180,
-      health: 300,
+      recharge: 300,
+      startingRecharge: 300,
+      health: 450,
       eatable: true,
-      damage: 30,
+      damage: 25,
       splashDamage: 0,
-      reload: 90,
+      reload: 60,
       projectile: 5 //Puff Short Range Spore
     },
     t2:{
       sun: 0,
-      recharge: 360,
-      startingRecharge: 360,
+      recharge: 300,
+      startingRecharge: 300,
       health: 150,
       eatable: true,
       damage: 10,
@@ -1899,20 +1901,20 @@ const plantStat = [
     name: "Snow Pea",
     description: "Fires slowing projectiles",
     t1:{
-      sun: 225,
+      sun: 150,
       recharge: 300,
       startingRecharge: 300,
       health: 300,
       eatable: true,
-      damage: 5,
+      damage: 3.4,
       splashDamage: 0,
       reload: 30,
       projectile: 3//Snow Pea
     },
     t2:{
       sun: 300,
-      recharge: 1200,
-      startingRecharge: 1200,
+      recharge: 600,
+      startingRecharge: 600,
       health: 450,
       eatable: true,
       damage: 30,
