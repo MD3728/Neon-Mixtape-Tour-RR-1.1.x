@@ -2,7 +2,7 @@
 //Version 1.1.0
 //To Do:
 // Bug Fixes:
-// Stun Coloration Issue (fix to match types found in zombie.js (determineStun(insert number)))
+// Stun Coloration Issue (Hayden should use order listed in zombie.js methods)
 // Breakdancer Fixes and Level Fix
 // New EatTimer
 
@@ -12,7 +12,6 @@
 // Other:
 // Updated Readme
 // Ability to rent seed slot
-// Show starting sun on choose your seeds (Done)
 // Ability to import/export save stored in local storage
 // Add New Health/Shield System
 // Manage global variables
@@ -51,7 +50,7 @@ let daveIndex = 0;//Current Index of Crazy Dave Dialogue
 
 //Reward/Unlocking System
 let unlockedPackets = [1,4,7,12,18,
-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26];
+1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29];
 let unlockedLevels = [
 "l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",

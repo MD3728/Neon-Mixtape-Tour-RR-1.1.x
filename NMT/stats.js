@@ -26,7 +26,7 @@ const levels = {
     jams:[0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [20,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
     waves:[
-      [[2,3]],  //[Zombie Type, Row, Column (Default is 9)]
+      [[1,3]],  //[Zombie Type, Row, Column (Default is 9)]
       [[0,2]],  //For rows: 5 is random, 0 -> 4 correspond to lanes 1 -> 5
       [[0,1], [0,3]],
       [[1,1]],
@@ -48,10 +48,10 @@ const levels = {
     jams:[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
     waves:[
-      [[2,5]],
+      [[1,5]],
       [[1,5]],
       [[0,1], [0,3]],
-      [[1,1]],
+      [[2,1]],
       [[0,0], [0,2], [0,4]],
       [[0,5], [0,5], [0,5]],
       [[1,1], [1,3]],
@@ -1283,7 +1283,7 @@ const plantStat = [
       sun: 100,
       recharge: 900,
       startingRecharge: 600,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 25,//Sun Given Per Zombie
       splashDamage: 300,//Stun Time
@@ -1294,7 +1294,7 @@ const plantStat = [
       sun: 0,
       recharge: 3000,
       startingRecharge: 600,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 25,//Sun Given Per Zombie
       splashDamage: 600,//Stun Time
@@ -1337,7 +1337,7 @@ const plantStat = [
       sun: 100,
       recharge: 1500,
       startingRecharge: 600,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 1800,
       splashDamage: 0,
@@ -1348,7 +1348,7 @@ const plantStat = [
       sun: 50,
       recharge: 1080,
       startingRecharge: 300,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 900,
       splashDamage: 0,
@@ -1391,7 +1391,7 @@ const plantStat = [
       sun: 150,
       recharge: 2400,
       startingRecharge: 2400,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 1800,
       splashDamage: 0,
@@ -1402,7 +1402,7 @@ const plantStat = [
       sun: 200,
       recharge: 1500,
       startingRecharge: 1500,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 900,
       splashDamage: 0,
@@ -1418,7 +1418,7 @@ const plantStat = [
       sun: 150,
       recharge: 1800,
       startingRecharge: 1800,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 480,//Damage in 3x3
       splashDamage: 240,//Freeze in 5x5 duration
@@ -1429,7 +1429,7 @@ const plantStat = [
       sun: 150,
       recharge: 2400,
       startingRecharge: 2400,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 240,//Damage in 3x3
       splashDamage: 600,//Freeze in 5x5 duration
@@ -1472,7 +1472,7 @@ const plantStat = [
       sun: 0,
       recharge: 720,
       startingRecharge: 300,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 240,
       splashDamage: 0,
@@ -1483,7 +1483,7 @@ const plantStat = [
       sun: 25,
       recharge: 540,
       startingRecharge: 300,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 240,
       splashDamage: 50,
@@ -1580,7 +1580,7 @@ const plantStat = [
       sun: 225,
       recharge: 3000,
       startingRecharge: 1200,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 900,//Jam Stop Time
       splashDamage: 0,
@@ -1591,7 +1591,7 @@ const plantStat = [
       sun: 400,
       recharge: 1800,
       startingRecharge: 1200,
-      health: 10000,
+      health: 100000,
       eatable: false,
       damage: 900,//Jam Stop Time
       splashDamage: 0,
@@ -1922,6 +1922,87 @@ const plantStat = [
       reload: 90,
       projectile: 3
     }
+  },
+  {//27 Stunion
+    type: 27,
+    name: "Stunion",
+    description: "Stuns Zombies In Front of It",
+    t1:{
+      sun: 50,
+      recharge: 1500,
+      startingRecharge: 600,
+      health: 100000,
+      eatable: false,
+      damage: 900,//Stun Timer
+      splashDamage: 0,
+      reload: 60,
+      projectile: 0
+    },
+    t2:{
+      sun: 0,
+      recharge: 510,
+      startingRecharge: 510,
+      health: 100000,
+      eatable: false,
+      damage: 240,//Stun Timer
+      splashDamage: 0,
+      reload: 60,
+      projectile: 0
+    }
+  },
+  {//28 Endurian
+    type: 28,
+    name: "Endurian",
+    description: "Hurts Zombies That Eat It",
+    t1:{
+      sun: 125,
+      recharge: 1500,
+      startingRecharge: 600,
+      health: 2500,
+      eatable: true,
+      damage: 50,
+      splashDamage: 0,
+      reload: 60,
+      projectile: 0
+    },
+    t2:{
+      sun: 150,
+      recharge: 1500,
+      startingRecharge: 600,
+      health: 4000,
+      eatable: true,
+      damage: 30,
+      splashDamage: 0,
+      reload: 60,
+      projectile: 0
+    }
+  },
+  {//29 Spikeweed
+    type: 29,
+    name: "Spikeweed",
+    description: "Hurts Zombies That Step On It",
+    t1:{
+      sun: 100,
+      recharge: 300,
+      startingRecharge: 300,
+      health: 500,
+      eatable: false,
+      damage: 20,
+      splashDamage: 0,
+      reload: 70,
+      projectile: 0
+    },
+    t2:{
+      sun: 225,
+      recharge: 600,
+      startingRecharge: 600,
+      health: 8000,
+      eatable: false,
+      damage: 40,
+      splashDamage: 0,
+      reload: 70,
+      projectile: 0
+    }
   }
 ];
 
@@ -2065,7 +2146,7 @@ const zombieStat = [
     shield: 0,
     speed: 1.25,
     eatSpeed: 1,
-    altEatSpeed: 10000,//Eat speed during jam or after newspaper breaks
+    altEatSpeed: 100000,//Eat speed during jam or after newspaper breaks
     degrade: [120],
     sun: 100,
     jam: 1

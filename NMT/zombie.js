@@ -1013,7 +1013,7 @@ class Zombie extends Entity{
           rect(this.x, this.y,30,80);
           return;
       }
-    }else if(this.determineColor()[0]!=0||this.determineColor()[1]!=0||this.determineColor()[2]!=0){
+    }else if(this.determineColor()[0]!==0||this.determineColor()[1]!==0||this.determineColor()[2]!==0){
       fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade*this.maxFade()*0.8)
       ellipse(0,-30,40,40)
     }
@@ -1059,6 +1059,7 @@ class Zombie extends Entity{
     }
     return this.color;
   }
+  
   maxFade(){
     return max(this.permanentDamage,this.damageTimer/15,this.stunTimer/30,this.stunTimer2/30,this.stunTimer3/30,this.chillTimer/30)
   }
@@ -1326,7 +1327,7 @@ class Zombie extends Entity{
       }
       this.rate[2]++;
     }
-    //Breakdancer Collision
+    //Breakdancer Collision (Needs Fix)
     if ((this.type === 14)&&((currentJam === 3)||(currentJam === 8))){
       for (let currentZombie of allZombies){
         if ((currentZombie.x + 30 > this.x)&&(currentZombie.x < this.x + 30)
@@ -1615,23 +1616,23 @@ class Zombie extends Entity{
   }
 
   //Calculate stun time of zombie
-  //Freeze (fix)
+  //Dazey
   determineStun(stunAmount){
     if ((this.stunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
       this.stunTimer = stunAmount;
     }
   }
 
-  //Solar Tomato
+  //Freeze
   determineStun2(stunAmount){
-    if ((this.stunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
+    if ((this.stunTimer2 < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
       this.stunTimer2 = stunAmount;
     }
   }
 
-  //Dazey
+  //Solar Tomato
   determineStun3(stunAmount){
-    if ((this.stunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
+    if ((this.stunTimer3 < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
       this.stunTimer3 = stunAmount;
     }
   }

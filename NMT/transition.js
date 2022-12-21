@@ -103,7 +103,7 @@ function chooseSeedLoop(){
     displayingZombie.draw();
   }
   //All Seed Packets
-  for (let a = 1; a < 27; a++){
+  for (let a = 1; a < 30; a++){
     let buttonX = ((a-1)%5)*150+150;
     let buttonY = floor((a-1)/5)*60+100;
     stroke(200);

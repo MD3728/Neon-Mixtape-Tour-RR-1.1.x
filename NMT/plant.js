@@ -556,18 +556,19 @@ class Plant extends Entity{
         ellipse(-2,-42,5,5)
         break;
       default://Placeholder Plant if No Sprite Available
-        translate(-this.x-30,-this.y-70);
         fill("rgba(0,0,0,0.5)");
-        rect(this.x,this.y+10,60,60);
-        return;
+        rect(-30,-60,60,60);
+        // scale(1/this.size);
+        // translate(-this.x-30,-this.y-70);
+        // return;
     }
     if(this.stunTimer>0){//Stunned
       fill(255,50);
       noStroke();
       ellipse(0,-30,75,75);
     }
-    if(this.shakeTimer>0){
-      translate(sin(this.shakeTimer*24)*-3,cos(this.shakeTimer*24)*-3/2)
+    if(this.shakeTimer > 0){//Eating
+      translate(sin(this.shakeTimer*24)*-3,cos(this.shakeTimer*24)*-3/2);
     }
     scale(1/this.size);
     translate(-this.x-30,-this.y-70);
@@ -601,7 +602,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)
             &&(currentZombie.lane >= this.lane - 1)&&(currentZombie.lane <= this.lane + 1)){//Stun and given sun for zombies in 3x3
-              currentZombie.determineStun2(this.splashDamage);
+              currentZombie.determineStun3(this.splashDamage);
               new Collectible(currentZombie.x + 10, currentZombie.y + 30, 1, this.damage, 1);
             }
           }
@@ -622,7 +623,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 170)&&(currentZombie.x < this.x + 230)&&(currentZombie.lane >= this.lane - 2)&&
             (currentZombie.lane <= this.lane + 2)){//Stun zombies in 5x5
-              currentZombie.determineStun(this.splashDamage);
+              currentZombie.determineStun2(this.splashDamage);
               currentZombie.determineChill(1.5*this.splashDamage);//Chill is half as long as stun
             }
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&
@@ -637,7 +638,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&
             (currentZombie.lane <= this.lane + 1)&&(currentZombie.protected === false)){//Stun zombies in 3x3
-              currentZombie.determineStun3(this.damage);
+              currentZombie.determineStun(this.damage);
               if (this.splashDamage > 0){//Tier 2 Daisy
                 currentZombie.determineDamage(this.splashDamage);
               }
@@ -651,6 +652,33 @@ class Plant extends Entity{
           currentJam = 0;
           setTimeout(function(){boomberryActive = false; currentJam = currentLevel["jams"][currentWave - 1]}, this.damage*50/3);
           new Particle(5,this.x+30,this.y+30);
+          break;
+        case 27://Stunion
+          this.health = 0;
+          for (let currentZombie of allZombies){
+            if ((currentZombie.x + 30 > this.x - 10)&&(currentZombie.x < this.x + 150)&&
+            (currentZombie.lane === this.lane)&&(currentZombie.protected === false)){//Stun zombies in 3x3
+              currentZombie.determineStun(this.damage);
+            }
+          }
+          new Particle(2,this.x+30,this.y+30);
+          break;
+        case 28://Endurian
+          for (let currentZombie of allZombies){
+            if ((currentZombie.x + 30 > this.x - 20)&&(currentZombie.x < this.x + 80)&&
+            (currentZombie.lane === this.lane)&&(currentZombie.protected === false)){//Stun zombies in 3x3
+              this.reload = this.maxReload;
+              currentZombie.determineDamage(this.damage);
+            }
+          }
+          break;
+        case 29://Spikeweed
+          for (let currentZombie of allZombies){
+            if ((currentZombie.x + 30 > this.x - 10)&&(currentZombie.x < this.x + 70)&&(currentZombie.lane === this.lane)){//1 tile range
+              this.reload = this.maxReload;
+              currentZombie.determineDamage(this.damage);
+            }
+          }
           break;
         default:
           break;
@@ -725,7 +753,7 @@ class Plant extends Entity{
       for (let currentZombie of allZombies){
         //Find Zombie
         if ((currentZombie.lane === this.lane)&&(currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)){
-          zombieX.push(currentZombie.x)
+          zombieX.push(currentZombie.x);
         }
       }
       //If there is a zombie, target furthest left
@@ -760,10 +788,9 @@ class Plant extends Entity{
         }
       }
       if (this.reload < 0){
-        this.eatable = false
+        this.eatable = false;
       }
     }
-
   }
   
   collision(){
@@ -775,10 +802,12 @@ class Plant extends Entity{
       }
     }
   }
+
+  //General Damage Function
   take(damage){
-    this.health-=damage
-    if(this.shakeTimer<=0){
-      this.shakeTimer=15
+    this.health -= damage;
+    if(this.shakeTimer <= 0){
+      this.shakeTimer = 15;
     }
   }
 }
