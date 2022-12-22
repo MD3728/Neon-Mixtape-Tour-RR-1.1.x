@@ -7,20 +7,22 @@ class Collectible extends Entity{
     this.falling = falling;
     this.timer = timer;
     this.value = value;
-    this.size = size;//Larger Sun Means Larger Size
-    this.max=random(150,550);
+    this.size = size;//Larger sun means larger size (and vice versa)
+    this.max = random(150,550);
     this.fade=0;
     allCollectibles.push(this);
   }
 
   draw(){
-    noStroke()
+    noStroke();
     switch (this.type){
       case 1://Sun
         translate(this.x,this.y);
         rotate(this.timer);
-        if(this.value>=75){
+        if(this.value>=75){//Big Sun
           scale(1.4)
+        }else if (this.value <= 25){//Small Sun
+          scale(0.75);
         }
         fill(255,255,150,this.fade/3);
         beginShape();
@@ -40,6 +42,8 @@ class Collectible extends Entity{
         ellipse(0,0,24,24);
         if(this.value>=75){
           scale(5/7)
+        }else if (this.value <= 25){
+          scale(4/3);
         }
         rotate(-this.timer);
         translate(-this.x,-this.y);
@@ -47,43 +51,42 @@ class Collectible extends Entity{
       case 2://Silver Coin
         translate(this.x,this.y);
         if(sin(this.timer*3)!=0){
-          scale(sin(this.timer*3)*0.6,0.6)
-          fill(225,this.fade)
-          ellipse(0,0,30,30)
-          stroke(150,this.fade)
-          strokeWeight(4)
-          noFill()
-          arc(0,-5,12,10,90,270)
-          arc(0,5,12,10,-90,90)
-          line(0,-10,5,-10)
-          line(0,10,-5,10)
-          line(0,-13,0,13)
-          scale(1/sin(this.timer*3)*5/3,5/3)
+          scale(sin(this.timer*3)*0.6,0.6);
+          fill(225,this.fade);
+          ellipse(0,0,30,30);
+          stroke(150,this.fade);
+          strokeWeight(4);
+          noFill();
+          arc(0,-5,12,10,90,270);
+          arc(0,5,12,10,-90,90);
+          line(0,-10,5,-10);
+          line(0,10,-5,10);
+          line(0,-13,0,13);
+          scale(1/sin(this.timer*3)*5/3,5/3);
         }
         translate(-this.x,-this.y);
         break;
       case 3://Gold Coin
-      translate(this.x,this.y);
-      if(sin(this.timer*3)!=0){
-        scale(sin(this.timer*3),1)
-        fill(225,225,75,this.fade)
-        ellipse(0,0,30,30)
-        stroke(150,150,50,this.fade)
-        strokeWeight(4)
-        noFill()
-        arc(0,-5,12,10,90,270)
-        arc(0,5,12,10,-90,90)
-        line(0,-10,5,-10)
-        line(0,10,-5,10)
-        line(0,-13,0,13)
-        scale(1/sin(this.timer*3),1)
-      }
-      translate(-this.x,-this.y);
+        translate(this.x,this.y);
+        if(sin(this.timer*3)!=0){
+          scale(sin(this.timer*3),1);
+          fill(225,225,75,this.fade);
+          ellipse(0,0,30,30);
+          stroke(150,150,50,this.fade);
+          strokeWeight(4);
+          noFill();
+          arc(0,-5,12,10,90,270);
+          arc(0,5,12,10,-90,90);
+          line(0,-10,5,-10);
+          line(0,10,-5,10);
+          line(0,-13,0,13);
+          scale(1/sin(this.timer*3),1);
+        }
+        translate(-this.x,-this.y);
         break;
       default:
         break;
     }
-
   }
 
   move(){

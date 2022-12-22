@@ -3,13 +3,13 @@
 //To Do:
 // Bug Fixes:
 // Stun Coloration Issue (Hayden should use order listed in zombie.js methods)
-// Breakdancer Fixes and Level Fix
-// New EatTimer (Unnecessary?)
+// Add Proper Second Speed
 
 // Other:
 // Ability to rent seed slot
 // Ability to import/export save stored in local storage
 // Manage global variables
+// Possible: EatTimer
 
 //Changeable Stats
 let seedSlots = 5;
@@ -17,7 +17,6 @@ let money = 0;//In Game Currency
 
 //General Systems
 let screen = "initial";
-//let gameOverText = "";//Game over message determined by objective failure or brains eaten
 let readyPlant = null;//ID Holder For Planting and Shoveling
 let running = false;//Determines if level is running
 let win = false;//Determines win
@@ -42,11 +41,12 @@ let boomberryActive = false;
 let boomboxActive = false;
 let lostPlants = 0;//Number of plants lost (for Don't Lose Plants Levels)
 let daveIndex = 0;//Current Index of Crazy Dave Dialogue
-let rentslot=false
+let rentslot = false;
 
 //Reward/Unlocking System
-let unlockedPackets = [1,4,7,12,18,
-1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29];
+let unlockedPackets = [1,4,7,12,18
+,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+];
 let unlockedLevels = [
 "l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",

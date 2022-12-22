@@ -198,6 +198,8 @@ function prepareDefense(){
 
 //Get Game To Crazy Dave Screen (Or Equivalent)
 function initialLevelSetup(){
+  //Determine Number of Seed Slots
+  seedSlots = unlockedPackets.length > 7 ? 7 : unlockedPackets.length;
   //Create Level Zombie Display
   let zombiesInLevel = [];
   for (let nextWave of currentLevel.waves){

@@ -1316,7 +1316,7 @@ class Zombie extends Entity{
       }
     }
     //MC Collision
-    if ((this.type === 13)&&!(this.isStunned())&&((currentJam === 3)||(currentJam === 8))){
+    if ((this.type === 13)&&!(this.isStunned())&&(this.inJam())){
       //Mark for pointbox
       for (let currentPlant of allPlants){
         if ((currentPlant.x + 60 > this.x - 80)&&(currentPlant.x < this.x + 110)
@@ -1327,13 +1327,15 @@ class Zombie extends Entity{
       }
       this.rate[2]++;
     }
-    //Breakdancer Collision (Needs Fix)
-    if ((this.type === 14)&&((currentJam === 3)||(currentJam === 8))){
+    //Breakdancer Collision
+    if ((this.type === 14)&&(this.inJam())){
       for (let currentZombie of allZombies){
         if ((currentZombie.x + 30 > this.x)&&(currentZombie.x < this.x + 30)
         &&(currentZombie.lane === this.lane)&&(currentZombie !== this)){//Breakdancer Jumps Other Zombies Forward
-          //Mark for pointbox
           currentZombie.x -= 120;
+          if (currentZombie.x < 200){
+            currentZombie.x = 200;
+          }
         }
       }
       this.rate[2]++
@@ -1637,6 +1639,7 @@ class Zombie extends Entity{
     }
   }
 
+  //Determine if zombie is stunned by anything
   isStunned(){
     if ((this.stunTimer > 0)||(this.stunTimer2 > 0)||(this.stunTimer3 > 0)){
       return true
