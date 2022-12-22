@@ -4,20 +4,15 @@
 // Bug Fixes:
 // Stun Coloration Issue (Hayden should use order listed in zombie.js methods)
 // Breakdancer Fixes and Level Fix
-// New EatTimer
-
-// Balancing:
-// Shadow Zombie Needs More Appearances
+// New EatTimer (Unnecessary?)
 
 // Other:
-// Updated Readme
 // Ability to rent seed slot
 // Ability to import/export save stored in local storage
-// Add New Health/Shield System
 // Manage global variables
 
 //Changeable Stats
-let seedSlots = 7;
+let seedSlots = 5;
 let money = 0;//In Game Currency
 
 //General Systems
@@ -55,7 +50,8 @@ let unlockedLevels = [
 "l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
 "l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
-"l31","l32","l33","l34","l35","l36","m1"];
+"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"];
+
 //Array of classes
 let allEntities = [];
 let allPlants = [];
@@ -162,7 +158,7 @@ function determineReward(){
   return finalText;
 }
 
-/* Starter Methods */
+// General
 
 //General Collision
 function collision(){
@@ -174,6 +170,7 @@ function collision(){
   for (let currentPlant of allPlants){
     currentPlant.collision();
   }
+  //Despawning
   //Clean up dead zombie
   for (let b = 0; b < allZombies.length; b++){
     let currentZombie = allZombies[b];
