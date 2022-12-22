@@ -48,7 +48,7 @@ document.addEventListener("mouseup",function(e){
         if ((mouseX > buttonX)&&(mouseX < buttonX + 120)&&(mouseY > buttonY)&&(mouseY < buttonY + 36)){
           if (selectedPackets.includes(a) === true){//Deselect
             selectedPackets.splice(selectedPackets.indexOf(a), 1);
-          }else if (((selectedPackets.length < seedSlots)&&(!currentLevel.type.includes(2))&&(!currentLevel.type.includes(3))
+          }else if (((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentslot)&&(!currentLevel.type.includes(2))&&(!currentLevel.type.includes(3))
           &&!((currentLevel.type.includes(4))&&((a <= 3)||(a === 17))))&&(unlockedPackets.includes(a))){
             //Add Packet AND Prevent Picking Sun Producers/Red Stinger In Last Stand AND Plant Unlock
             selectedPackets.push(a);
@@ -67,6 +67,10 @@ document.addEventListener("mouseup",function(e){
       if(pointBox(mouseX, mouseY, 800, 30, 60, 40)){//Quit Button
         transition.trigger=true;
         transition.screen="regularLevelSelect";
+      }
+      if(pointBox(mouseX,mouseY,115,20, 100, 40)&&!rentslot&&money>=128){
+        money-=128
+        rentslot=true
       }
       break;
     case "prepareDefense"://Last Stand Preparation Screen
