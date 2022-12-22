@@ -1040,13 +1040,13 @@ class Zombie extends Entity{
       this.color=mergeArray(this.color,[100,255,255],0.6);
     }
     if(this.stunTimer>0){
-      this.color=mergeArray(this.color,[100,0,100],0.4);
-    }
-    if(this.stunTimer2>0){
       this.color=mergeArray(this.color,[200,255,255],0.4);
     }
+    if(this.stunTimer2>0){
+      this.color=mergeArray(this.color,[100,0,100],0.4);
+    }
     if(this.stunTimer3>0){
-      this.color=mergeArray(this.color,[125,25,125],0.4);
+      this.color=mergeArray(this.color,[255,255,150],0.4);
     }
     if(this.damageTimer>0){
       this.color=mergeArray(this.color,[255,0,0],1-this.damageTimer/15);
