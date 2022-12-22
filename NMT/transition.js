@@ -126,13 +126,30 @@ function chooseSeedLoop(){
   strokeWeight(4);
   fill(180,200,180);
   rect(15,400, 100, 40, 3);
-  fill(0);
+  if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){
+    rect(115,20, 100, 40, 3);
+  }
   noStroke();
+  fill(0);
+  textSize(15);
+  textAlign(LEFT,CENTER);
+  text('$'+money, 805, 635);
+  textAlign(CENTER,CENTER);
   textSize(12);
   text('Start', 65,420);
   if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
+    textSize(10)
+    if(rentslot){
+      text('Rented',165,40)
+    }else{
+      text('Rent Slot\n128 Coins\n(Placeholder)',165,40)
+    }
     textSize(25);
-    text(selectedPackets.length+'/'+seedSlots,55,40);
+    if(rentslot){
+      text(selectedPackets.length+'/'+(seedSlots+1),55,40)
+    }else{
+      text(selectedPackets.length+'/'+seedSlots,55,40);
+    }
     for (let currentPacket in selectedPackets){//Selected Seed Packets
       stroke(200);
       strokeWeight(3);

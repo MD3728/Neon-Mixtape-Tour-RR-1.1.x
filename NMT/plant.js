@@ -555,6 +555,41 @@ class Plant extends Entity{
         ellipse(21,-35,4,12)
         ellipse(-2,-42,5,5)
         break;
+        case 27:
+          stroke(0,200,0)
+          strokeWeight(3)
+          line(-10,-20,-25,-35)
+          line(-10,-20,-30,-25)
+          line(-10,-20,-15,-40)
+          noStroke()
+          fill(200,175,100)
+          ellipse(0,-20,30,20)
+          fill(0)
+          ellipse(-2,-22,5,5)
+          ellipse(6,-22,5,5)
+        break
+        case 28:
+          fill(200,150,50)
+          for(let g=0;g<15;g++){
+            triangle(sin(g*24-12)*-14,cos(g*24-12)*-18-30,sin(g*24+12)*-14,cos(g*24+12)*-18-30,sin(g*24)*21*min(-1,-1.2+(this.maxReload-this.reload)/75),cos(g*24)*27*min(-1,-1.2+(this.maxReload-this.reload)/75)-30)
+          }
+          ellipse(0,-30,30,40)
+          fill(0)
+          ellipse(0,-36,5,5)
+          ellipse(8,-36,5,5)
+        break
+        case 29:
+          fill(200)
+          for(let a=0;a<9;a++){
+            triangle(-27+a*6,0,-21+a*6,0,-24+a*6,min(-8,-12+(this.maxReload-this.reload)/2))
+          }
+          triangle()
+          fill(25,75,25)
+          rect(-30,0,60,10,5)
+          fill(0)
+          ellipse(-9,5,6,6)
+          ellipse(9,5,6,6)
+        break
       default://Placeholder Plant if No Sprite Available
         fill("rgba(0,0,0,0.5)");
         rect(-30,-60,60,60);
@@ -661,7 +696,7 @@ class Plant extends Entity{
               currentZombie.determineStun(this.damage);
             }
           }
-          new Particle(2,this.x+30,this.y+30);
+          new Particle(11,this.x+40,this.y+36);
           break;
         case 28://Endurian
           for (let currentZombie of allZombies){

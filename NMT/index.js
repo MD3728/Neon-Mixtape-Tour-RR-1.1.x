@@ -42,6 +42,7 @@ let boomberryActive = false;
 let boomboxActive = false;
 let lostPlants = 0;//Number of plants lost (for Don't Lose Plants Levels)
 let daveIndex = 0;//Current Index of Crazy Dave Dialogue
+let rentslot=false
 
 //Reward/Unlocking System
 let unlockedPackets = [1,4,7,12,18,
@@ -900,7 +901,7 @@ function draw(){
       fill(0);
       textSize(15);
       textAlign(LEFT,CENTER);
-      text(money, 845, 635);
+      text('$'+money, 805, 635);
       textAlign(CENTER,CENTER);
       break;
     case "almanacZombie"://Zombie Almanac
