@@ -98,6 +98,10 @@ class Particle extends Entity{
                 ellipse(-15,-25,6,6)
                 translate(-this.x,-this.y)
             break
+            case 11://theOnion
+                fill(100,200,50,this.fade)
+                ellipse(this.x+this.size*6,this.y,this.size*12,this.size*5)
+            break
         }
     }
 
