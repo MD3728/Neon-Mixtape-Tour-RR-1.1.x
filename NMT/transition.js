@@ -138,15 +138,15 @@ function chooseSeedLoop(){
   textSize(12);
   text('Start', 65,420);
   if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
-    textSize(10)
-    if(rentslot){
-      text('Rented',165,40)
+    textSize(13)
+    if(rentSlot){
+      text('Rented',165,40);
     }else{
-      text('Rent Slot\n128 Coins\n(Placeholder)',165,40)
+      text('Rent Slot\n2500 Coins',165,40);
     }
     textSize(25);
-    if(rentslot){
-      text(selectedPackets.length+'/'+(seedSlots+1),55,40)
+    if(rentSlot){
+      text(selectedPackets.length+'/'+(seedSlots+1),55,40);
     }else{
       text(selectedPackets.length+'/'+seedSlots,55,40);
     }
@@ -236,6 +236,7 @@ function initialLevelSetup(){
   currentWave = 0;
   currentJam = 0;
   levelSpeed = 1;
+  rentSlot = false;
   if (currentLevel["type"].includes(5) === true){//Night Time Sun Bonus 
     sun = 100;
   }else if (currentLevel["type"].includes(14) === true){//I Zombie
@@ -279,11 +280,11 @@ function initialLevelSetup(){
   if (currentLevel["type"].includes(10) === true){
     bossDamage = 0;
     //Spawn Zombies to take damage for boss
-    new Zombie(665, 120, 1, 24, 10000000, 0, [], 0, 0, 0, -1, 0, 0);
-    new Zombie(665, 220, 2, 24, 10000000, 0, [], 0, 0, 0, -1, 0, 0);
-    new Zombie(665, 320, 3, 24, 10000000, 0, [], 0, 0, 0, -1, 0, 0);
-    new Zombie(665, 420, 4, 24, 10000000, 0, [], 0, 0, 0, -1, 0, 0);
-    new Zombie(665, 520, 5, 24, 10000000, 0, [], 0, 0, 0, -1, 0, 0);
+    new Zombie(665, 120, 1, 24, 10000000, 0, [], 0, 0, 0, 0, -1, 0, 0);
+    new Zombie(665, 220, 2, 24, 10000000, 0, [], 0, 0, 0, 0, -1, 0, 0);
+    new Zombie(665, 320, 3, 24, 10000000, 0, [], 0, 0, 0, 0, -1, 0, 0);
+    new Zombie(665, 420, 4, 24, 10000000, 0, [], 0, 0, 0, 0, -1, 0, 0);
+    new Zombie(665, 520, 5, 24, 10000000, 0, [], 0, 0, 0, 0, -1, 0, 0);
   }
   //Create Endangered Plants
   if (currentLevel["type"].includes(6) === true){
@@ -374,7 +375,7 @@ function initialLevelSetup(){
 
 //Function to call when starting level AFTER Crazy Dave
 function finalLevelSetup(){
-  if (!currentLevel["type"].includes(2)){//Other Level Types With Choose Your Seeds But No Conveyor
+  if ((!currentLevel["type"].includes(2))&&(!currentLevel.type.includes(14))){//Other Level Types With Choose Your Seeds But No Conveyor
     for (let a in selectedPackets){
       let packetID = selectedPackets[a];
       for (let currentPlantNum in plantStat){//Find correct plant

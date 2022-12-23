@@ -41,36 +41,40 @@ document.addEventListener("mouseup",function(e){
         transition.screen = "initial";
       }
       break;
-    case "chooseSeeds"://Choose Your Seeds/Zombie Display Screen
+    case "chooseSeeds"://Choose Your Seeds & Zombie Display Screen
+      //Plants
       for (let a = 1; a < 30; a++){
         let buttonX = ((a-1)%5)*150+150;
         let buttonY = floor((a-1)/5)*60+100;
         if ((mouseX > buttonX)&&(mouseX < buttonX + 120)&&(mouseY > buttonY)&&(mouseY < buttonY + 36)){
           if (selectedPackets.includes(a) === true){//Deselect
             selectedPackets.splice(selectedPackets.indexOf(a), 1);
-          }else if (((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentslot)&&(!currentLevel.type.includes(2))&&(!currentLevel.type.includes(3))
+          }else if (((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentSlot)&&(!currentLevel.type.includes(2))&&(!currentLevel.type.includes(3))
           &&!((currentLevel.type.includes(4))&&((a <= 3)||(a === 17))))&&(unlockedPackets.includes(a))){
             //Add Packet AND Prevent Picking Sun Producers/Red Stinger In Last Stand AND Plant Unlock
             selectedPackets.push(a);
           }
         }
       }
-      if(pointBox(mouseX, mouseY, 15, 400, 100, 40)){//Start Game Button
+      //Start Game Button
+      if(pointBox(mouseX, mouseY, 15, 400, 100, 40)){
         if (currentLevel["type"].includes(4)){//Last Stand Preparation Phase
           finalLevelSetup();
-          transition.trigger=true;
-          transition.screen="prepareDefense";
+          transition.trigger = true;
+          transition.screen = "prepareDefense";
         }else{
           startGame();
         }
       }
-      if(pointBox(mouseX, mouseY, 800, 30, 60, 40)){//Quit Button
-        transition.trigger=true;
-        transition.screen="regularLevelSelect";
+      //Quit Button
+      if(pointBox(mouseX, mouseY, 800, 30, 60, 40)){
+        transition.trigger = true;
+        transition.screen = "regularLevelSelect";
       }
-      if(pointBox(mouseX,mouseY,115,20, 100, 40)&&!rentslot&&money>=128){
-        money-=128
-        rentslot=true
+      //Rent Slot Button
+      if(pointBox(mouseX,mouseY,115,20, 100, 40)&&(!rentSlot)&&(money>=2500)){
+        money -= 2500;
+        rentSlot = true;
       }
       break;
     case "prepareDefense"://Last Stand Preparation Screen
@@ -91,7 +95,7 @@ document.addEventListener("mouseup",function(e){
           sun -= readyPlant.sun;
           let zombieData = zombieStat[readyPlant.type];
           new Zombie(tileFound.x + 25, tileFound.y + 10, Math.floor((tileFound.y-120)/100) + 1, readyPlant.type, zombieData.health, zombieData.shield, 
-            zombieData.degrade, zombieData.speed, zombieData.eatSpeed, zombieData.altEatSpeed, zombieData.jam, -1);
+            zombieData.degrade, zombieData.speed, zombieData.eatSpeed, zombieData.altSpeed, zombieData.altEatSpeed, zombieData.jam, -1);
         }
         readyPlant.selected = false;
         readyPlant = null;

@@ -34,7 +34,6 @@ function displayTransition(transition){
 function drawStack(){
   //Draw Background
   background(155,160,170);
-  levelTimer += levelSpeed;
   //Display Sun Values
   noStroke();
   fill(0,0,0);
@@ -282,8 +281,8 @@ function drawStack(){
     fill(60);
     rect(10,0,110,650);
     fill(70);
-    for(let a=0;a<24;a++){
-      rect(10,10+a*30-(levelTimer)%30,110,8);
+    for(let a = 0; a < 24; a++){
+      rect(10,10+a*30-(globalTimer)%30,110,8);
     }
   }
   //Draw Fog (If Level Has It)

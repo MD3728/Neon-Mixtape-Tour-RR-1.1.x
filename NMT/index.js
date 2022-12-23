@@ -2,56 +2,51 @@
 //Version 1.1.0
 //To Do:
 // Bug Fixes:
-// Stun Coloration Issue (Hayden should use order listed in zombie.js methods)
-// Add Proper Second Speed
-
-// Other:
-// Ability to rent seed slot
-// Ability to import/export save stored in local storage
-// Manage global variables
-// Possible: EatTimer
+// Spikeweed Draw Bug
+// Make Endurian Larger (and make the bottom more defined)
+//
+//SAVE FEATURE
 
 //Changeable Stats
-let seedSlots = 5;
+let seedSlots = 5;//Number of Seed Slots
 let money = 0;//In Game Currency
 
 //General Systems
 let screen = "initial";
 let readyPlant = null;//ID Holder For Planting and Shoveling
 let running = false;//Determines if level is running
-let win = false;//Determines win
+let win = false;//Determines Win
 
 //Gameplay System
-let idIndexer = 1;
-let levelSpeed = 1;
-let lawnMowers = [];
-let tiles = [];
-let selectedPackets = [];
-let sun = 75;
-let currentLevel = null;
-let currentWave = 0;
+let idIndexer = 1;//Index Object ID
+let levelSpeed = 1;//Level Speed (1, 1.5, 2)
+let selectedPackets = [];//Chosen Seed Packets
+let sun = 75;//Sun in Level
+let currentLevel = null;//Holds Current Level Object
+let currentWave = 0;//Current Wave
 let currentJam = 0;//Jams: 0: Normal, 1: Punk, 2: Pop, 3: Rap, 4: 8-bit, 5: Metal, 6: Techno, 7: Ballad, 8: Everything (except ballad)
 let waveTimer = 0;//Time between waves
 let sunTimer = 0;//Sun falling from the sky
 let conveyorTimer = 0;//Time between conveyor seed packets
 let globalTimer = 0;//Global timer for anything
-let levelTimer = 0;
-let bossDamage = 0;
-let boomberryActive = false;
-let boomboxActive = false;
-let lostPlants = 0;//Number of plants lost (for Don't Lose Plants Levels)
+let bossDamage = 0;//Damage Done To Boss
+let boomberryActive = false;//Determines if Boomberry Effect is Active
+let boomboxActive = false;//Determines if Boombox Effect is Active
+let lostPlants = 0;//Number of Plants Lost(for Don't Lose Plants Levels)
 let daveIndex = 0;//Current Index of Crazy Dave Dialogue
-let rentslot = false;
+let rentSlot = false;//Determines if Seed Slot is Being Rented
 
 //Reward/Unlocking System
 let unlockedPackets = [1,4,7,12,18
 ,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
 ];
 let unlockedLevels = [
-"l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
+"l1",
+"l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
 "l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
-"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"];
+"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"
+];
 
 //Array of classes
 let allEntities = [];
@@ -61,6 +56,8 @@ let allProjectiles = [];
 let allCollectibles = [];
 let allPackets = [];
 let allParticles = [];
+let lawnMowers = [];
+let tiles = [];
 
 //Graphics
 let graphics = {minor:[]};
@@ -70,7 +67,7 @@ let transition = {trigger:false,anim:0,screen:screen};
 let displayPlant;//For showing plant in almanac
 let displayZombie;//For showing zombie in almanac
 let displayZombies = [];//For showing zombies in seed select
-let displayPlants = [];//for shop
+let displayPlants = [];//For shop
 
 //Current Plant Tiers (Default is all tier 1)
 let plantTier = [];
@@ -106,15 +103,16 @@ function createPlant(type, tier, x, y){
   return newPlant;
 }
 
-//Create Zombie Shortcut
+//Create Zombie Shortcut (Primarily for Zomboss)
 function createZombie(type, lane = 5){//Keep in mind that lane 0 -> 4 are lanes 1 -> 5, "lane" 5 points to a random lane
   let zombieInfo = zombieStat[type];
   let finalLane = lane;
   if (lane === 5){//Random Lane Assignment
     finalLane = Math.floor(Math.random()*5) + 1;
   }
-  new Zombie(580+Math.floor(50*Math.random()), finalLane*100 + 20, finalLane, type, zombieInfo["health"], zombieInfo["shield"], 
-  zombieInfo["degrade"], zombieInfo["speed"], zombieInfo["eatSpeed"], zombieInfo["altEatSpeed"], zombieInfo["jam"], 0);
+  new Zombie(580 + Math.floor(50*Math.random()), finalLane*100 + 20, finalLane, type, 
+  zombieInfo["health"], zombieInfo["shield"], zombieInfo["degrade"], zombieInfo["speed"], 
+  zombieInfo["eatSpeed"], zombieInfo["altSpeed"], zombieInfo["altEatSpeed"], zombieInfo["jam"], 0);
 }
 
 //Finds reward from current level and returns final string
@@ -159,7 +157,7 @@ function determineReward(){
   return finalText;
 }
 
-// General
+// General Methods
 
 //General Collision
 function collision(){
@@ -252,33 +250,23 @@ function spawnWave(){
   let currentWaveData = currentLevel["waves"][currentWave];
   let waveLength = currentWaveData.length;
   if ((boomberryActive === false)&&(boomboxActive === false)){//Make sure boomberry is not in effect
-  currentJam = currentLevel["jams"][currentWave];
+    currentJam = currentLevel["jams"][currentWave];
   }
   for (let a = 0; a < waveLength; a++){
     let currentZombie = currentWaveData[a];//Zombie [Type,Lane,Column (Optional)]
-    let spawnDelay = null;
-    let zombieColumn = null;
+    let zombieColumn = currentZombie.length === 2 ? 9 : currentZombie[2];
+    let zombieXVariation = zombieColumn === 9 ? random(50) : 0;
     let zombieRow = currentZombie[1];
     let zombieTypeData = zombieStat[currentZombie[0]];//Data from zombieStat array
-    if (currentZombie.length === 2){
-      spawnDelay = random(90);
-      zombieColumn = 9;
-    }else{
-      if (currentZombie[2] === 9){
-        spawnDelay = floor(random()*240);
-        zombieColumn = 9;
-      }else{//Ambush
-        zombieColumn = currentZombie[2];
-        spawnDelay = 0;
-      }
-    }
     //Determine lane and column
     if (zombieRow === 5){
-      zombieRow = ceil(random()*5);
+      zombieRow = ceil(random(5));
     }else{
       zombieRow = currentZombie[1] + 1;
     }
-    new Zombie(zombieColumn*80 + 220, zombieRow*100 + 20, zombieRow,currentZombie[0], zombieTypeData["health"], zombieTypeData["shield"], zombieTypeData["degrade"], zombieTypeData["speed"], zombieTypeData["eatSpeed"], zombieTypeData["altEatSpeed"],zombieTypeData["jam"],currentWave + 1,spawnDelay);
+    new Zombie(zombieColumn*80 + 230 + zombieXVariation, zombieRow*100 + 20, zombieRow, currentZombie[0], zombieTypeData["health"], 
+    zombieTypeData["shield"], zombieTypeData["degrade"], zombieTypeData["speed"], zombieTypeData["eatSpeed"], 
+    zombieTypeData["altSpeed"], zombieTypeData["altEatSpeed"], zombieTypeData["jam"], currentWave + 1);
   }
 }
 
@@ -545,7 +533,7 @@ function levelMainloop(){
         }
         zombieTypeData = zombieStat[zombieType];
         new Zombie(currentZombie.x - 40, currentZombie.y, currentZombie.lane, zombieType, zombieTypeData["health"], zombieTypeData["shield"], zombieTypeData["degrade"], 
-        zombieTypeData["speed"], zombieTypeData["eatSpeed"], zombieTypeData["altEatSpeed"], zombieTypeData["jam"], -1, 0);
+        zombieTypeData["speed"], zombieTypeData["eatSpeed"], zombieTypeData["altSpeed"], zombieTypeData["altEatSpeed"], zombieTypeData["jam"], -1, 0);
       }
       if ((currentZombie.type === 21)&&((currentJam === 6)||(currentJam === 8))){//Techie Shield Regen
         if ((currentZombie.shieldHealth < 600)&&(currentZombie.reload <= 0)){//Shield not at full health and not regenerating
@@ -615,14 +603,14 @@ function setup(){
   displayPlant = new Plant(1, width/2-30,height/2-100, 0,0,99999, 
     0, 0, 0, 0, 0);
   displayPlant.size = 2;
-  displayZombie = new Zombie(width/2-15,height/2,0,0,9999,9999,0,0,0,0,0,0);
+  displayZombie = new Zombie(width/2-15,height/2,0,0,9999,9999,0,0,0,0,0,0,0);
   displayZombie.fade = 255;
   displayZombie.health = 99999;
   displayZombie.size = 2.4;
-  displayPlants=[]
-  useless=[3,8,9,21,24]
-  for(a=0;a<5;a++){
-    displayPlants.push(new Plant(useless[a], width/2-30-200+(a%3)*200+floor(a/3)*100,250+floor(a/3)*200, 0,0,99999, 
+  displayPlants=[];
+  useless=[3,8,9,13,21,24,27];//Shop Plants
+  for(a=0;a<7;a++){
+    displayPlants.push(new Plant(useless[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
     0, 0, 0, 0, 0))
   }
   allPlants = [];

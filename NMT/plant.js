@@ -1,42 +1,38 @@
 /* Plant Class File */
 
 class Plant extends Entity{
-  constructor(type, x, y, cost, damage, health, eatable,reload, projectile, splashDamage, tier, changed = false, endangered = false){
+  constructor(type, x, y, cost, damage, health, eatable, reload, projectile, splashDamage, tier, changed = false, endangered = false){
     super(type,x,y);//Call Entities
     this.name = plantStat[type-1].name;
     //Position
     this.lane = Math.floor((y - 30)/100);
-    this.drawX = 0;//May not be used
-    this.drawY = 0;//May not be used
     //Timers
     this.animationTimer = 0;
     this.reloadTimer = 0;
-    this.fuseTimer = 0;//For instant plants
-    //Stats
-    this.sunCost = cost;
-    this.refund = Math.floor(cost/20)*5;
-    this.health = health;
-    this.maxHealth = health;
-    this.damage = damage;
-    this.splashDamage = splashDamage;
-    this.maxReload = reload + Math.floor(Math.random()*7) - 3;
-    this.projectileType = projectile;
-    this.eatable = eatable;//Determines if plant can be eaten/detected
-    this.endangered = endangered;
-    this.stunTimer = 0;//Stun from stunner zombie and dazey zombie
-    this.changed = changed;//Prevent Plant from changing multiple times from changer zombie
-    this.tier = tier;//Keep track of tier, can be passed on to projectile
-    this.shakeTimer = 0;
-    //
-    
+    this.shakeTimer = 0;//Eating Animation
+    this.stunTimer = 0;
+    this.stunTimer = 0;//Stun From Stunner and Dazey Zombie
     //Determine default reload time
-    if ((this.eatable === false)||(this.type === 4)||(this.type === 9)){//Instant Use OR Potato Mine OR Primal Potato Mine
+    if ((eatable === false)||(this.type === 4)||(this.type === 9)){//Instant Use OR Potato Mine OR Primal Potato Mine
       this.reload = reload;
     }else if (this.type === 11){//Spring bean instant reload
       this.reload = 0;
     }else{//Regular Plant
       this.reload = reload/4;
     }
+    //Stats
+    this.sunCost = cost;
+    this.refund = Math.floor(cost/20)*5;//25% Shovel Refund
+    this.health = health;
+    this.maxHealth = health;
+    this.damage = damage;
+    this.splashDamage = splashDamage;
+    this.maxReload = reload + Math.floor(Math.random()*7) - 3;//Slightly Randomized Reload Time
+    this.projectileType = projectile;//Types Found In Projectile Class
+    this.eatable = eatable;//Determines if plant can be eaten/detected
+    this.endangered = endangered;
+    this.changed = changed;//Prevent Plant from changing multiple times from changer zombie
+    this.tier = tier;//Keep track of tier, can be passed on to projectile
     //I Zombie
     try{
       if (currentLevel.type.includes(14)){
@@ -46,7 +42,7 @@ class Plant extends Entity{
 
     }
     this.graphical = {previousAttackAnim:0};
-    this.size = 1.2;
+    this.size = 1.2;//Size of plant
     allPlants.push(this);
   }
 
@@ -79,7 +75,7 @@ class Plant extends Entity{
     }
     noStroke();
     switch(this.type){
-      case 1:
+      case 1://Sunflower
         fill(120,180,85);
         rect(-3,-20,6,18);
         fill(130,190,95);
@@ -99,7 +95,7 @@ class Plant extends Entity{
         ellipse(-6,-39,5,5);
         ellipse(6,-39,5,5);
         break;
-      case 2:
+      case 2://Twin Sunflower
         fill(120,180,85)
         quad(-3,-2,2,-2,-10,-24,-15,-24)
         quad(3,-2,-2,-2,10,-24,15,-24)
@@ -129,7 +125,7 @@ class Plant extends Entity{
         ellipse(23,-38,4,4)
         ellipse(13,-38,4,4)
       break
-      case 3:
+      case 3://Solar Tomato
         fill(75,225,75)
         rect(-2,-58,4,4)
         fill(255,255,150)
@@ -140,7 +136,7 @@ class Plant extends Entity{
         fill(255,255,180)
         ellipse(-10,-30,20,30)
       break
-      case 4:
+      case 4://Potato Mine
         if(this.reload>0){
           fill(160)
           rect(-1.5,-20,3,12)
@@ -167,7 +163,7 @@ class Plant extends Entity{
           ellipse(6,-21,5,5)
         }
       break
-      case 5:
+      case 5://Squash
         fill(100,150,100)
         rect(-2,-63,4,4)
         fill(100,200,100)
@@ -178,7 +174,7 @@ class Plant extends Entity{
         ellipse(0,-25,6,6)
         ellipse(15,-25,6,6)
       break
-      case 6:
+      case 6://Celery Stalker
         if(this.reload>0){
           fill(100,255,100)
           quad(-10,-10,0,-10,-10,-50,-20,-50)
@@ -210,7 +206,7 @@ class Plant extends Entity{
         ellipse(18,-28,6,6);
         ellipse(28,-28,6,6);
       break
-      case 8:
+      case 8://Melon Grenade
         fill(150,255,255)
         ellipse(0,-30,50,50)
         stroke(0)
@@ -221,7 +217,7 @@ class Plant extends Entity{
         ellipse(15,-30,6,6)
         ellipse(25,-30,6,6)
       break
-      case 9:
+      case 9://Primal Potato Mine
         if(this.reload>0){
           fill(255)
           triangle(0,-20,4,-10,-4,-10)
@@ -244,7 +240,7 @@ class Plant extends Entity{
           ellipse(6,-21,5,5)
         }
       break
-      case 10:
+      case 10://Dazey
         fill(120,180,85)
         rect(-3,-20,6,18)
         fill(130,190,95)
@@ -264,7 +260,7 @@ class Plant extends Entity{
         ellipse(-6,-39,5,5)
         ellipse(6,-39,5,5)
       break
-      case 11:
+      case 11://Spring Bean
         noFill()
         stroke(175,225,125)
         strokeWeight(2)
@@ -287,7 +283,7 @@ class Plant extends Entity{
           ellipse(6,-23,4,4)
         }
       break
-      case 12:
+      case 12://Wall-nut
         fill(120,60,15)
         if(this.health>this.maxHealth*2/3){
           ellipse(0,-30,40,54)
@@ -311,7 +307,7 @@ class Plant extends Entity{
           arc(0,-20,20,-6+12*this.health/this.maxHealth,-180,0)
         }
       break
-      case 13:
+      case 13://Explode-O-Nut
         fill(160+(1-this.health/this.maxHealth)*80,60,30+(1-this.health/this.maxHealth)*30)
         if(this.health>this.maxHealth*2/3){
           ellipse(0,-30,40,54)
@@ -329,7 +325,7 @@ class Plant extends Entity{
         strokeWeight(2)
         arc(0,-20,20,6,0,180)
       break
-      case 14:
+      case 14://Boomberry
         fill(255,50,255)
         ellipse(-12,-48,16,16)
         ellipse(0,-48,16,16)
@@ -360,7 +356,7 @@ class Plant extends Entity{
         ellipse(6,-28,6,6);
         ellipse(18,-28,6,6);
         break;
-      case 16:
+      case 16://Puff-Shroom
         fill(200,150,200)
         rect(-5,-20,10,12)
         ellipse(5,-14,4,6)
@@ -374,7 +370,7 @@ class Plant extends Entity{
         ellipse(2,-17,3,3)
         ellipse(5,-14,2,3)
       break
-      case 17:
+      case 17://Red Stinger
         fill(25,200,25)
         rect(-3,-24,6,24)
         ellipse(6,0,15,6)
@@ -391,7 +387,7 @@ class Plant extends Entity{
         ellipse(4,-30,6,6)
         ellipse(12,-30,6,6)
       break
-      case 18:
+      case 18://Peashooter
         fill(25,200,25)
         ellipse(-9,-36,30,30)
         rect(-9,-43,30,16)
@@ -403,7 +399,7 @@ class Plant extends Entity{
         ellipse(21,-35,4,12)
         ellipse(-2,-42,5,5)
       break
-      case 19:
+      case 19://Phat Beet
         if(this.graphical.previousAttackAnim>0){
           stroke(0,this.graphical.previousAttackAnim*40)
           strokeWeight(5)
@@ -421,7 +417,7 @@ class Plant extends Entity{
         fill(50,150,50)
         ellipse(-20,-30,15,24)
       break
-      case 20:
+      case 20://Spore Shroom
         fill(200,150,200)
         rect(-6,-24,12,21)
         fill(150,50,200)
@@ -436,7 +432,7 @@ class Plant extends Entity{
         ellipse(30,-30,6,12)
         ellipse(3,-15,5,5)
       break
-      case 21:
+      case 21://Threepeater
         fill(25,200,25)
         ellipse(-9,-51,20,20)
         ellipse(-11,-36,20,20)
@@ -458,7 +454,7 @@ class Plant extends Entity{
         ellipse(-6,-41,4,4)
         ellipse(-4,-26,4,4)
       break
-      case 22:
+      case 22://Fume Shroom
         if(this.graphical.previousAttackAnim>0){
           fill(200,100,250,this.graphical.previousAttackAnim*8)
           ellipse(200-this.graphical.previousAttackAnim*9,-24,360-this.graphical.previousAttackAnim*18,60-this.graphical.previousAttackAnim*3)
@@ -477,7 +473,7 @@ class Plant extends Entity{
         ellipse(25,-24,6,12)
         ellipse(6,-7,5,5)
       break
-      case 23:
+      case 23://Valley Lily
         noFill()
         stroke(0, 180, 0)
         strokeWeight(8)
@@ -502,7 +498,7 @@ class Plant extends Entity{
         line(0, -21, 6, -12)
         line(0, -21, -1, -9)
       break
-      case 24:
+      case 24://Pepper Cannon
         fill(240,20,20,50)
         ellipse(-8,-30,36,60)
         ellipse(8,-30,36,60)
@@ -518,7 +514,7 @@ class Plant extends Entity{
         arc(-2,-33,8,8,30,210)
         arc(12,-33,8,8,-30,150)
       break
-      case 25:
+      case 25://Coconut Cannon
         fill(85,45,5)
         ellipse(6,-12,18,18)
         ellipse(-18,-12,18,18)
@@ -538,7 +534,7 @@ class Plant extends Entity{
           ellipse(-28,-52,6,6)
         }
       break
-      case 26:
+      case 26://Snow Pea
         fill(25,200,25)
         quad(-12,-36,-6,-36,3,0,-3,0)
         ellipse(6,0,15,6)
@@ -555,47 +551,44 @@ class Plant extends Entity{
         ellipse(21,-35,4,12)
         ellipse(-2,-42,5,5)
         break;
-        case 27:
-          stroke(0,200,0)
-          strokeWeight(3)
-          line(-10,-20,-25,-35)
-          line(-10,-20,-30,-25)
-          line(-10,-20,-15,-40)
-          noStroke()
-          fill(200,175,100)
-          ellipse(0,-20,30,20)
-          fill(0)
-          ellipse(-2,-22,5,5)
-          ellipse(6,-22,5,5)
+      case 27://Stunion
+        stroke(0,200,0)
+        strokeWeight(3)
+        line(-10,-20,-25,-35)
+        line(-10,-20,-30,-25)
+        line(-10,-20,-15,-40)
+        noStroke()
+        fill(200,175,100)
+        ellipse(0,-20,30,20)
+        fill(0)
+        ellipse(-2,-22,5,5)
+        ellipse(6,-22,5,5)
         break
-        case 28:
-          fill(200,150,50)
-          for(let g=0;g<15;g++){
-            triangle(sin(g*24-12)*-14,cos(g*24-12)*-18-30,sin(g*24+12)*-14,cos(g*24+12)*-18-30,sin(g*24)*21*min(-1,-1.2+(this.maxReload-this.reload)/75),cos(g*24)*27*min(-1,-1.2+(this.maxReload-this.reload)/75)-30)
-          }
-          ellipse(0,-30,30,40)
-          fill(0)
-          ellipse(0,-36,5,5)
-          ellipse(8,-36,5,5)
+      case 28://Endurian
+        fill(200,150,50)
+        for(let g=0;g<15;g++){
+          triangle(sin(g*24-12)*-14,cos(g*24-12)*-18-30,sin(g*24+12)*-14,cos(g*24+12)*-18-30,sin(g*24)*21*min(-1,-1.2+(this.maxReload-this.reload)/75),cos(g*24)*27*min(-1,-1.2+(this.maxReload-this.reload)/75)-30)
+        }
+        ellipse(0,-30,30,40)
+        fill(0)
+        ellipse(0,-36,5,5)
+        ellipse(8,-36,5,5)
         break
-        case 29:
-          fill(200)
-          for(let a=0;a<9;a++){
-            triangle(-27+a*6,0,-21+a*6,0,-24+a*6,min(-8,-12+(this.maxReload-this.reload)/2))
-          }
-          triangle()
-          fill(25,75,25)
-          rect(-30,0,60,10,5)
-          fill(0)
-          ellipse(-9,5,6,6)
-          ellipse(9,5,6,6)
+      case 29://Spikeweed
+        fill(200)
+        for(let a=0;a<9;a++){
+          triangle(-27+a*6,0,-21+a*6,0,-24+a*6,min(-8,-12+(this.maxReload-this.reload)/2))
+        }
+        triangle()
+        fill(25,75,25)
+        rect(-30,0,60,10,5)
+        fill(0)
+        ellipse(-9,5,6,6)
+        ellipse(9,5,6,6)
         break
-      default://Placeholder Plant if No Sprite Available
+      default://Placeholder Plant If No Sprite Available
         fill("rgba(0,0,0,0.5)");
         rect(-30,-60,60,60);
-        // scale(1/this.size);
-        // translate(-this.x-30,-this.y-70);
-        // return;
     }
     if(this.stunTimer>0){//Stunned
       fill(255,50);
@@ -628,8 +621,8 @@ class Plant extends Entity{
         case 2://Twin Sunflower
           if (!currentLevel.type.includes(14)){
             this.reload = this.maxReload;
-            new Collectible(this.x - 25, this.y - 15, 1, this.damage, 1, false);
-            new Collectible(this.x + 35, this.y - 15, 1, this.damage, 1, false);
+            new Collectible(this.x, this.y - 15, 1, this.damage, 1, false);
+            new Collectible(this.x + 55, this.y - 15, 1, this.damage, 1, false);
           }
           break;
         case 3://Solar Tomato
@@ -637,7 +630,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)
             &&(currentZombie.lane >= this.lane - 1)&&(currentZombie.lane <= this.lane + 1)){//Stun and given sun for zombies in 3x3
-              currentZombie.determineStun3(this.splashDamage);
+              currentZombie.determineSolarStun(this.splashDamage);
               new Collectible(currentZombie.x + 10, currentZombie.y + 30, 1, this.damage, 1);
             }
           }
@@ -658,7 +651,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 170)&&(currentZombie.x < this.x + 230)&&(currentZombie.lane >= this.lane - 2)&&
             (currentZombie.lane <= this.lane + 2)){//Stun zombies in 5x5
-              currentZombie.determineStun2(this.splashDamage);
+              currentZombie.determineFreeze(this.splashDamage);
               currentZombie.determineChill(1.5*this.splashDamage);//Chill is half as long as stun
             }
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&
@@ -748,7 +741,11 @@ class Plant extends Entity{
       if (zombieInRange === true){
         this.reload = this.maxReload;
         if ((this.projectileType !== 6)&&(this.projectileType !== 7)){//Normal projectiles
-          new Projectile(this.x + 35, this.y + 15, this.lane, this.projectileType, this.damage, 1, this.tier, this.splashDamage);
+          if (this.type === 16){//Puff-shroom Fires Lower
+            new Projectile(this.x + 20, this.y + 40, this.lane, this.projectileType, this.damage, 1, this.tier, this.splashDamage);
+          }else{//Normal
+            new Projectile(this.x + 35, this.y + 15, this.lane, this.projectileType, this.damage, 1, this.tier, this.splashDamage);
+          }
           if (this.type === 21){//Threepeater
             if (this.lane === 1){
               new Projectile(this.x+40, this.y, this.lane, this.projectileType, this.damage, 1, this.tier, this.splashDamage);
@@ -829,11 +826,12 @@ class Plant extends Entity{
   }
   
   collision(){
+    //Zombotany (or Punk) Projectiles
     for (let currentProjectile of allProjectiles){
       if ((this.x + 60 > currentProjectile.x)&&(this.x < currentProjectile.x + 20)&&(this.lane === currentProjectile.lane)
       &&(currentProjectile.used === false)&&(currentProjectile.toZombie === false)&&(this.eatable === true)){//Zombie projectiles
         currentProjectile.used = true;
-        this.health -= currentProjectile.damage;
+        this.take(currentProjectile.damage);
       }
     }
   }

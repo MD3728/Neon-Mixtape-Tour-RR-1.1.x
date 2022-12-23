@@ -19,14 +19,13 @@
 const levels = {
   "l1": {//Level 1 Normal 2 Flag
     type: [1],
-    //daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
-    daveSpeech: [],
-    startingSun: 99999,
+    daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
+    startingSun: 75,
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
-    jams:[0,0,0,0,0,0,0,0,0,0,0,0],
+    jams:[8,8,8,0,0,0,0,0,0,0,0,0],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
     waves:[
-      [[0,5]],  //[Zombie Type, Row, Column (Default is 9)]
+      [[13,2]],  //[Zombie Type, Row, Column (Default is 9)]
       [[0,2]],  //For rows: 5 is random, 0 -> 4 correspond to lanes 1 -> 5
       [[0,1], [0,3]],
       [[1,1]],
@@ -544,7 +543,7 @@ const levels = {
       [[10,4], [10,4], [10,4], [10,4], [10,4], [19,0], [19,1]], 
       [[3,5], [18,3], [10,1], [10,2], [10,3], [10,2,6], [10,3,6], [10,4,6]]//Flag 2
     ],
-    reward:[[1,500], [2,"l21"]]
+    reward:[[0,28], [1,500], [2,"l21"]]
   },
   "l21": {//Level 21 Normal 3 Flag
     type: [1],
@@ -570,7 +569,7 @@ const levels = {
       [[15,0], [15,0], [15,1], [15,1], [15,2], [15,2]],
       [[3,5], [0,0], [0,1], [0,2], [0,3], [0,4], [5,2], [5,3], [5,4], [15,3], [15,4], [18,4]]//Flag 3          
     ],
-    reward:[[0,13], [1,500], [2,"l22"]]
+    reward:[[1,500], [2,"l22"]]
   },
   "l22": {//Level 22 Fog 3 Flag
     type: [5],
@@ -596,7 +595,7 @@ const levels = {
       [[14,0], [14,1], [14,2], [14,3], [14,4], [14,0], [14,1], [14,2], [14,3], [14,4], [0,0], [0,1], [0,2], [0,3], [0,4]],
       [[3,5], [1,0], [6,1], [6,2], [6,3], [1,4], [0,0], [0,1], [0,2], [0,3], [0,4], [14,0], [14,1], [14,2], [14,3], [14,4]]//Flag 3
     ],
-    reward:[[1,500], [2,"l23"]]
+    reward:[[0,26], [1,500], [2,"l23"]]
   },
   "l23": {//Level 23 Normal 2 Flag
     type: [1],
@@ -620,7 +619,7 @@ const levels = {
       [[14,1], [14,2], [14,3], [14,0], [14,1], [14,2], [14,3], [14,4], [1,0], [1,1], [1,2], [1,3], [1,4]], 
       [[3,5], [14,0], [14,1], [14,2], [14,3], [14,4], [1,0], [1,1], [1,2], [2,2], [2,3], [5,4]]//Flag 2
     ],
-    reward:[[0,26], [1,500], [2,"l24"]]
+    reward:[[1,500], [2,"l24"]]
   },
   "l24": {//Level 24 SOS 2 Flag
     type: [6],
@@ -643,7 +642,7 @@ const levels = {
       [[10,2], [10,2], [10,1], [10,3], [2,0], [2,4], [1,4,7], [1,3,7]],
       [[3,5], [1,0], [1,1], [1,3], [1,4], [19,0], [19,1], [19,2], [19,3], [19,4], [10,0], [10,1], [1,2], [10,3], [10,4]]//Flag 2
     ],
-    reward:[[1,500], [2,"l25"]]
+    reward:[[0,29], [1,500], [2,"l25"]]
   },
   "l25": {//Level 25 Normal 2 Flag
     type: [1],
@@ -1286,7 +1285,7 @@ const plantStat = [
       health: 100000,
       eatable: false,
       damage: 25,//Sun Given Per Zombie
-      splashDamage: 300,//Stun Time
+      splashDamage: 360,//Stun Time
       reload: 60,
       projectile: 0
     },
@@ -1297,7 +1296,7 @@ const plantStat = [
       health: 100000,
       eatable: false,
       damage: 25,//Sun Given Per Zombie
-      splashDamage: 600,//Stun Time
+      splashDamage: 540,//Stun Time
       reload: 60,
       projectile: 0
     }
@@ -1632,8 +1631,8 @@ const plantStat = [
     description: "Shoots puffs\nSpecial: Has 3 tile range",
     t1:{
       sun: 25,
-      recharge: 300,
-      startingRecharge: 300,
+      recharge: 360,
+      startingRecharge: 360,
       health: 450,
       eatable: true,
       damage: 25,
@@ -1966,7 +1965,7 @@ const plantStat = [
       projectile: 0
     },
     t2:{
-      sun: 150,
+      sun: 125,
       recharge: 1500,
       startingRecharge: 600,
       health: 4000,
@@ -2006,6 +2005,7 @@ const plantStat = [
   }
 ];
 
+
 //Zombie Data
 const zombieStat = [
   {//Normal 0
@@ -2016,7 +2016,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,//Zombie Speed After Losing Shield or During Jam
+    altEatSpeed: 1,//Zombie Eating Speed After Losing Shield or During Jam
     degrade: [100],
     sun: 50,
     jam: -1
@@ -2029,7 +2030,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [440,320,200,100],
     sun: 75,
     jam: -1
@@ -2042,7 +2044,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [940,580,200,100],
     sun: 125,
     jam: -1
@@ -2055,7 +2058,8 @@ const zombieStat = [
     shield: 0,
     speed: 2,
     eatSpeed: 2,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 2,
+    altEatSpeed: 2,
     degrade: [175],
     sun: 75,
     jam: -1
@@ -2068,7 +2072,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [1260,720,200,100],
     sun: 150,
     jam: -1
@@ -2081,7 +2086,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [1660,940,200,100],
     sun: 175,
     jam: -1
@@ -2094,6 +2100,7 @@ const zombieStat = [
     shield: 1000,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 4,
     degrade: [860,520,200,100],
     sun: 150,
@@ -2105,8 +2112,9 @@ const zombieStat = [
     name:'Newspaper',
     description: "Gets enraged once its newspaper is destroyed",
     shield: 1000,
-    speed: 1,
-    eatSpeed: 2.5,
+    speed: 2,
+    eatSpeed: 4,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [1070,730,400,200],
     sun: 150,
@@ -2116,11 +2124,12 @@ const zombieStat = [
     type: 8,
     health: 1600,
     name:'Football',
-    description: "Has it all: speed, eat speed, and health!",
+    description: "Has it all: speed, eating, and health!",
     shield: 0,
     speed: 2,
     eatSpeed: 2,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 2,
+    altEatSpeed: 2,
     degrade: [1130,660,200,100],
     sun: 200,
     jam: -1
@@ -2133,7 +2142,8 @@ const zombieStat = [
     shield: 0,
     speed: 1.25,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1.25,
+    altEatSpeed: 1,
     degrade: [170],
     sun: 75,
     jam: 1
@@ -2144,9 +2154,10 @@ const zombieStat = [
     name:'Banger',
     description: "Instantly destroys plants during punk jam",
     shield: 0,
-    speed: 1.25,
+    speed: 1.1,
     eatSpeed: 1,
-    altEatSpeed: 100000,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1.1,
+    altEatSpeed: 100000,
     degrade: [120],
     sun: 100,
     jam: 1
@@ -2159,7 +2170,8 @@ const zombieStat = [
     shield: 0,
     speed: 1.25,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1.25,
+    altEatSpeed: 1,
     degrade: [300],
     sun: 100,
     jam: 2
@@ -2172,7 +2184,8 @@ const zombieStat = [
     shield: 0,
     speed: 2,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 2,
+    altEatSpeed: 1,
     degrade: [100],
     sun: 75,
     jam: 2
@@ -2185,7 +2198,8 @@ const zombieStat = [
     shield: 0,
     speed: 1.1,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1.1,
+    altEatSpeed: 0,
     degrade: [120],
     sun: 125,
     jam: 3
@@ -2198,7 +2212,8 @@ const zombieStat = [
     shield: 0,
     speed: 0.75,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 0.75,
+    altEatSpeed: 1,
     degrade: [300],
     sun: 125,
     jam: 3
@@ -2211,7 +2226,8 @@ const zombieStat = [
     shield: 0,
     speed: 0.75,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 0.75,
+    altEatSpeed: 1,
     degrade: [600],
     sun: 200,
     jam: 4
@@ -2224,7 +2240,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [100],
     sun: 50,
     jam: -1
@@ -2237,7 +2254,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [440,320,200,100],
     sun: 75,
     jam: -1
@@ -2250,7 +2268,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 0,
-    altEatSpeed: 0,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 0,
     degrade: [2700, 1800, 900],
     sun: 325,
     jam: 5
@@ -2259,11 +2278,12 @@ const zombieStat = [
     type: 19,
     health: 150,
     name:'Imp',
-    description: "Small, fast enemy designed to rush for your brains",
+    description: "Small, fast enemy designed to rush toward your brain",
     shield: 0,
     speed: 2,
     eatSpeed: 1,
-    altEatSpeed: 4,//Eat speed during jam or after newspaper breaks
+    altSpeed: 3,
+    altEatSpeed: 4,
     degrade: [75],
     sun: 75,
     jam: 5
@@ -2276,7 +2296,8 @@ const zombieStat = [
     shield: 0,
     speed: 1.5,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1.5,
+    altEatSpeed: 1,
     degrade: [450],
     sun: 175,
     jam: 5
@@ -2289,7 +2310,8 @@ const zombieStat = [
     shield: 600,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [170],
     sun: 125,
     jam: 6
@@ -2302,7 +2324,8 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 1,//Eat speed during jam or after newspaper breaks
+    altSpeed: 1,
+    altEatSpeed: 1,
     degrade: [170],
     sun: 75,
     jam: 6
@@ -2315,6 +2338,7 @@ const zombieStat = [
     shield: 0,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [120],
     sun: 100,
@@ -2323,14 +2347,15 @@ const zombieStat = [
   {//Zombot Multistage Masher (each lane) 24 
     type: 24,
     health: 10000000,
-    name:'Why',
+    name:'Zomboss Helper Zombie',
     description: "A minion of zomboss",
     shield: 0,
     speed: 0,
     eatSpeed: 0,
+    altSpeed: 0,
     altEatSpeed: 0,
     degrade: [],
-    sun: 50,
+    sun: 25,
     jam: -1
   },
   {//Peashooter Zombie 25 
@@ -2341,6 +2366,7 @@ const zombieStat = [
     shield: 200,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [200,100],
     sun: 75,
@@ -2354,6 +2380,7 @@ const zombieStat = [
     shield: 3000,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [2200,1200],
     sun: 200,
@@ -2367,7 +2394,8 @@ const zombieStat = [
     shield: 300,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 1.5,
+    altSpeed: 1.5,
+    altEatSpeed: 0,
     degrade: [100],
     sun: 150,
     jam: -1
@@ -2380,6 +2408,7 @@ const zombieStat = [
     shield: 400,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [225],
     sun: 100,
@@ -2393,7 +2422,8 @@ const zombieStat = [
     shield: 300,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 2.5,
+    altSpeed: 2.5,
+    altEatSpeed: 0,
     degrade: [170],
     sun: 75,
     jam: -1
@@ -2406,7 +2436,8 @@ const zombieStat = [
     shield: 400,
     speed: 1,
     eatSpeed: 1,
-    altEatSpeed: 2,
+    altSpeed: 2,
+    altEatSpeed: 0,
     degrade: [170],
     sun: 100,
     jam: -1
@@ -2419,6 +2450,7 @@ const zombieStat = [
     shield: 600,
     speed: 1,
     eatSpeed: 1,
+    altSpeed: 1,
     altEatSpeed: 1,
     degrade: [280],
     sun: 75,

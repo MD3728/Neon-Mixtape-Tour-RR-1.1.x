@@ -1,7 +1,7 @@
 /* Zombie Class File */
 
 class Zombie extends Entity{
-  constructor(x,y,row,type,health,shield,degrade,speed,eatSpeed,altEatSpeed,specialJam,wave,stunned = 0){
+  constructor(x,y,row,type,health,shield,degrade,speed,eatSpeed,altSpeed,altEatSpeed,specialJam,wave,stunned = 0){
     super(type,x,y);//Call Entity Constructor
     this.lane = row;//Current Lane
     this.isZombie = true;//For tracking object types
@@ -12,18 +12,19 @@ class Zombie extends Entity{
     this.degrade = degrade;//List of degrades with healths
     this.speed = speed;//Regular walking speed
     this.eatSpeed = eatSpeed;//Regular Eat Speed
-    this.altEatSpeed = altEatSpeed;//Eat speed AND Speed during jam OR when shield is active
-    this.specialJam = specialJam;
+    this.altSpeed = altSpeed;//Speed during jam OR when shield is active
+    this.altEatSpeed = altEatSpeed;//Eat speed
+    this.specialJam = specialJam;//Jam Zombie Reacts To, Default is -1
     this.protected = false;//Glitter Protection
-    this.stunTimer = stunned;//Freeze
-    this.stunTimer2 = 0;//Dazey
-    this.stunTimer3 = 0;//Solar Tomato
+    this.stunTimer = stunned;//Initial Freeze and Noxious Stun (Dazey, Stunion, Garlic)
+    this.freezeTimer = 0;//Freeze (Melon Grenade)
+    this.solarStunTimer = 0;//Solar Stun (Solar Tomato)
     this.chillTimer = 0;//Chill
-    this.damageTimer = 0;
+    this.damageTimer = 0;//Damage Display
     this.eating = false;
     this.garlicCounter = 0;//For garlic, zombie switches lane when it gets to 60
-    this.playedMusic = false;//For boombox
-    this.permanentDamage = 0;//For Valley Lily Damage over time
+    this.playedMusic = false;//For Boombox (Cannot Play Music Twice)
+    this.permanentDamage = 0;//For Valley Lily Damage Over Time
     //Determine Reload and Max Shield Health
     switch (this.type){
       case 18://Gargantuar
@@ -1039,14 +1040,14 @@ class Zombie extends Entity{
     if(this.chillTimer>0){
       this.color=mergeArray(this.color,[100,255,255],0.6);
     }
-    if(this.stunTimer>0){
-      this.color=mergeArray(this.color,[200,255,255],0.4);
+    if(this.stunTimer>0){//Noxious Stun (Dazey and Stunion)
+      this.color = mergeArray(this.color,[100,0,100],0.4);
     }
-    if(this.stunTimer2>0){
-      this.color=mergeArray(this.color,[100,0,100],0.4);
+    if(this.freezeTimer>0){//Freeze
+      this.color = mergeArray(this.color,[200,255,255],0.4);
     }
-    if(this.stunTimer3>0){
-      this.color=mergeArray(this.color,[255,255,150],0.4);
+    if(this.solarStunTimer>0){//Solar Tomato Stun
+      this.color = mergeArray(this.color,[255,255,150],0.4);
     }
     if(this.damageTimer>0){
       this.color=mergeArray(this.color,[255,0,0],1-this.damageTimer/15);
@@ -1061,7 +1062,7 @@ class Zombie extends Entity{
   }
   
   maxFade(){
-    return max(this.permanentDamage,this.damageTimer/15,this.stunTimer/30,this.stunTimer2/30,this.stunTimer3/30,this.chillTimer/30)
+    return max(this.permanentDamage,this.damageTimer/15,this.stunTimer/30,this.freezeTimer/30,this.solarStunTimer/30,this.chillTimer/30)
   }
 
   //Move and Change Method
@@ -1072,8 +1073,8 @@ class Zombie extends Entity{
       this.fade += 25.5;
     }
     this.stunTimer -= levelSpeed;
-    this.stunTimer2 -= levelSpeed;
-    this.stunTimer3 -= levelSpeed;
+    this.freezeTimer -= levelSpeed;
+    this.solarStunTimer -= levelSpeed;
     this.chillTimer -= levelSpeed;
     this.damageTimer -= levelSpeed;
     if (!this.isStunned()){//Not Stunned
@@ -1098,7 +1099,7 @@ class Zombie extends Entity{
       this.graphical.previousAttackAnim=20;
       for (let currentPlant of allPlants){
         if ((currentPlant.lane === this.lane)&&(currentPlant.x + 60 > this.x - 320)&&(currentPlant.x < this.x)){
-          currentPlant.take(15)
+          currentPlant.take(15);
         }
       }
     }
@@ -1109,7 +1110,7 @@ class Zombie extends Entity{
       new Particle(0, this.x, this.y+50);
       for (let currentPlant of allPlants){
         if ((currentPlant.x + 40 > this.x - 85)&&(currentPlant.x + 40 < this.x + 115)&&(currentPlant.lane >= this.lane - 1)&&(currentPlant.lane <= this.lane + 1)){//3x3 Range
-          currentPlant.health.take(2000)
+          currentPlant.take(2000);
         }
       }
     }
@@ -1165,6 +1166,10 @@ class Zombie extends Entity{
       //Determine Jam Speed and Chill
       let jamMultiplier;
       let chillMultiplier = 1;
+      let positionMultiplier = 1;
+      if (this.x > 920){//Make Zombies Move Onscreen Faster
+        positionMultiplier = 2;
+      }
       if (this.chillTimer > 0){
         chillMultiplier = 0.5;
       }
@@ -1199,17 +1204,12 @@ class Zombie extends Entity{
         default:
           jamMultiplier = 1;
       }
-      if ((this.shieldHealth > 0)&&(this.type !== 6)){//Newspaper, but not speakerhead
-        this.x -= this.altEatSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed; 
-        this.rate[0] += this.altEatSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed;
-      }else{
-        if ((this.type === 7)&&(this.shieldHealth <= 0)){//Newspaper
-          this.x -= this.eatSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed; 
-          this.rate[0] += this.eatSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed;
-        }else{//Others
-          this.x -= this.speed*0.3*jamMultiplier*chillMultiplier*levelSpeed; 
-          this.rate[0] += this.speed*0.3*jamMultiplier*chillMultiplier*levelSpeed;
-        }
+      if ((this.shieldHealth > 0)||(this.inJam())){//With Shield or In Jam
+        this.x -= this.altSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier; 
+        this.rate[0] += this.altSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier;
+      }else{//Regular Speed 
+        this.x -= this.speed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier; 
+        this.rate[0] += this.speed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier;
       }
     }
     //Gadgeter Change Plant
@@ -1350,8 +1350,8 @@ class Zombie extends Entity{
     //Glitter Clear Effect
     if (this.protected === true){
       this.stunTimer = 0;
-      this.stunTimer2 = 0;
-      this.stunTimer3 = 0;
+      this.freezeTimer = 0;
+      this.solarStunTimer = 0;
       this.chillTimer = 0;
     }
     //Collision with plants
@@ -1581,11 +1581,9 @@ class Zombie extends Entity{
       default:
         jamMultiplier = 1;
     }
-    if (this.shieldHealth > 0){//Non-Enraged Newspaper, Full Speaker Head, Full shield
+    if ((this.shieldHealth > 0)||(this.inJam())){//Has Positive Shield Health or Matching Jam
       finalEatSpeed = 1.4*levelSpeed*jamMultiplier*this.altEatSpeed*chillMultiplier;
-    }else if (this.inJam()){//Matching jam
-      finalEatSpeed = 1.4*levelSpeed*jamMultiplier*this.altEatSpeed*chillMultiplier;
-    }else{//Normal, enraged newspaper, or lost speakerhead
+    }else{//Normal or No Shield
       finalEatSpeed = 1.4*levelSpeed*jamMultiplier*this.eatSpeed*chillMultiplier;
     }
     if ((this.type === 29)&&(this.shieldHealth > 0)){//Squash Zombie
@@ -1617,8 +1615,8 @@ class Zombie extends Entity{
     this.damageTimer = 15;
   }
 
-  //Calculate stun time of zombie
-  //Dazey
+  //Calculate Stun Time
+  //Dazey and Stunion (Noxious)
   determineStun(stunAmount){
     if ((this.stunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
       this.stunTimer = stunAmount;
@@ -1626,29 +1624,36 @@ class Zombie extends Entity{
   }
 
   //Freeze
-  determineStun2(stunAmount){
-    if ((this.stunTimer2 < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
-      this.stunTimer2 = stunAmount;
+  determineFreeze(stunAmount){
+    if ((this.freezeTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
+      this.freezeTimer = stunAmount;
     }
   }
 
   //Solar Tomato
-  determineStun3(stunAmount){
-    if ((this.stunTimer3 < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
-      this.stunTimer3 = stunAmount;
+  determineSolarStun(stunAmount){
+    if ((this.solarStunTimer < stunAmount)&&(this.protected === false)){//Make sure that stun is not shortened
+      this.solarStunTimer = stunAmount;
     }
   }
 
-  //Determine if zombie is stunned by anything
+  //Calculate Chill Time
+  determineChill(chillAmount){
+    if ((this.chillTimer < chillAmount)&&(this.protected === false)){//Make sure chill is not shortened
+      this.chillTimer = chillAmount;
+    }
+  }
+
+  //Determine if zombie is under any stun effect
   isStunned(){
-    if ((this.stunTimer > 0)||(this.stunTimer2 > 0)||(this.stunTimer3 > 0)){
+    if ((this.stunTimer > 0)||(this.freezeTimer > 0)||(this.solarStunTimer > 0)){
       return true
     }else{
       return false;
     }
   }
 
-  //Determine if zombie is in jam
+  //Determine if zombie is in corresponding jam
   inJam(){
     if (this.specialJam !== -1){
       if ((currentJam === this.specialJam)||(currentJam === 8)){
@@ -1658,13 +1663,6 @@ class Zombie extends Entity{
       }
     }else{//No Jam
       return false;
-    }
-  }
-
-  //Calculate chill time of zombie
-  determineChill(chillAmount){
-    if ((this.chillTimer < chillAmount)&&(this.protected === false)){//Make sure chill is not shortened
-      this.chillTimer = chillAmount;
     }
   }
 }
