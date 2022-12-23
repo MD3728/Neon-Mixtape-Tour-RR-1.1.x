@@ -33,6 +33,7 @@ class Plant extends Entity{
     this.endangered = endangered;
     this.changed = changed;//Prevent Plant from changing multiple times from changer zombie
     this.tier = tier;//Keep track of tier, can be passed on to projectile
+    this.firedAtLeastOnce=false
     //I Zombie
     try{
       if (currentLevel.type.includes(14)){
@@ -566,18 +567,35 @@ class Plant extends Entity{
         break
       case 28://Endurian
         fill(200,150,50)
-        for(let g=0;g<15;g++){
-          triangle(sin(g*24-12)*-14,cos(g*24-12)*-18-30,sin(g*24+12)*-14,cos(g*24+12)*-18-30,sin(g*24)*21*min(-1,-1.2+(this.maxReload-this.reload)/75),cos(g*24)*27*min(-1,-1.2+(this.maxReload-this.reload)/75)-30)
+        if(this.firedAtLeastOnce){
+          for(let g=0;g<15;g++){
+            if(g!=7&&g!=8){
+              triangle(sin(g*24-12)*-17,cos(g*24-12)*-21-30,sin(g*24+12)*-17,cos(g*24+12)*-21-30,sin(g*24)*25*min(-1,-1.2+(this.maxReload-this.reload)/75),cos(g*24)*32*min(-1,-1.2+(this.maxReload-this.reload)/75)-30)
+            }
+          }
+        }else{
+          for(let g=0;g<15;g++){
+            if(g!=7&&g!=8){
+              triangle(sin(g*24-12)*-17,cos(g*24-12)*-21-30,sin(g*24+12)*-17,cos(g*24+12)*-21-30,sin(g*24)*25*-1,cos(g*24)*32*-1-30)
+            }
+          }
         }
-        ellipse(0,-30,30,40)
+        arc(0,-30,36,48,-255,75)
+        triangle(cos(-250)*18,sin(-250)*24-30,cos(70)*18,sin(70)*24-30,0,-30)
         fill(0)
-        ellipse(0,-36,5,5)
-        ellipse(8,-36,5,5)
+        ellipse(0,-36,6,6)
+        ellipse(10,-36,6,6)
         break
       case 29://Spikeweed
         fill(200)
-        for(let a=0;a<9;a++){
-          triangle(-27+a*6,0,-21+a*6,0,-24+a*6,min(-8,-12+(this.maxReload-this.reload)/2))
+        if(this.firedAtLeastOnce){
+          for(let a=0;a<9;a++){
+            triangle(-27+a*6,0,-21+a*6,0,-24+a*6,min(-8,-12+(this.maxReload-this.reload)/2))
+          }
+        }else{
+          for(let a=0;a<9;a++){
+            triangle(-27+a*6,0,-21+a*6,0,-24+a*6,-8)
+          }
         }
         triangle()
         fill(25,75,25)
@@ -696,6 +714,7 @@ class Plant extends Entity{
             if ((currentZombie.x + 30 > this.x - 20)&&(currentZombie.x < this.x + 80)&&
             (currentZombie.lane === this.lane)&&(currentZombie.protected === false)){//Stun zombies in 3x3
               this.reload = this.maxReload;
+              this.firedAtLeastOnce=true
               currentZombie.determineDamage(this.damage);
             }
           }
@@ -704,6 +723,7 @@ class Plant extends Entity{
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 10)&&(currentZombie.x < this.x + 70)&&(currentZombie.lane === this.lane)){//1 tile range
               this.reload = this.maxReload;
+              this.firedAtLeastOnce=true
               currentZombie.determineDamage(this.damage);
             }
           }

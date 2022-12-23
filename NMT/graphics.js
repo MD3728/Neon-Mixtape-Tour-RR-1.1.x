@@ -1,6 +1,37 @@
 /* Graphics Setup File (Includes pointBox) */
 
 //Minature collision method
+
+function refresh(){
+    for(currentPacket of allPackets){
+        currentPacket.recharge=0
+    }
+}
+
+function rich(){
+    sun=99999
+    money=99999
+}
+
+function shut(){
+    daveIndex=9999
+}
+
+function l1(){
+    currentLevel = levels['l1'];
+    if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
+      daveSetup();
+    }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
+      initialLevelSetup();
+      finalLevelSetup();
+      transition.trigger=true;
+      transition.screen="level";
+    }else{//Normal
+      initialLevelSetup();
+      chooseSeeds();
+    }
+}
+
 function pointBox(pointX, pointY, boxX, boxY, boxWidth, boxHeight){ 
     if((pointX > boxX)&&(pointX < boxX+boxWidth)&&(pointY > boxY)&&(pointY < boxY+boxHeight)){
         return true;
