@@ -2,19 +2,7 @@
 //Version 1.1.0
 //To Do:
 // Bug Fixes:
-// Spikeweed Draw Bug
-//
-// SAVE FEATURE
-
-/*
-To do the save, you have to store variables
-that are relevant in the local storage, and
-then you have to find them in the storage
-when the game is reopened
-
-To code it, I will need a list of which
-variables are important to be saved
-*/
+// Add Save Button On Minigames and Level Select
 
 //Changeable Stats
 let seedSlots = 5;//Number of Seed Slots
@@ -47,7 +35,7 @@ let rentSlot = false;//Determines if Seed Slot is Being Rented
 
 //Reward/Unlocking System
 let unlockedPackets = [1,4,7,12,18
-//,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
 ];
 let unlockedLevels = [
 "l1",
@@ -636,16 +624,16 @@ function setup(){
   money = localStorage.getItem("money");
   if (money === null){//Save Data Does Not Exist
     money = 0;
-    unlockedPackets = [1,4,7,12,18];
-    unlockedLevels = ["l1"];
+    //unlockedPackets = [1,4,7,12,18];
+    //unlockedLevels = ["l1"];
     saveData();
   }
   money = parseInt(localStorage.getItem("money"));
-  unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
+  //unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
   for (let currentPacket in unlockedPackets){
     unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
   }
-  unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
+  //unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
 }
 
 //Draw/Mainloop
