@@ -2,19 +2,9 @@
 //Version 1.1.0
 //To Do:
 // Bug Fixes:
-// Spikeweed Draw Bug
+// Spikeweed Draw Bug (?)
 //
 // SAVE FEATURE
-
-/*
-To do the save, you have to store variables
-that are relevant in the local storage, and
-then you have to find them in the storage
-when the game is reopened
-
-To code it, I will need a list of which
-variables are important to be saved
-*/
 
 //Changeable Stats
 let seedSlots = 5;//Number of Seed Slots
