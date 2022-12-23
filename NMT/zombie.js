@@ -1489,6 +1489,7 @@ class Zombie extends Entity{
         this.lane = this.lane + 10;
         this.x = 45;
         this.speed = 0;
+        this.altSpeed = 0;
         this.eatSpeed = 0;
         this.altEatSpeed = 0;
         //Determine if brain is to be taken

@@ -22,11 +22,11 @@ const levels = {
     daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
     startingSun: 75,
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
-    jams:[8,8,8,0,0,0,0,0,0,0,0,0],
+    jams:[0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
     waves:[
-      [[13,2]],  //[Zombie Type, Row, Column (Default is 9)]
-      [[0,2]],  //For rows: 5 is random, 0 -> 4 correspond to lanes 1 -> 5
+      [[0,5]],  //[Zombie Type, Row, Column (Default is 9)]
+      [[0,5]],  //For rows: 5 is random, 0 -> 4 correspond to lanes 1 -> 5
       [[0,1], [0,3]],
       [[1,1]],
       [[0,5], [0,5]],
@@ -1956,7 +1956,7 @@ const plantStat = [
     t1:{
       sun: 125,
       recharge: 1500,
-      startingRecharge: 600,
+      startingRecharge: 900,
       health: 2500,
       eatable: true,
       damage: 50,
@@ -1965,10 +1965,10 @@ const plantStat = [
       projectile: 0
     },
     t2:{
-      sun: 125,
-      recharge: 1500,
-      startingRecharge: 600,
-      health: 4000,
+      sun: 175,
+      recharge: 1800,
+      startingRecharge: 1800,
+      health: 6000,
       eatable: true,
       damage: 30,
       splashDamage: 0,
