@@ -3,9 +3,18 @@
 //To Do:
 // Bug Fixes:
 // Spikeweed Draw Bug
-// Make Endurian Larger (and make the bottom more defined)
 //
 // SAVE FEATURE
+
+/*
+To do the save, you have to store variables
+that are relevant in the local storage, and
+then you have to find them in the storage
+when the game is reopened
+
+To code it, I will need a list of which
+variables are important to be saved
+*/
 
 //Changeable Stats
 let seedSlots = 5;//Number of Seed Slots
