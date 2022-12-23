@@ -28,6 +28,9 @@ document.addEventListener("mouseup",function(e){
       }else if(pointBox(mouseX,mouseY,width/2-60,460,120,50)){
         transition.trigger=true;
         transition.screen="minigameSelect";
+      }else if(pointBox(mouseX,mouseY,width/2-60,570,120,50)){
+        saveData();
+        alert("Data Saved");
       }
       break;
     case "daveSpeech"://Crazy Dave Screen
@@ -250,10 +253,10 @@ document.addEventListener("mouseup",function(e){
           money -= 1000;
         }
       }
-      if(pointBox(mouseX,mouseY,50,350,100,50)&&displayPlant.type>1){
+      if(pointBox(mouseX,mouseY,50,350,100,50)&&(displayPlant.type>1)){
         displayPlant.type--;
       }
-      if(pointBox(mouseX,mouseY,width-150,350,100,50)&&displayPlant.type<26){
+      if(pointBox(mouseX,mouseY,width-150,350,100,50)&&(displayPlant.type<29)){
         displayPlant.type++;
       }
       if(pointBox(mouseX,mouseY,50,50,100,50)){
@@ -297,3 +300,4 @@ document.addEventListener("mouseup",function(e){
       break;
   }
 });
+
