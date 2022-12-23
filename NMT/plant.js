@@ -597,7 +597,6 @@ class Plant extends Entity{
             triangle(-27+a*6,0,-21+a*6,0,-24+a*6,-8)
           }
         }
-        triangle()
         fill(25,75,25)
         rect(-30,0,60,10,5)
         fill(0)
