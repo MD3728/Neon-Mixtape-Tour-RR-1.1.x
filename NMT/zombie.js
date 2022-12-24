@@ -25,6 +25,7 @@ class Zombie extends Entity{
     this.garlicCounter = 0;//For garlic, zombie switches lane when it gets to 60
     this.playedMusic = false;//For Boombox (Cannot Play Music Twice)
     this.permanentDamage = 0;//For Valley Lily Damage Over Time
+    this.offSetY=0
     //Determine Reload and Max Shield Health
     switch (this.type){
       case 18://Gargantuar
@@ -52,7 +53,7 @@ class Zombie extends Entity{
   draw(){
     noStroke();
     fill(0,0,0,50);
-    translate(this.x+15,this.y+80);
+    translate(this.x+15,this.y+80+this.offSetY);
     scale(this.size);
     noStroke();
     let performDraw = false;
@@ -1019,7 +1020,7 @@ class Zombie extends Entity{
       ellipse(0,-30,40,40)
     }
     scale(1/this.size);
-    translate(-this.x-15,-this.y-80);
+    translate(-this.x-15,-this.y-80-this.offSetY);
   }
 
   //Determine color of zombie face
@@ -1077,6 +1078,11 @@ class Zombie extends Entity{
     this.solarStunTimer -= levelSpeed;
     this.chillTimer -= levelSpeed;
     this.damageTimer -= levelSpeed;
+    if(this.offSetY<0){
+      this.offSetY=round(this.offSetY/10+1)*10
+    }else if(this.offSetY>0){
+      this.offSetY=round(this.offSetY/10-1)*10
+    }
     if (!this.isStunned()){//Not Stunned
       if (this.chillTimer > 0){
         this.reload -= levelSpeed/2;
@@ -1144,13 +1150,16 @@ class Zombie extends Entity{
       if (this.lane === 1){
         this.lane = 2;
         this.y += 100;
+        this.offSetY-=100
       }else if (this.lane === 5){
         this.lane = 4;
         this.y -= 100;
+        this.offSetY+=100
       }else{
         let laneChange = -1 + 2*floor(random()*2);
         this.lane += laneChange;
         this.y += laneChange*100;
+        this.offSetY-=laneChange*100
       }
     }
     //Glitter Protection
