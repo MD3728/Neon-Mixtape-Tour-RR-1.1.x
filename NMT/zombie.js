@@ -1124,7 +1124,6 @@ class Zombie extends Entity{
     if ((this.reload > 0)&&(this.reload < 10)&&(this.type === 30)&&(this.shieldHealth > 0)){
       this.shieldHealth = 0;
       this.reload = -1;
-      //new Particle(0, this.x, this.y+30);//Needs to be replaced
       for (let currentPlant of allPlants){
         if ((currentPlant.x + 40 > this.x - 85)&&(currentPlant.x + 40 < this.x + 115)&&(currentPlant.lane >= this.lane - 1)&&(currentPlant.lane <= this.lane + 1)){//3x3 Range
           currentPlant.stunTimer = 300;
