@@ -267,7 +267,7 @@ class Zombie extends Entity{
           }
           strokeJoin(MITER)
         break
-        case 8:
+        case 8://Football
           stroke(200,this.fade)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
@@ -327,7 +327,7 @@ class Zombie extends Entity{
           ellipse(-4,-72,4,4);
           ellipse(-12,-72,4,4);
           break;
-        case 10:
+        case 10://Banger
           stroke(40,50,40,this.fade)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
@@ -357,44 +357,44 @@ class Zombie extends Entity{
           fill(100,this.fade)
           ellipse(8,-72,12,12)
         break
-        case 11:
-          if(this.inJam()){
-            fill(255,50,50,this.fade/5)
-            rect(0,-80,240,8)
-            fill(255,150,50,this.fade/5)
-            rect(0,-72,240,8)
-            fill(255,255,50,this.fade/5)
-            rect(0,-64,240,8)
-            fill(50,255,50,this.fade/5)
-            rect(0,-56,240,8)
-            fill(50,50,255,this.fade/5)
-            rect(0,-48,240,8)
-            fill(255,50,255,this.fade/5)
-            rect(0,-40,240,8)
+        case 11://Glitter
+          if(this.inJam()){//Rainbow
+            fill(255,50,50,this.fade/5);
+            rect(0,-80,240,8);
+            fill(255,150,50,this.fade/5);
+            rect(0,-72,240,8);
+            fill(255,255,50,this.fade/5);
+            rect(0,-64,240,8);
+            fill(50,255,50,this.fade/5);
+            rect(0,-56,240,8);
+            fill(50,50,255,this.fade/5);
+            rect(0,-48,240,8);
+            fill(255,50,255,this.fade/5);
+            rect(0,-40,240,8);
           }
-          stroke(225,200,225,this.fade)
-          strokeWeight(4)
-          line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
-          line(4,-30,8+sin(this.rate[0]*18)*3,0)
-          stroke(250,225,250,this.fade)
-          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          stroke(225,200,225,this.fade);
+          strokeWeight(4);
+          line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          stroke(250,225,250,this.fade);
+          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
           if(this.health>this.maxHealth/2){
-            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
           }
-          noStroke()
-          fill(250,225,250,this.fade)
-          ellipse(0,-45,18,36)
-          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
-          ellipse(0,-75,30,30)
-          fill(0,this.fade)
-          ellipse(-4,-72,4,4)
-          ellipse(-12,-72,4,4)
-          fill(255,this.fade)
+          noStroke();
+          fill(250,225,250,this.fade);
+          ellipse(0,-45,18,36);
+          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          ellipse(0,-75,30,30);
+          fill(0,this.fade);
+          ellipse(-4,-72,4,4);
+          ellipse(-12,-72,4,4);
+          fill(255,this.fade);
           for(let a=0;a<10;a++){
-            ellipse(sin(this.rate[0]*(36+a)+a*a*25)*24,-96+a*8,3,3)
+            ellipse(sin(this.rate[0]*(36+a)+a*a*25)*24,-96+a*8,3,3);
           }
-        break
-        case 12:
+          break;
+        case 12://Sparkly
           strokeWeight(6)
           noFill()
           stroke(255,this.fade*(1-(this.time%30)/30))
@@ -417,7 +417,7 @@ class Zombie extends Entity{
           ellipse(-4,-72,4,4)
           ellipse(-12,-72,4,4)
         break
-        case 13:
+        case 13://MC Zom-B
           stroke(40,40,80,this.fade)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
@@ -466,7 +466,7 @@ class Zombie extends Entity{
           arc(0,-80,30,20,-180,0)
           line(-24,-80,15,-80)
         break
-        case 14:
+        case 14://Breakdancer
           stroke(40,80,120,this.fade)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
@@ -498,38 +498,38 @@ class Zombie extends Entity{
           arc(0,-80,30,20,-180,0)
           line(-24,-80,16,-80)
         break
-        case 15:
-          stroke(160,80,80,this.fade)
-          strokeWeight(4)
-          line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
-          line(4,-30,8+sin(this.rate[0]*18)*3,0)
-          stroke(120,60,60,this.fade)
-          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+        case 15://Arcade
+          stroke(160,80,80,this.fade);
+          strokeWeight(4);
+          line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          stroke(120,60,60,this.fade);
+          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
           if(this.health>this.maxHealth/2){
-            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
           }
-          noStroke()
-          fill(80,this.fade)
-          rect(-42,-63,18,30,3)
-          fill(40,this.fade)
-          rect(-40,-61,14,6,2)
-          rect(-40,-51,6,4,2)
-          rect(-32,-51,6,4,2)
-          rect(-40,-45,6,4,2)
-          rect(-32,-45,6,4,2)
-          rect(-40,-39,6,4,2)
-          rect(-32,-39,6,4,2)
-          fill(120,60,60,this.fade)
-          ellipse(0,-45,18,36)
-          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
-          ellipse(0,-75,30,30)
-          strokeWeight(1.5)
-          stroke(120,this.fade)
-          fill(200,this.fade) 
-          ellipse(-4,-72,5,5)
-          ellipse(-12,-72,5,5)
-          line(-6.5,-72,-9.5,-72)
-        break
+          noStroke();
+          fill(80,this.fade);
+          rect(-42,-63,18,30,3);
+          fill(40,this.fade);
+          rect(-40,-61,14,6,2);
+          rect(-40,-51,6,4,2);
+          rect(-32,-51,6,4,2);
+          rect(-40,-45,6,4,2);
+          rect(-32,-45,6,4,2);
+          rect(-40,-39,6,4,2);
+          rect(-32,-39,6,4,2);
+          fill(120,60,60,this.fade);
+          ellipse(0,-45,18,36);
+          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          ellipse(0,-75,30,30);
+          strokeWeight(1.5);
+          stroke(120,this.fade);
+          fill(200,this.fade);
+          ellipse(-4,-72,5,5);
+          ellipse(-12,-72,5,5);
+          line(-6.5,-72,-9.5,-72);
+          break;
         case 16: case 17://8-bit
           stroke(60,80,100,this.fade)
           strokeWeight(4)
@@ -566,7 +566,7 @@ class Zombie extends Entity{
             strokeJoin(MITER)
           }
         break
-        case 18:
+        case 18://Gargantuar
           stroke(40,50,40,this.fade)
           strokeWeight(8)
           line(-10,-45,-15-sin(this.rate[0]*18)*5,0)
@@ -593,7 +593,7 @@ class Zombie extends Entity{
             }
           }
         break
-        case 19:
+        case 19://Imp
             stroke(75,this.fade)
             strokeWeight(4)
             line(-4,-24,-7-sin(this.rate[0]*18)*3,0)
@@ -612,7 +612,7 @@ class Zombie extends Entity{
             ellipse(-4,-57,4,4)
             ellipse(-12,-57,4,4)
           break
-        case 20:
+        case 20://Shadow
           stroke(50,0,50,this.fade/3)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
@@ -712,30 +712,30 @@ class Zombie extends Entity{
           ellipse(-4,-72,4,4);
           ellipse(-12,-72,4,4);
           break;
-        case 24:
+        case 24://Zomboss Placeholder Minion
           break;
         case 25://Peashooter Zombie
-        stroke(60,80,100,this.fade)
-        strokeWeight(4)
-        line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
-        line(4,-30,8+sin(this.rate[0]*18)*3,0)
-        stroke(120,80,40,this.fade)
-        line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
-        if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
-          line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
-        }
-        noStroke()
-        fill(120,80,40,this.fade)
-        ellipse(0,-45,18,36)
-        fill(255,this.fade)
-        triangle(4,-70,-20/3,-70,-4,-50)
-        fill(200,50,50,this.fade)
-        quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
-        fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
-        ellipse(0,-75,30,30)
-        fill(0,this.fade)
-        ellipse(-4,-72,4,4)
-        ellipse(-12,-72,4,4)
+          stroke(60,80,100,this.fade)
+          strokeWeight(4)
+          line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          stroke(120,80,40,this.fade)
+          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          noStroke()
+          fill(120,80,40,this.fade)
+          ellipse(0,-45,18,36)
+          fill(255,this.fade)
+          triangle(4,-70,-20/3,-70,-4,-50)
+          fill(200,50,50,this.fade)
+          quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          ellipse(0,-75,30,30)
+          fill(0,this.fade)
+          ellipse(-4,-72,4,4)
+          ellipse(-12,-72,4,4)
           if (this.shieldHealth > 0){//Peashooter Head
             fill(25,200,25);
             ellipse(-21,-48,30,30);
@@ -747,27 +747,27 @@ class Zombie extends Entity{
           }
           break;
         case 26://Wall-nut Zombie
-        stroke(60,80,100,this.fade)
-        strokeWeight(4)
-        line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
-        line(4,-30,8+sin(this.rate[0]*18)*3,0)
-        stroke(120,80,40,this.fade)
-        line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
-        if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
-          line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
-        }
-        noStroke()
-        fill(120,80,40,this.fade)
-        ellipse(0,-45,18,36)
-        fill(255,this.fade)
-        triangle(4,-70,-20/3,-70,-4,-50)
-        fill(200,50,50,this.fade)
-        quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
-        fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
-        ellipse(0,-75,30,30)
-        fill(0,this.fade)
-        ellipse(-4,-72,4,4)
-        ellipse(-12,-72,4,4)
+          stroke(60,80,100,this.fade)
+          strokeWeight(4)
+          line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          stroke(120,80,40,this.fade)
+          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          noStroke()
+          fill(120,80,40,this.fade)
+          ellipse(0,-45,18,36)
+          fill(255,this.fade)
+          triangle(4,-70,-20/3,-70,-4,-50)
+          fill(200,50,50,this.fade)
+          quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          ellipse(0,-75,30,30)
+          fill(0,this.fade)
+          ellipse(-4,-72,4,4)
+          ellipse(-12,-72,4,4)
           //Wall-nut
           fill(120,60,15);
           if(this.shieldHealth > this.maxShieldHealth*2/3){
@@ -795,27 +795,27 @@ class Zombie extends Entity{
           }
           break;
         case 27://Cherry Bomb Zombie
-        stroke(60,80,100,this.fade)
-        strokeWeight(4)
-        line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
-        line(4,-30,8+sin(this.rate[0]*18)*3,0)
-        stroke(120,80,40,this.fade)
-        line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
-        if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
-          line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
-        }
-        noStroke()
-        fill(120,80,40,this.fade)
-        ellipse(0,-45,18,36)
-        fill(255,this.fade)
-        triangle(4,-70,-20/3,-70,-4,-50)
-        fill(200,50,50,this.fade)
-        quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
-        fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
-        ellipse(0,-75,30,30)
-        fill(0,this.fade)
-        ellipse(-4,-72,4,4)
-        ellipse(-12,-72,4,4)
+          stroke(60,80,100,this.fade)
+          strokeWeight(4)
+          line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          stroke(120,80,40,this.fade)
+          line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          noStroke()
+          fill(120,80,40,this.fade)
+          ellipse(0,-45,18,36)
+          fill(255,this.fade)
+          triangle(4,-70,-20/3,-70,-4,-50)
+          fill(200,50,50,this.fade)
+          quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          ellipse(0,-75,30,30)
+          fill(0,this.fade)
+          ellipse(-4,-72,4,4)
+          ellipse(-12,-72,4,4)
           //Cherry Bomb
           if (this.shieldHealth > 0){
             stroke(25,175,25);
@@ -1016,8 +1016,8 @@ class Zombie extends Entity{
           return;
       }
     }else if(this.determineColor()[0]!==0||this.determineColor()[1]!==0||this.determineColor()[2]!==0){
-      fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade*this.maxFade()*0.8)
-      ellipse(0,-30,40,40)
+      fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade*this.maxFade()*0.8);
+      ellipse(0,-30,40,40);
     }
     scale(1/this.size);
     translate(-this.x-15,-this.y-80-this.offSetY);
@@ -1257,7 +1257,7 @@ class Zombie extends Entity{
         plantType = 25;
         plantTier = 1;
       }
-      //Find Plant Data
+      //Find Plant Data and Swap
       for (let currentPlant of plantStat){
         if (currentPlant.type === plantType){
           if (plantTier === 1){//Tier 1

@@ -604,13 +604,13 @@ function setup(){
   displayPlant = new Plant(1, width/2-30,height/2-100, 0,0,99999, 
     0, 0, 0, 0, 0);
   displayPlant.size = 2;
-  displayZombie = new Zombie(width/2-15,height/2,0,0,9999,9999,0,0,0,0,0,0,0);
+  displayZombie = new Zombie(width/2-15,height/2,0,0,9999,9999,0,0,0,0,0,-1,0);
   displayZombie.fade = 255;
   displayZombie.health = 99999;
   displayZombie.size = 2.4;
   displayPlants=[];
   useless=[3,8,9,13,21,24,27];//Shop Plants
-  for(a=0;a<7;a++){
+  for(let a=0;a<7;a++){
     displayPlants.push(new Plant(useless[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
     0, 0, 0, 0, 0))
   }

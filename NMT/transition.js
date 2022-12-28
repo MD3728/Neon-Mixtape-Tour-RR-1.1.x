@@ -221,7 +221,7 @@ function initialLevelSetup(){
   }
   displayZombies = [];
   for(let a = 0, la = zombiesInLevel.length; a < la; a++){
-    displayZombies.push(new Zombie(75+a*40,550-(a%2)*60,0,zombiesInLevel[a],9999,9999,0,0,0,0,0,0));
+    displayZombies.push(new Zombie(75+a*40,550-(a%2)*60,0,zombiesInLevel[a],9999,9999,0,0,0,0,0,-1,-1));
     displayZombies[displayZombies.length-1].fade = 255;
   }
   //Reset Variables and Arrays
