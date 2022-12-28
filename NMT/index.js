@@ -516,7 +516,7 @@ function levelMainloop(){
       if ((currentLevel["type"].includes(12))&&(globalTimer%1200 > 800)){
         currentZombie.protected = true;
       }
-      if ((currentZombie.type === 15)&&(currentZombie.reload <= 0)&&((currentJam === 4)||(currentJam === 8))){//Arcade Zombie Spawn
+      if ((currentZombie.type === 15)&&(currentZombie.reload <= 0)&&(currentZombie.inJam())){//Arcade Zombie Spawn
         currentZombie.reload = 720;
         let zombieTypeData = null;
         let zombieType = null;
