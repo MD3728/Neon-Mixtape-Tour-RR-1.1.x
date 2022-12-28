@@ -357,7 +357,7 @@ class Zombie extends Entity{
           ellipse(8,-72,12,12)
         break
         case 11:
-          if(currentJam===2||currentJam===8){
+          if(this.inJam()){
             fill(255,50,50,this.fade/5)
             rect(0,-80,240,8)
             fill(255,150,50,this.fade/5)
@@ -422,7 +422,7 @@ class Zombie extends Entity{
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
           line(4,-30,8+sin(this.rate[0]*18)*3,0)
           if(this.eating){
-            if((currentJam === 3)||(currentJam === 8)){
+            if(this.inJam()){
               noStroke()
               fill(40,this.fade/5)
               arc(0,-45,240,240,-this.rate[2]*24+90,-this.rate[2]*24+120)
@@ -470,7 +470,7 @@ class Zombie extends Entity{
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
           line(4,-30,8+sin(this.rate[0]*18)*3,0)
-          if((currentJam === 3)||(currentJam === 8)){
+          if(this.inJam()){
             strokeWeight(4)
             stroke(60,100,140,this.fade)
             line(0,-45,sin(this.rate[2]*12)*27,-45+cos(this.rate[2]*12)*27)
@@ -1104,7 +1104,7 @@ class Zombie extends Entity{
       }
     }
     //Cherry Bomb Zombie Explosion
-    if ((this.reload > 0)&&(this.reload < 10)&&(this.type === 27)){
+    if ((this.reload > 0)&&(this.reload < 10)&&(this.type === 27)&&(this.shieldHealth > 0)){
       this.shieldHealth = 0;
       this.reload = -1;
       new Particle(0, this.x, this.y+50);
@@ -1115,7 +1115,7 @@ class Zombie extends Entity{
       }
     }
     //Dazey Zombie Stun
-    if ((this.reload > 0)&&(this.reload < 10)&&(this.type === 30)){
+    if ((this.reload > 0)&&(this.reload < 10)&&(this.type === 30)&&(this.shieldHealth > 0)){
       this.shieldHealth = 0;
       this.reload = -1;
       //new Particle(0, this.x, this.y+30);//Needs to be replaced
@@ -1204,7 +1204,7 @@ class Zombie extends Entity{
         default:
           jamMultiplier = 1;
       }
-      if ((this.shieldHealth > 0)||(this.inJam())){//With Shield or In Jam
+      if ((this.shieldHealth > 0)||(((this.inJam())&&(this.maxShieldHealth === 0)))){//With Shield or In Jam
         this.x -= this.altSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier; 
         this.rate[0] += this.altSpeed*0.3*jamMultiplier*chillMultiplier*levelSpeed*positionMultiplier;
       }else{//Regular Speed 
@@ -1260,31 +1260,20 @@ class Zombie extends Entity{
           }
         }
       }
-      //Set old plant to be new plant
+      oldPlant.type = plantType;
+      oldPlant.sun = plantData.sun;
+      oldPlant.damage = plantData.damage; 
+      oldPlant.health = plantData.health;
+      oldPlant.maxHealth = plantData.health;
+      oldPlant.eatable = plantData.eatable;
+      oldPlant.reload = plantData.reload/4;
+      oldPlant.maxReload = plantData.reload;
+      oldPlant.projectileType = plantData.projectile;
+      oldPlant.splashDamage = plantData.splashDamage
+      oldPlant.changed = true;
+      oldPlant.stunTimer = 0;
       if ((plantType === 4)||(plantType === 25)){//Immediately Arm Potato Mine and Coconut Cannon
-        oldPlant.type = plantType;
-        oldPlant.sun = plantData.sun;
-        oldPlant.damage = plantData.damage; 
-        oldPlant.health = plantData.health;
-        oldPlant.eatable = plantData.eatable;
         oldPlant.reload = 0;
-        oldPlant.maxReload = plantData.reload;
-        oldPlant.projectileType = plantData.projectile;
-        oldPlant.splashDamage = plantData.splashDamage
-        oldPlant.changed = true;
-        oldPlant.stunTimer = 0;
-      }else{
-        oldPlant.type = plantType;
-        oldPlant.sun = plantData.sun;
-        oldPlant.damage = plantData.damage; 
-        oldPlant.health = plantData.health;
-        oldPlant.eatable = plantData.eatable;
-        oldPlant.reload = plantData.reload/4;
-        oldPlant.maxReload = plantData.reload;
-        oldPlant.projectileType = plantData.projectile;
-        oldPlant.splashDamage = plantData.splashDamage
-        oldPlant.changed = true;
-        oldPlant.stunTimer = 0;
       }
     }
   }
@@ -1424,13 +1413,13 @@ class Zombie extends Entity{
       }
     }
     //Collision with projectile
-    if (!((this.type === 20)&&(this.eating === false)&&((currentJam === 5)||(currentJam === 8)))){//If not shadow zobmie during metal jam
+    if (!((this.type === 20)&&(this.eating === false)&&(this.inJam()))){//If not shadow zobmie during metal jam
       for (let currentProjectile of allProjectiles){
         if ((this.x + 30 > currentProjectile.x)&&(this.x < currentProjectile.x + 20)&&(this.lane === currentProjectile.lane)
         &&(currentProjectile.used === false)&&(currentProjectile.toZombie === true)){
           currentProjectile.used = true;
           //Punk Zombie and jam is on and not stunned (Coconuts are not counted)
-          if ((this.type === 9)&&((currentJam === 1)||(currentJam === 8))&&!(this.isStunned())&&(currentProjectile.type !== 9)){
+          if ((this.type === 9)&&(this.inJam())&&!(this.isStunned())&&(currentProjectile.type !== 9)){
             this.determineDamage(currentProjectile.damage, 0.2);//Punk takes 20% damage
             new Projectile(currentProjectile.x, currentProjectile.y, currentProjectile.lane,
               currentProjectile.type, currentProjectile.damage, -1.5*currentProjectile.speed, currentProjectile.tier, 0, false);//Send Projectile back
@@ -1492,6 +1481,8 @@ class Zombie extends Entity{
         this.altSpeed = 0;
         this.eatSpeed = 0;
         this.altEatSpeed = 0;
+        this.health = 10000000;
+        this.maxHealth = 10000000;
         //Determine if brain is to be taken
         let laneTaken = false;
         for (let currentZombie of allZombies){
@@ -1518,8 +1509,8 @@ class Zombie extends Entity{
         return 0;
       }else if ((this.reload > 1)&&(this.reload <= 10)){//Smash
         this.reload = 1;
-        this.rate[4]=10;
-        if ((currentJam === 5)||(currentJam === 8)){//Special ability: destroy plants in front only while smashing
+        this.rate[4] = 10;
+        if (this.inJam()){//Special ability: destroy plants in front only while smashing
           let rightPlant = null;
           //Find Plant farthest to the right in front of garg
           for (let currentPlant of allPlants){
@@ -1536,7 +1527,7 @@ class Zombie extends Entity{
             }
           }
           if (rightPlant !== null){//Such plant exists
-            rightPlant.take(500)
+            rightPlant.take(500);
           }        
         }        
         return 2000;
@@ -1582,7 +1573,7 @@ class Zombie extends Entity{
       default:
         jamMultiplier = 1;
     }
-    if ((this.shieldHealth > 0)||(this.inJam())){//Has Positive Shield Health or Matching Jam
+    if ((this.shieldHealth > 0)||((this.inJam())&&(this.maxShieldHealth === 0))){//Has Positive Shield Health or Matching Jam
       finalEatSpeed = 1.4*levelSpeed*jamMultiplier*this.altEatSpeed*chillMultiplier;
     }else{//Normal or No Shield
       finalEatSpeed = 1.4*levelSpeed*jamMultiplier*this.eatSpeed*chillMultiplier;
@@ -1598,8 +1589,8 @@ class Zombie extends Entity{
   //Calculate damage to zombie
   determineDamage(pureDamageAmount, damageMultiplier = 1){
     let damageAmount = pureDamageAmount*damageMultiplier;
-    if (this.protected === true){//Glitter reduces damage by 75%
-      damageAmount *= 0.25;
+    if (this.protected === true){//Glitter reduces damage by 80%
+      damageAmount *= 0.2;
     }
     if (this.type === 24){//Boss
       bossDamage += damageAmount; 

@@ -10,7 +10,6 @@ class Plant extends Entity{
     this.animationTimer = 0;
     this.reloadTimer = 0;
     this.shakeTimer = 0;//Eating Animation
-    this.stunTimer = 0;
     this.stunTimer = 0;//Stun From Stunner and Dazey Zombie
     //Determine default reload time
     if ((eatable === false)||(this.type === 4)||(this.type === 9)){//Instant Use OR Potato Mine OR Primal Potato Mine
@@ -625,7 +624,7 @@ class Plant extends Entity{
       this.reload -= levelSpeed;
     }
     if(this.shakeTimer>0){
-      this.shakeTimer--
+      this.shakeTimer -= levelSpeed;
     }
     if (this.reload <= 0){
       switch (this.type){
@@ -682,7 +681,7 @@ class Plant extends Entity{
           this.health = 0;
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&
-            (currentZombie.lane <= this.lane + 1)&&(currentZombie.protected === false)){//Stun zombies in 3x3
+            (currentZombie.lane <= this.lane + 1)){//Stun zombies in 3x3
               currentZombie.determineStun(this.damage);
               if (this.splashDamage > 0){//Tier 2 Daisy
                 currentZombie.determineDamage(this.splashDamage);
@@ -702,7 +701,7 @@ class Plant extends Entity{
           this.health = 0;
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 10)&&(currentZombie.x < this.x + 150)&&
-            (currentZombie.lane === this.lane)&&(currentZombie.protected === false)){//Stun zombies in 3x3
+            (currentZombie.lane === this.lane)){//Stun zombies in 3x3
               currentZombie.determineStun(this.damage);
             }
           }
@@ -711,9 +710,9 @@ class Plant extends Entity{
         case 28://Endurian
           for (let currentZombie of allZombies){
             if ((currentZombie.x + 30 > this.x - 20)&&(currentZombie.x < this.x + 80)&&
-            (currentZombie.lane === this.lane)&&(currentZombie.protected === false)){//Stun zombies in 3x3
+            (currentZombie.lane === this.lane)){//Hit Zombie in Tile Range
               this.reload = this.maxReload;
-              this.firedAtLeastOnce=true
+              this.firedAtLeastOnce=true;
               currentZombie.determineDamage(this.damage);
             }
           }
@@ -783,14 +782,14 @@ class Plant extends Entity{
           }
         }else if (this.projectileType === 6){//Fume Shroom
           for (let currentZombie of allZombies){
-            if ((currentZombie.x > this.x)&&(currentZombie.x < this.x + 400)&&(this.lane === currentZombie.lane)&&(currentZombie.protected === false)){
+            if ((currentZombie.x > this.x)&&(currentZombie.x < this.x + 400)){
               currentZombie.determineDamage(this.damage);
               this.graphical.previousAttackAnim=20;
             }
           }
         }else if (this.projectileType === 7){//Phat Beet
           for (let currentZombie of allZombies){
-            if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&(currentZombie.lane <= this.lane + 1)&&(currentZombie.protected === false)){
+            if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)){
               currentZombie.determineDamage(this.damage);
               this.graphical.previousAttackAnim=10;
             }
@@ -818,7 +817,7 @@ class Plant extends Entity{
         }
         //Squash Area Around Specified X
         for (let currentZombie of allZombies){
-          if ((currentZombie.x + 30 > lowestX - 40)&&(currentZombie.x < lowestX + 40)&&(currentZombie.lane === this.lane)&&(currentZombie.protected === false)){
+          if ((currentZombie.x + 30 > lowestX - 40)&&(currentZombie.x < lowestX + 40)&&(currentZombie.lane === this.lane)){
             currentZombie.determineDamage(this.damage);
           }
         }

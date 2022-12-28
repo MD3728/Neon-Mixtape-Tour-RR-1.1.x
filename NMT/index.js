@@ -529,7 +529,7 @@ function levelMainloop(){
         new Zombie(currentZombie.x - 40, currentZombie.y, currentZombie.lane, zombieType, zombieTypeData["health"], zombieTypeData["shield"], zombieTypeData["degrade"], 
         zombieTypeData["speed"], zombieTypeData["eatSpeed"], zombieTypeData["altSpeed"], zombieTypeData["altEatSpeed"], zombieTypeData["jam"], -1, 0);
       }
-      if ((currentZombie.type === 21)&&((currentJam === 6)||(currentJam === 8))){//Techie Shield Regen
+      if ((currentZombie.type === 21)&&(currentZombie.inJam())){//Techie Shield Regen
         if ((currentZombie.shieldHealth < 600)&&(currentZombie.reload <= 0)){//Shield not at full health and not regenerating
           currentZombie.reload = 900;//Wait 15 seconds to regenerate         
         }
@@ -855,11 +855,11 @@ function draw(){
       if(plantStat[displayPlant.type-1].t2.recharge!=plantStat[displayPlant.type-1].t2.startRecharge){
         genText[1]+='\nStarting Recharge: '+ plantStat[displayPlant.type-1].t2.startingRecharge/60;
       }
-      if(plantStat[displayPlant.type-1].t1.health<10000){
-        genText[0]+='\nHealth: '+plantStat[displayPlant.type-1].t1.health;
+      if(plantStat[displayPlant.type-1].t1.health<100000){
+        genText[0]+='\nHealth: '+ plantStat[displayPlant.type-1].t1.health;
       }
-      if(plantStat[displayPlant.type-1].t2.health<10000){
-        genText[1]+='\nHealth: '+plantStat[displayPlant.type-1].t2.health;
+      if(plantStat[displayPlant.type-1].t2.health<100000){
+        genText[1]+='\nHealth: '+ plantStat[displayPlant.type-1].t2.health;
       }
       if(plantStat[displayPlant.type-1].t1.damage>0){
         genText[0]+='\nDamage: '+plantStat[displayPlant.type-1].t1.damage;
