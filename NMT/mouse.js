@@ -287,11 +287,13 @@ document.addEventListener("mouseup",function(e){
         transition.trigger=true;
         transition.screen='initial';
       }
-      for(let a=0;a<displayPlants.length;a++){
+      for(let a = 0; a < displayPlants.length; a++){
         if(pointBox(mouseX,mouseY,displayPlants[a].x-20,displayPlants[a].y-20,100,100)&&money>=10000){
-          money-=10000
-          displayPlants[a].y+=99999
-          unlockedPackets.push(displayPlants[a].type)
+          money -= 10000;
+          displayPlants[a].y += 99999;
+          unlockedPackets.push(displayPlants[a].type);
+          displayPlants.splice(a,1);
+          a--;
         }
       }
       break;

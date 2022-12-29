@@ -608,15 +608,6 @@ function setup(){
   displayZombie.fade = 255;
   displayZombie.health = 99999;
   displayZombie.size = 2.4;
-  displayPlants=[];
-  useless=[3,8,9,13,21,24,27];//Shop Plants
-  for(let a=0;a<7;a++){
-    displayPlants.push(new Plant(useless[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
-    0, 0, 0, 0, 0))
-  }
-  allPlants = [];
-  allZombies = [];
-  allEntities = [];
   //Set and Read Save Data
   money = localStorage.getItem("money");
   if (money === null){//If Save Data Does Not Exist
@@ -631,6 +622,18 @@ function setup(){
     unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
   }
   unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
+  //Shop Data
+  displayPlants = [];
+  shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
+  for(let a = 0; a < 7; a++){
+    if (!unlockedPackets.includes(shopPlantList[a])){
+      displayPlants.push(new Plant(shopPlantList[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
+      0, 0, 0, 0, 0));
+    }
+  }
+  allPlants = [];
+  allZombies = [];
+  allEntities = [];
 }
 
 //Draw/Mainloop
@@ -920,24 +923,28 @@ function draw(){
       rect(50,50,100,50,5);
       fill(0);
       textSize(60);
-      text(zombieStat[displayZombie.type].name,width/2, 100);
+      let currentDisplayZombie = zombieStat[displayZombie.type];
+      text(currentDisplayZombie.name,width/2, 100);
       textSize(20);
-      text(zombieStat[displayZombie.type].description,width/2, 550);
+      text(currentDisplayZombie.description,width/2, 550);
       textAlign(CENTER,TOP);
-      if(zombieStat[displayZombie.type].health>0){
-        genText[0]+='\nHealth: '+ zombieStat[displayZombie.type].health;
+      if(currentDisplayZombie.health>0){
+        genText[0]+='\nHealth: '+ currentDisplayZombie.health;
       }
-      if(zombieStat[displayZombie.type].shield>0){
-        genText[0]+='\nShield: '+ zombieStat[displayZombie.type].shield;
+      if(currentDisplayZombie.shield>0){
+        genText[0]+='\nShield: '+ currentDisplayZombie.shield;
       }
-      if(zombieStat[displayZombie.type].speed>0){
-        genText[0]+='\nSpeed: '+ zombieStat[displayZombie.type].speed;
+      if(currentDisplayZombie.speed>0){
+        genText[0]+='\nSpeed: '+ currentDisplayZombie.speed;
       }
-      if(zombieStat[displayZombie.type].eatSpeed>0){
-        genText[0]+='\nEat Speed: '+ zombieStat[displayZombie.type].eatSpeed;
+      if((currentDisplayZombie.altSpeed > 0)&&(currentDisplayZombie.altSpeed !== currentDisplayZombie.speed)){
+        genText[0]+='\nAlternate Speed: '+ currentDisplayZombie.altSpeed;
       }
-      if((zombieStat[displayZombie.type].altEatSpeed > 0)&&(zombieStat[displayZombie.type].altEatSpeed !== zombieStat[displayZombie.type].eatSpeed)){
-        genText[0]+='\nAlternate Eat Speed: '+ zombieStat[displayZombie.type].altEatSpeed;
+      if(currentDisplayZombie.eatSpeed>0){
+        genText[0]+='\nEat Speed: '+ currentDisplayZombie.eatSpeed;
+      }
+      if((currentDisplayZombie.altEatSpeed > 0)&&(currentDisplayZombie.altEatSpeed !== currentDisplayZombie.eatSpeed)){
+        genText[0]+='\nAlternate Eat Speed: '+ currentDisplayZombie.altEatSpeed;
       }
       textSize(16);
       text(genText[0], width/2,400);
