@@ -1,7 +1,7 @@
-# Neon Mixtape Tour R Squared
+# NMT R Squared
 
 # Version: 
-1.1.0    
+1.1.5    
 Updated version of the game     
 
 # Description
