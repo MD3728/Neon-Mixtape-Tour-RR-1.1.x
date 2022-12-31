@@ -1,11 +1,10 @@
 # NMT R Squared
 
-# Version: 
-1.1.5    
-Updated version of the game     
+# Version: 1.1.5    
+Updated version of the game from 1.0.0     
 
 # Description
-A collaboration remake of one of Hayden's former games code remade from the ground up.    
+A collaboration remake of one of Hayden's (DuckyProgramming) former games code remade from the ground up.    
 Changes include nearly everything:    
 <ul>
   <li>Graphics</li>
@@ -21,7 +20,7 @@ Changes include nearly everything:
   <li>Program File Redistribution</li>
   <li>Ability to Rent Seed Slot</li>
   <li>Ability to Save Data in Local Storage</li>
-  <li>Several Bug Fixes</li>
+  <li>Several Other Bug Fixes</li>
 </ul>   
  
 # How to Play
