@@ -24,10 +24,8 @@ Changes include nearly everything:
   <li>Several Bug Fixes</li>
 </ul>   
  
-# How to Play (and Debug):
-Press on corresponding level (Game will crash if level does not exist)    
-You can change number of seed slots in stats.js       
-Select the corresponding plant shown to get the plant into the level in "Choose Your Plants" screen          
-Press "Start" button to start level, level will play regardless of number of seed packets chosen      
+# How to Play
+Open index.html in the NMT folder     
+Pressing "Save" on the title screen will save game data to localstorage, clearing cookies will clear your save data  
 
 
