@@ -782,16 +782,16 @@ class Plant extends Entity{
           }
         }else if (this.projectileType === 6){//Fume Shroom
           for (let currentZombie of allZombies){
-            if ((currentZombie.x > this.x)&&(currentZombie.x < this.x + 400)){
+            if ((currentZombie.x > this.x)&&(currentZombie.x < this.x + 400)&&(this.lane === currentZombie.lane)){
               currentZombie.determineDamage(this.damage);
-              this.graphical.previousAttackAnim=20;
+              this.graphical.previousAttackAnim = 20;
             }
           }
         }else if (this.projectileType === 7){//Phat Beet
           for (let currentZombie of allZombies){
-            if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)){
+            if ((currentZombie.x + 30 > this.x - 90)&&(currentZombie.x < this.x + 150)&&(currentZombie.lane >= this.lane - 1)&&(currentZombie.lane <= this.lane + 1)){
               currentZombie.determineDamage(this.damage);
-              this.graphical.previousAttackAnim=10;
+              this.graphical.previousAttackAnim = 10;
             }
           }
         }

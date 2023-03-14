@@ -944,7 +944,7 @@ const levels = {
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,2,2,0,0,3,3,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
-    maxLostPlant: 6, 
+    maxLostPlant: 7, 
     waves:[
       [[0,2]],
       [[0,2], [0,3]],

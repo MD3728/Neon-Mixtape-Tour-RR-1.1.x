@@ -97,7 +97,7 @@ document.addEventListener("mouseup",function(e){
         if (tileFound){//Spawn Zombie
           sun -= readyPlant.sun;
           let zombieData = zombieStat[readyPlant.type];
-          new Zombie(tileFound.x + 25, tileFound.y + 10, Math.floor((tileFound.y-120)/100) + 1, readyPlant.type, zombieData.health, zombieData.shield, 
+          new Zombie(tileFound.x + 25, tileFound.y, Math.floor((tileFound.y-120)/100) + 1, readyPlant.type, zombieData.health, zombieData.shield, 
             zombieData.degrade, zombieData.speed, zombieData.eatSpeed, zombieData.altSpeed, zombieData.altEatSpeed, zombieData.jam, -1);
         }
         readyPlant.selected = false;

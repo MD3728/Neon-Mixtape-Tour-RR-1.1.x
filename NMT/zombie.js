@@ -1491,11 +1491,13 @@ class Zombie extends Entity{
         this.altEatSpeed = 0;
         this.health = 10000000;
         this.maxHealth = 10000000;
+        this.reload = 10000000;
         //Determine if brain is to be taken
         let laneTaken = false;
         for (let currentZombie of allZombies){
           if (((currentZombie.x < 50)&&(currentZombie.y === this.y))&&(currentZombie !== this)){
             laneTaken = true;
+            currentZombie.health = 0;
             break;
           }
         }
