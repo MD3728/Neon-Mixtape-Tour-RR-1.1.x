@@ -498,7 +498,7 @@ function levelMainloop(){
               currentWaveHealth += currentZombie.health;
             }
           }
-          if ((currentWaveHealth/totalWaveHealth < 0.25)){//75% Spawning Rule
+          if ((currentWaveHealth/totalWaveHealth < 0.4)){//60% Spawning Rule
             spawnNextWave = true;
           }
         }

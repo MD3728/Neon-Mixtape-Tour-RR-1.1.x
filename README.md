@@ -1,7 +1,7 @@
-# NMT R Squared
+# NMT Remake Remake
 
 # Version: 1.1.5    
-Updated version of the game from 1.0.0     
+Updated version of the game from 1.1.x     
 
 # Description
 A collaboration remake of one of Hayden's (DuckyProgramming) former games code remade from the ground up.    
@@ -25,6 +25,6 @@ Changes include nearly everything:
  
 # How to Play
 Open index.html in the NMT folder     
-Pressing "Save" on the title screen will save game data to localstorage, clearing cookies will clear your save data  
+Pressing "Save" on the title screen will save game data to localstorage, so clearing cookies will clear your save data  
 
 

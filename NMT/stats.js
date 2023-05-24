@@ -19,7 +19,7 @@
 const levels = {
   "l1": {//Level 1 Normal 2 Flag
     type: [1],
-    daveSpeech: ["This is your neighbor Crazy Dave","There are zombies \nattacking your house","You have been given the \nfollowing plants to \ndefend your house","Be sure to read the \nalmanac on the level select \nscreen for more information on \nplants and zombies"],
+    daveSpeech: [],
     startingSun: 75,
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,0,0,0,0,0],
@@ -42,7 +42,7 @@ const levels = {
   },
   "l2": {//Level 2 Normal 2 Flag
     type: [1],
-    daveSpeech: ["There are bucketheads\n in this level","They have even more \nhealth than coneheads!", "To help, you can go to\nthe almanac and tier \nplants for 1000 coins", "Tiering is like \nmaking a trade-off", "Have fun with all \nof the possible strategies"],
+    daveSpeech: ["This is your neighbor Crazy Dave", "Here's some advice: \nGo to the almanac and\ntier some plants", "It's basically making trade-offs\nin multiple aspects of a plant"],
     flag: [false,false,false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -66,7 +66,7 @@ const levels = {
   },
   "l3": {//Level 3 Special Delivery 2 Flag
     type: [2],
-    daveSpeech: ["This conveyor will \ngive us our plants"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [120,900,900,900,900,900,900,900,1200,1200,1200,1200],
@@ -103,7 +103,7 @@ const levels = {
   },
   "l4": {//Level 4 Intro Normal 1 Flag
     type: [1],
-    daveSpeech: ["We have a new zombie incoming","Punk can reflect all\nprojectiles and take reduced\ndamage during its jam"],
+    daveSpeech: ["There is a new zombie incoming","It can reflect all\nprojectiles while taking reduced\ndamage during its jam"],
     flag: [false,false,false,false,false,false,false,false,false,true],
     jams:[0,0,0,0,1,1,0,0,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -123,7 +123,7 @@ const levels = {
   },
   "l5": {//Level 5 Flowers 2 Flag
     type: [7],
-    daveSpeech: ["Here are some \nprecious flowers","We must not let the \nzombies walk over these"],
+    daveSpeech: ["Here are some \nprecious flowers","The zombies must not\nwalk over these!"],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,1,1,1,0,0,0,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -148,7 +148,7 @@ const levels = {
   },
   "l6": {//Level 6 Hard Normal 3 Flag
     type: [1],
-    daveSpeech: ["This level is extra hard","Be ready to fight \na prolonged level and make \nsure to counter every zombie"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams:[0,0,0,0,1,1,1,1,1,1,0,0,0,1,0,0,1,1,0,0,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -179,7 +179,7 @@ const levels = {
   },
   "l7": {//Level 7 Normal (Pop Introduction) 2 Flag
     type: [1],
-    daveSpeech: ["A new jam is coming", "The new zombie can protect\nother zombies from damage"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,1,1,2,2,2,0,2,2],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -242,7 +242,7 @@ const levels = {
   },
   "l10": {//Level 10 Intro Normal 1 Flag
     type: [1],//Normal, Conehead, Discohead, Glitter, Arcade
-    daveSpeech: ["Another jam is coming","It can cause arcades\nto spawn zombies","Bring some crowd\ncontrol plants"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,false,false,false,false,true],
     jams: [0,0,0,0,4,4,2,2,4,4],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -262,7 +262,7 @@ const levels = {
   },
   "l11": {//Level 11 Locked and Loaded (Spore Shroom Showcase) 3 Flag
     type: [3],
-    daveSpeech: ["Our plants have \nbeen picked for us", "Tier 2 Spore Shroom \ndoes insane damage \nbut fires slowly"],
+    daveSpeech: ["Our plants have \nbeen picked for us", "Tier 2 Spore Shroom \ndoes high damage \nbut fires slowly"],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,2,2,2,2,1,1,1,4,4,4,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -291,7 +291,7 @@ const levels = {
   },
   "l12": {//Level 12 SOS 2 Flag
     type: [6],
-    daveSpeech: ["The plants you see \nare the chosen ones","We must not let them die"],
+    daveSpeech: ["The plants you see \nare the chosen ones","We must not let them die!"],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams:[0,4,4,0,2,2,2,1,1,4,4,1,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -316,7 +316,7 @@ const levels = {
   },
   "l13": {//Level 13 Normal 2 Flag 
     type: [1],
-    daveSpeech: ["Breakdancer zombie can \nkick zombies forward \nduring this new jam"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams: [0,0,0,0,3,3,2,2,2,3,3,3],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -338,7 +338,7 @@ const levels = {
   },
   "l14": {//Level 14 Fog 1 Flag
     type: [5],
-    daveSpeech: ["It has suddenly \nbecome night time","No sun will fall from the \nsky and our vision is \nobscured by the fog","But a new jam can \nclear the fog up","Unfortunately, all zombies will \ngain their ability during this jam","Good Luck Surviving"],
+    daveSpeech: ["It has suddenly \nbecome night time","No sun will fall from the \nsky and our vision is \nobscured by fog","But a certain jam can \nclear the fog up"],
     flag: [false,false,false,false,false,false,false,false,false,false,true],
     jams:[0,0,8,8,0,0,8,0,0,8,8],
     waveDelay: [720,1500,1500,1500,1200,1200,1200,1200,1200,1200,1200],
@@ -384,7 +384,7 @@ const levels = {
   },
   "l16": {//Level 16 Don't Lose 15 Plants 2 Flag
     type: [8],
-    daveSpeech: ["We can't lose too \nmany plants","Losing too many may result \nin timeline instability"],
+    daveSpeech: ["We can't lose too \nmany plants","Losing too many may threaten\nour future plants"],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams:[0,0,2,2,4,3,3,3,4,4,1,1,3,3],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -409,7 +409,7 @@ const levels = {
   },
   "l17": {//Level 17 Flowers 4 Flag
     type: [7],
-    daveSpeech: ["The flowers are very\nfar to the right","Fortunately, most zombies will \nspawn behind the flowers"],
+    daveSpeech: ["The flowers are very\nclose to the zombies","Fortunately, most zombies will \nspawn ahead of the flowers"],
     flag: [false,false,false,true,false,false,false,true,false,false,false,true,false,false,false,true],
     jams:[0,0,0,0,0,0,2,2,2,4,3,0,0,1,1,0],
     waveDelay: [900,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -436,7 +436,7 @@ const levels = {
   },
   "l18": {//Level 18 Massive Attack 5 Flag
     type: [2],
-    daveSpeech: ["A large horde of \nzombies is approaching","Now go deal with them"],
+    daveSpeech: ["A large horde of \nzombies is approaching", "Now go deal with them"],
     flag: [false,false,false,false,true,false,false,false,false,true,false,false,false,false,true,false,false,false,false,true,false,false,false,false,true],
     jams:[0,0,0,0,2,2,2,2,2,4,2,4,3,3,3,3,1,1,1,2,6,6,4,4,4], 
     waveDelay: [120,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -500,7 +500,7 @@ const levels = {
   },
   "l19": {//Level 19 Normal 2 Flag
     type: [1],
-    daveSpeech: ["A new large foe \nis approaching","It can instantly smash \nmost of our plants and has \nan insane amount of health"],
+    daveSpeech: [],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams: [0,0,0,4,4,4,0,0,5,4,4,0,0,5],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -573,7 +573,7 @@ const levels = {
   },
   "l22": {//Level 22 Fog 3 Flag
     type: [5],
-    daveSpeech: ["Click","Click Again"],
+    daveSpeech: ["Click", "It's fog again..."],
     flag: [false,false,false,false,true,false,false,false,false,true,false,false,false,false,true],
     jams:[0,0,0,8,8,8,8,0,0,8,8,8,8,0,8],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -599,7 +599,7 @@ const levels = {
   },
   "l23": {//Level 23 Normal 2 Flag
     type: [1],
-    daveSpeech: ["Gadgeter changes random plants\nduring techno jam","But it changes based on sun cost"],
+    daveSpeech: ["Gadgeter changes random plants\nduring techno jam\nbased on sun cost"],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams: [0,0,1,1,2,2,6,6,2,2,1,1,3,3],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -723,7 +723,7 @@ const levels = {
   },
   "l27": {//Level 27 Hard Normal 4 Flag
     type: [1],
-    daveSpeech: ["Zombies will come very quickly","Make sure to bring many\nearly game plants"],
+    daveSpeech: [],
     flag: [false,false,true,false,false,true,false,false,true,false,false,true],
     jams: [0,1,1,1,4,4,6,6,3,3,0,5],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -745,7 +745,7 @@ const levels = {
   },
   "l28": {//Level 28 Flowers 2 Flag
     type: [7],
-    daveSpeech: [""],
+    daveSpeech: ["Protect the flowers"],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,3,3,0,0,6,6,5,5,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -789,7 +789,7 @@ const levels = {
   },
   "l30": {//Level 30 Last Stand 4000 Sun 2 Flag
     type: [4],
-    daveSpeech: [""],
+    daveSpeech: [],
     flag: [false,false,false,false,false,false,true,false,false,false,false,false,false,true],
     jams:[0,0,0,1,1,2,2,3,3,4,4,6,6,5],
     waveDelay: [120,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -814,7 +814,7 @@ const levels = {
   },
   "l31": {//Level 31 SOS and Locked and Loaded 3 Flag
     type: [3,6],
-    daveSpeech: ["Your plants are \nof debatable quality","You will still have \nto protect these plants"],
+    daveSpeech: ["Your plants are \nof debatable quality","But, you still must\nprotect these plants"],
     flag: [false,false,false,true,false,false,false,true,false,false,false,true],
     jams:[0,4,4,0,3,3,2,2,1,1,4,4],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -897,7 +897,7 @@ const levels = {
   },  
   "l34": {//Level 34 Hard Fog 6 Flag
     type: [5],
-    daveSpeech: ["A huge horde of partygoers\nhave arrived at our doorstep","Good luck surviving"],
+    daveSpeech: ["The horde is here..."],
     flag: [false,false,false,false,true,false,false,false,false,true,false,false,false,false,true,false,false,false,false,true,false,false,false,false,true,false,false,false,false,true],
     jams: [8,8,0,0,8,8,0,0,8,8,0,0,8,8,0,0,8,8,0,0,8,8,0,0,8,8,0,0,8,8,0,0,8,0,8,8],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -938,7 +938,7 @@ const levels = {
     ],
     reward:[[1,2500], [2,"l35"]]
   },
-  "l35": {//Level 35 Don't Lose 5 Plants 2 Flag
+  "l35": {//Level 35 Don't Lose 7 Plants 2 Flag
     type: [8],
     daveSpeech: [""],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
@@ -989,7 +989,7 @@ const levels = {
   },
   "m1": {//Zombotany 1 2 Flag
     type: [1],
-    daveSpeech: ["Weird zombies are coming for us", "They have brought plants\n to fight for them"],
+    daveSpeech: ["Weird zombies are coming for us", "They have brought our plants\n to fight for them"],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,0,0,0,0,0,0,0,0],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -1076,7 +1076,7 @@ const levels = {
   },
   "m4": {//I Zombie 25 Plants
     type: [3,14],
-    daveSpeech: ["We are the zombies now","Our goal is to let \nthe zombies get to \nthe end of the lawn"],
+    daveSpeech: ["We are the zombies now!","Our goal is to let \nthe zombies get to \nthe end of the lawn"],
     flag: [false,false,false,false,false],
     jams: [0,0,0,0,0],
     waveDelay: [],
