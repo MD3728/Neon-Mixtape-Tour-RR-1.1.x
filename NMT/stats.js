@@ -938,13 +938,13 @@ const levels = {
     ],
     reward:[[1,2500], [2,"l35"]]
   },
-  "l35": {//Level 35 Don't Lose 7 Plants 2 Flag
+  "l35": {//Level 35 Don't Lose 8 Plants 2 Flag
     type: [8],
     daveSpeech: [""],
     flag: [false,false,false,false,false,true,false,false,false,false,false,true],
     jams:[0,0,0,0,2,2,0,0,3,3,1,1],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
-    maxLostPlant: 7, 
+    maxLostPlant: 8, 
     waves:[
       [[0,2]],
       [[0,2], [0,3]],
