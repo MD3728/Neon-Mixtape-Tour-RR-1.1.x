@@ -594,7 +594,7 @@ function saveData(){
 
 //Setup 
 function setup(){
-  createCanvas(900,650);
+  createCanvas(920,700);// Old Size: 900 by 650
   textAlign(CENTER,CENTER);
   textWrap(WORD);
   textFont('monospace',20);
