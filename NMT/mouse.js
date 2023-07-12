@@ -3,12 +3,12 @@
 document.addEventListener("mousedown",function(e){
   //Normal Level or Last Stand Preparation
   if ((screen === "level")||(screen === "prepareDefense")){
-    //Plant a plant
+    //Planting initial process
     if (readyPlant === null){//No plant selected
       readyPlant = null;
       for (let currentPacket of allPackets){
-        if (pointBox(mouseX, mouseY, currentPacket.x, currentPacket.y, 120, 36)
-        &&(currentPacket.recharge === 0)&&(sun >= currentPacket.sun)){//If clicked on packet
+        if (pointBox(mouseX, mouseY, currentPacket.x, currentPacket.y, 120, 60)  //If packet clicked on
+        &&(currentPacket.recharge === 0)&&(sun >= currentPacket.sun)){
           readyPlant = currentPacket;
           currentPacket.selected = true;
         }
@@ -17,7 +17,7 @@ document.addEventListener("mousedown",function(e){
   }
 });
 
-//Mouse up
+//Mouse released
 document.addEventListener("mouseup",function(e){
   //Title Screen
   switch (screen){

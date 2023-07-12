@@ -16,12 +16,14 @@ class SeedPacket extends Entity{
   }
 
   draw(){
+    // Box
     noStroke();
     fill(180,200,180);
-    rect(this.x, this.y, 120, 40,2);
-    //Draw Recharge
+    rect(this.x, this.y, 120, 60, 2);
+    // Draw Recharge
     fill(0,50);
-    rect(this.x, this.y, 120, (this.recharge/this.maxRecharge)*40,2);
+    rect(this.x, this.y, 120, (this.recharge/(this.maxRecharge + 3))*60,2);// Buffer added to make it look nicer/accurate
+    // Draw Border
     if (this.selected === true){
       stroke(200,0,0);
     }else{
@@ -29,29 +31,31 @@ class SeedPacket extends Entity{
     }
     strokeWeight(3);
     noFill();
-    rect(this.x, this.y, 120, 40,2);
-    //Draw Name
+    rect(this.x, this.y, 120, 60, 2);
+    // Draw Name
     noStroke();
     fill(0);
-    textSize(12);
-    text(this.name,this.x+60,this.y+20);
-    textSize(8);
-    if(!currentLevel["type"].includes(2)){
-      if(sun < this.sun){
+    textSize(20);
+    text(this.name,this.x+60,this.y+28);
+    // Draw Sun Cost
+    textSize(18);
+    if ((!currentLevel["type"].includes(2))&&(this.type !== "shovel")){//Not Conveyor
+      if (sun < this.sun){
         fill(255,0,0);
       }
-      text(this.sun,this.x+15,this.y+30);
+      text(this.sun,this.x+103,this.y+38);
     }
+    // Draw Tier
     if (!currentLevel.type.includes(14)){//Show Tier (Not I Zombie)
       if(this.tier === 1){
         stroke(120,80,40);
-        strokeWeight(3);
-        line(this.x+108,this.y+26,this.x+108,this.y+32);
+        strokeWeight(4);
+        line(this.x+108,this.y+10,this.x+108,this.y+22);
       }else if(this.tier === 2){
         stroke(160);
-        strokeWeight(2.5);
-        line(this.x+106,this.y+26,this.x+106,this.y+32);
-        line(this.x+110,this.y+26,this.x+110,this.y+32);
+        strokeWeight(4);
+        line(this.x+106,this.y+10,this.x+106,this.y+22);
+        line(this.x+110,this.y+10,this.x+110,this.y+22);
       }
     }
     // else if(this.tier==3){
@@ -75,24 +79,12 @@ class SeedPacket extends Entity{
         this.recharge = 0;
       }
       this.x = 10;
-      this.y = 80 + allPackets.indexOf(this)*60;
+      this.y = 80 + allPackets.indexOf(this)*75;
       if (this.type === "shovel"){
-        if (currentLevel.type.includes(2)){//Conveyor
-          this.x = 140;
-          this.y = 600;
-        }else{
-          this.x = 10;
-          this.y = 600;
-        }
+        this.x = 150;
+        this.y = 630;
       }
     }
   }
 }
-
-
-
-
-
-
-
 

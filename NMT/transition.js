@@ -14,7 +14,8 @@ function daveSetup(){
 
 //Crazy Dave Loop
 function daveLoop(){
-  drawStack();
+  backgroundDrawStack();
+  background('rgba(0,0,0,0.2)');
   if (daveIndex >= currentLevel.daveSpeech.length){
     if (currentLevel.type.includes(10)){//Boss 
       selectedPackets = [];
@@ -70,6 +71,13 @@ function daveLoop(){
 
 //Initiate choose your seeds screen
 function chooseSeeds(){
+  // Set up display seed packets
+  for (let a = 0; a < 30; a++){
+    let buttonX = ((a)%5)*150+150;
+    let buttonY = floor((a)/5)*60+100;
+    createSeedPacket(a, buttonX, buttonY, 120, 40, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0);//To Do
+  }
+  // Specific Setup for Level Types
   if (currentLevel["type"].includes(3) === true){//Locked and Loaded
     selectedPackets = currentLevel["givenPlants"];
     transition.trigger=true;
@@ -87,6 +95,7 @@ function chooseSeeds(){
 
 //Loop for Choose Your Seeds
 function chooseSeedLoop(){
+  backgroundDrawStack();
   //General Looks
   background('rgba(0,0,0,0.2)');
   fill(255,255,255);
@@ -102,6 +111,7 @@ function chooseSeedLoop(){
   for (let displayingZombie of displayZombies){
     displayingZombie.draw();
   }
+
   //All Seed Packets
   for (let a = 1; a < 30; a++){
     let buttonX = ((a-1)%5)*150+150;
@@ -121,6 +131,7 @@ function chooseSeedLoop(){
     textSize(12);
     text(plantStat[a-1].name, buttonX + 60, buttonY + 20);
   }
+
   //Start Button
   stroke(200);
   strokeWeight(4);
@@ -373,24 +384,29 @@ function initialLevelSetup(){
   }
 }
 
-//Function to call when starting level AFTER Crazy Dave
-function finalLevelSetup(){
-  if ((!currentLevel["type"].includes(2))&&(!currentLevel.type.includes(14))){//Other Level Types With Choose Your Seeds But No Conveyor
-    for (let a in selectedPackets){
-      let packetID = selectedPackets[a];
-      for (let currentPlantNum in plantStat){//Find correct plant
-        let currentPlant = plantStat[currentPlantNum];
-        if (currentPlant["type"] === packetID){
-          if (plantTier[packetID - 1] === 1){//Tier 1
-            let tier1Stat = currentPlant["t1"];
-            new SeedPacket(packetID, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"]);//Tier 1
-          }else{//Tier 2
-            let tier2Stat = currentPlant["t2"];
-            new SeedPacket(packetID, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"]);//Tier 2
-          }
+// Create Seed Packets
+function createSeedPacket(){
+  for (let a in selectedPackets){
+    let packetID = selectedPackets[a];
+    for (let currentPlantNum in plantStat){//Find correct plant
+      let currentPlant = plantStat[currentPlantNum];
+      if (currentPlant["type"] === packetID){
+        if (plantTier[packetID - 1] === 1){//Tier 1
+          let tier1Stat = currentPlant["t1"];
+          new SeedPacket(packetID, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"]);//Tier 1
+        }else{//Tier 2
+          let tier2Stat = currentPlant["t2"];
+          new SeedPacket(packetID, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"]);//Tier 2
         }
       }
     }
+  }
+}
+
+//Function to call when starting level AFTER Crazy Dave
+function finalLevelSetup(){
+  if ((!currentLevel["type"].includes(2))&&(!currentLevel.type.includes(14))){//Other Level Types With Choose Your Seeds But No Conveyor
+    createSeedPacket(); //Create Seed Packets
   }
   if (!currentLevel["type"].includes(14)){//Create shovel if not I Zombie
     new SeedPacket("shovel", "Shovel", 0, 0, 0, 0);

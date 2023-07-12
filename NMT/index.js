@@ -1,12 +1,59 @@
 /* Main JS File */
-//Version 1.1.0
+//Version 1.1.10
 
-//Changeable Stats
-let seedSlots = 5;//Number of Seed Slots
-let money = 0;//In Game Currency
+// //Game Stats
+// //Changeable Stats
+// let seedSlots = 5;//Number of Seed Slots
+// let money = 0;//In Game Currency
+
+// //General Systems
+// let screen = "initial";
+// let previousScreen = "initial";
+// let readyPlant = null;//ID Holder For Planting and Shoveling
+// let running = false;//Determines if level is running
+// let win = false;//Determines Win
+
+// //Gameplay System
+// let idIndexer = 1;//Index Object ID
+// let levelSpeed = 1;//Level Speed (1, 1.5, 2)
+// let selectedPackets = [];//Chosen Seed Packets
+// let sun = 75;//Sun in Level
+// let currentLevel = null;//Holds Current Level Object
+// let currentWave = 0;//Current Wave
+// let currentJam = 0;//Jams: 0: Normal, 1: Punk, 2: Pop, 3: Rap, 4: 8-bit, 5: Metal, 6: Techno, 7: Ballad, 8: Everything (except ballad)
+// let waveTimer = 0;//Time between waves
+// let sunTimer = 0;//Sun falling from the sky
+// let conveyorTimer = 0;//Time between conveyor seed packets
+// let globalTimer = 0;//Global timer for anything
+// let bossDamage = 0;//Damage Done To Boss
+// let boomberryActive = false;//Determines if Boomberry Effect is Active
+// let boomboxActive = false;//Determines if Boombox Effect is Active
+// let lostPlants = 0;//Number of Plants Lost(for Don't Lose Plants Levels)
+// let daveIndex = 0;//Current Index of Crazy Dave Dialogue
+// let rentSlot = false;//Determines if Seed Slot is Being Rented
+
+//Reward/Unlocking System
+// let unlockedPackets = [1,4,7,12,18
+//   //,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+//   ];
+// let unlockedLevels = [
+// "l1",
+// //"l2","l3","l4","l5","l6","l7","l8","l9","l10",
+// //"l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
+// //"l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
+// //"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"
+// ];
+
+
+
+
+// Developer Stats
+let seedSlots = 8;//Number of Seed Slots
+let money = 111111111110;//In Game Currency
 
 //General Systems
 let screen = "initial";
+let previousScreen = "initial";
 let readyPlant = null;//ID Holder For Planting and Shoveling
 let running = false;//Determines if level is running
 let win = false;//Determines Win
@@ -29,18 +76,19 @@ let boomboxActive = false;//Determines if Boombox Effect is Active
 let lostPlants = 0;//Number of Plants Lost(for Don't Lose Plants Levels)
 let daveIndex = 0;//Current Index of Crazy Dave Dialogue
 let rentSlot = false;//Determines if Seed Slot is Being Rented
-
-//Reward/Unlocking System
-let unlockedPackets = [1,4,7,12,18
-//,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
-];
+let unlockedPackets = [
+  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+  ];
 let unlockedLevels = [
-"l1",
-//"l2","l3","l4","l5","l6","l7","l8","l9","l10",
-//"l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
-//"l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
-//"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"
+"l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
+"l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
+"l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
+"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"
 ];
+
+
+//
+
 
 //Array of classes
 let allEntities = [];
@@ -71,9 +119,9 @@ for (let d = 0; d < 30; d++){
 
 //Hotkeys
 function keyPressed(){
-  if(keyCode==SHIFT){
-    levelSpeed=(levelSpeed-0.5)%1.5+1
-  }
+  // if(keyCode==SHIFT){
+  //   levelSpeed=(levelSpeed-0.5)%1.5+1
+  // }
 }
 
 /* Shortcut Methods */
@@ -609,28 +657,28 @@ function setup(){
   displayZombie.health = 99999;
   displayZombie.size = 2.4;
   //Set and Read Save Data
-  money = localStorage.getItem("money");
-  if (money === null){//If Save Data Does Not Exist
-    money = 0;
-    unlockedPackets = [1,4,7,12,18];
-    unlockedLevels = ["l1"];
-    saveData();
-  }
-  money = parseInt(localStorage.getItem("money"));
-  unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
-  for (let currentPacket in unlockedPackets){
-    unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
-  }
-  unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
-  //Shop Data
-  displayPlants = [];
-  shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
-  for(let a = 0; a < 7; a++){
-    if (!unlockedPackets.includes(shopPlantList[a])){
-      displayPlants.push(new Plant(shopPlantList[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
-      0, 0, 0, 0, 0));
-    }
-  }
+  //money = localStorage.getItem("money");
+  // if (money === null){//If Save Data Does Not Exist
+  //   money = 0;
+  //   unlockedPackets = [1,4,7,12,18];
+  //   unlockedLevels = ["l1"];
+  //   saveData();
+  // }
+  // money = parseInt(localStorage.getItem("money"));
+  // unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
+  // for (let currentPacket in unlockedPackets){
+  //   unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
+  // }
+  // unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
+  // //Shop Data
+  // displayPlants = [];
+  // shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
+  // for(let a = 0; a < 7; a++){
+  //   if (!unlockedPackets.includes(shopPlantList[a])){
+  //     displayPlants.push(new Plant(shopPlantList[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
+  //     0, 0, 0, 0, 0));
+  //   }
+  // }
   allPlants = [];
   allZombies = [];
   allEntities = [];

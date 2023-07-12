@@ -30,109 +30,34 @@ function displayTransition(transition){
   }
 }
 
-//Draw
+
+//Draw Methods 
+
+// Normal Level Draw Stack
 function drawStack(){
-  //Draw Background
-  background(155,160,170);
-  //Display Sun Values
-  noStroke();
-  fill(0,0,0);
-  textSize(24);
-  //Draw Sun and Coin Amount
-  if (!currentLevel["type"].includes(2)){
-    text(sun, 65, 40);
-  }
-  translate(830,635)
-  scale(0.6)
-  fill(225,this.fade)
-  ellipse(0,0,30,30)
-  stroke(150,this.fade)
-  strokeWeight(4)
-  noFill()
-  arc(0,-5,12,10,90,270)
-  arc(0,5,12,10,-90,90)
-  line(0,-10,5,-10)
-  line(0,10,-5,10)
-  line(0,-13,0,13)
-  scale(5/3)
-  translate(-830,-635)
-  noStroke()
-  fill(0)
-  textSize(15);
-  textAlign(LEFT,CENTER)
-  text(money, 845, 635);
-  textAlign(CENTER,CENTER)
-  //No Plants Lost
-  if (currentLevel["type"].includes(8)){
-    textSize(14);
-    text(`Plants Left: ${currentLevel["maxLostPlant"] - lostPlants}`, 250, 30);
-  }
-  //Draw Tiles
-  for (let currentTile of tiles){
-    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
-      fill(100,60,20);
-    }else if (currentTile.color === 0){//Light Blue
-      fill(110,105,220);   
-    }else{//Dark Blue
-      fill(80,170,230);
-    }
-    rect(currentTile.x, currentTile.y, 80, 100);
-    //Outline
-    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
-      fill(90,50,10);
-    }else if (currentTile.color === 0){//Light Blue
-      fill(100,95,210);   
-    }else{//Dark Blue
-      fill(70,160,220);
-    }
-    rect(currentTile.x+5, currentTile.y+5, 70, 90)
-  }
-  //Draw Flower Line (If Level Has It)
-  if (currentLevel["type"].includes(7) === true){
-    fill(255,0,0);
-    for(let a=0;a<20;a++){
-      image(graphics.minor[a%7],currentLevel["flowerLine"]+((a*a)%4.3)*4-8.6,120+a*25,25,25)
-    }
-  }
-  //Draw Zombie Line (I Zombie)
-  if (currentLevel["type"].includes(14) === true){
-    fill(255,0,0);
-    for(let a=0;a<20;a++){
-      ellipse(currentLevel["plantLine"]+((a*a)%4.3)*4-18.6,120+a*25,30,30)
-    }
-  }
-  //Draw Boss
-  if (currentLevel["type"].includes(10)){
-    fill(100);
-    rect(660,120,240,500);
-    fill(200);
-    ellipse(780,370,160,160);
-    translate(780,420);
-    stroke(240);
-    strokeWeight(4);
-    line(-4,-30,-8,0);
-    line(4,-30,8,0);
-    line(-6,-45,-24,-39-sin(globalTimer*9)*3);
-    line(-6,-51,-24,-57+sin(globalTimer*9)*3);
-    noStroke();
-    fill(240);
-    ellipse(0,-47,18,42);
-    fill(60);
-    rect(-10,-45,20,3);
-    fill(240,220,180);
-    ellipse(0,-78,30,30);
-    fill(0);
-    ellipse(-4,-75,4,4);
-    ellipse(-12,-75,4,4);
-    stroke(40);
-    strokeWeight(1);
-    fill(255,50);
-    ellipse(-4,-74,6,5);
-    ellipse(-12,-74,6,5);
-    line(-7,-74,-9,-74);
-    translate(-780,-420);
-  }
-  noStroke();
+  drawBackground();
+  drawTiles();
+  drawBoss();
+  drawJams();
+  drawActiveObjects();
+  drawUserStats();
+  drawObjectives();
+  drawProgressBar();
+  drawNavigation();
+}
+
+// Cutscene Draw Stack
+function backgroundDrawStack(){
+  drawBackground();
+  drawTiles();
+  drawBoss();
+  drawActiveObjects();
+  drawObjectives();
+  drawProgressBar();
+}
+
+// Draws jams
+function drawJams(){
   //Draw Jams
   if((currentJam===1)||(currentJam===8)){//Punk
     fill(250,75,0,150);
@@ -237,6 +162,185 @@ function drawStack(){
     strokeWeight(10);
     ellipse(540,-10,frameCount%600,frameCount%600);
   }
+}
+
+// Draws level objectives
+function drawObjectives(){
+  // Plants Lost
+  if (currentLevel["type"].includes(8)){
+    textSize(14);
+    text(`Plants Left: ${currentLevel["maxLostPlant"] - lostPlants}`, 250, 30);
+  }
+  //Draw Flower Line (If Level Has It)
+  if (currentLevel["type"].includes(7) === true){
+    fill(255,0,0);
+    for(let a=0;a<20;a++){
+      image(graphics.minor[a%7],currentLevel["flowerLine"]+((a*a)%4.3)*4-8.6,120+a*25,25,25)
+    }
+  }
+  //Draw Zombie Line (I Zombie)
+  if (currentLevel["type"].includes(14) === true){
+    fill(255,0,0);
+    for(let a=0;a<20;a++){
+      ellipse(currentLevel["plantLine"]+((a*a)%4.3)*4-18.6,120+a*25,30,30)
+    }
+  }
+  //Draw Fog (If Level Has It)
+  if (currentLevel["type"].includes(5) === true){
+    fill("rgba(0,0,0,0.3)");//Night Overlay
+    rect(0,0,950,700);
+    if (currentJam !== 8){//Not Ultimate Jam, Draw Fog
+      image(graphics.minor[8],currentLevel["fogLine"]-30,50,800,600);
+    }
+  }
+  //Draw Conveyor
+  if (currentLevel["type"].includes(2) === true){
+    fill(40);
+    rect(0,0,10,650);
+    rect(120,0,10,650);
+    fill(60);
+    rect(10,0,110,650);
+    fill(70);
+    for(let a = 0; a < 24; a++){
+      rect(10,10+a*30-(globalTimer)%30,110,8);
+    }
+  }
+}
+
+// Draws coins and suns
+function drawUserStats(){
+  //Draw Sun and Coin Amount
+  if (!currentLevel["type"].includes(2)){
+    text(sun, 65, 40);
+  }
+  translate(830,635)
+  scale(0.6)
+  fill(225,this.fade)
+  ellipse(0,0,30,30)
+  stroke(150,this.fade)
+  strokeWeight(4)
+  noFill()
+  arc(0,-5,12,10,90,270)
+  arc(0,5,12,10,-90,90)
+  line(0,-10,5,-10)
+  line(0,10,-5,10)
+  line(0,-13,0,13)
+  scale(5/3)
+  translate(-830,-635)
+  noStroke()
+  fill(0)
+  textSize(15);
+  textAlign(LEFT,CENTER)
+  text(money, 845, 635);
+  textAlign(CENTER,CENTER)
+  //Display Sun Values
+  noStroke();
+  fill(0,0,0);
+  textSize(24);
+}
+
+// Draw navigation buttons
+function drawNavigation(){
+  //Display Fast Forward Buttons
+  strokeWeight(5);
+  stroke(80);
+  fill(100);
+  rect(700,50,60,40,5);
+  noStroke();
+  fill(40);
+  if (levelSpeed === 2){
+    regTriangle(714,70,10,-30);
+    regTriangle(730,70,10,-30);
+    regTriangle(746,70,10,-30);
+  }else if (levelSpeed === 1.5){
+    regTriangle(722,70,10,-30);
+    regTriangle(738,70,10,-30);
+  }else{
+    regTriangle(730,70,10,-30);
+  }
+
+  //Display Quit Button
+  fill(100);
+  stroke(80);
+  strokeWeight(5);
+  rect(800,30,60,40,5);
+  noStroke();
+  fill(255,255,255);
+  textSize(20);
+  text("Quit", 830, 50);
+}
+
+// Draws elements that constitutes background scene
+function drawTiles(){
+  //Draw Tiles
+  for (let currentTile of tiles){
+    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
+      fill(100,60,20);
+    }else if (currentTile.color === 0){//Light Blue
+      fill(110,105,220);   
+    }else{//Dark Blue
+      fill(80,170,230);
+    }
+    rect(currentTile.x, currentTile.y, 80, 100);
+    //Outline
+    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
+      fill(90,50,10);
+    }else if (currentTile.color === 0){//Light Blue
+      fill(100,95,210);   
+    }else{//Dark Blue
+      fill(70,160,220);
+    }
+    rect(currentTile.x+5, currentTile.y+5, 70, 90)
+  }
+}
+
+// Draws background
+function drawBackground(){
+  //Draw Background
+  background(155,160,170);
+}
+
+// Draws progress bar
+function drawProgressBar(){
+  //Display Level Progress and Flags OR Boss Bar
+  if (currentLevel["type"].includes(10)){//Boss Bar
+    stroke(80);
+    fill(100);
+    rect(350,60,310,30,5);
+    noStroke();
+    fill(200,30,30);
+    rect(356,66,bossDamage/10000*297/currentLevel["waves"].length+currentWave*297/currentLevel["waves"].length,18,5);
+    fill(20);
+    for(let a=1;a<7;a++){
+      rect(348+a*310/7,60,4,30);
+    }
+  }else{//Regular Bar
+    stroke(80);
+    fill(100);
+    rect(350,60,310,30,5);
+    noStroke();
+    fill(200,30,30);
+    rect(356,66,currentWave/currentLevel["waves"].length*288,18,5);
+    for(let a = 1; a < currentLevel.flag.length + 1; a++){
+      if(currentLevel.flag[a - 1]){//Remember that 0th wave is not counted
+        if(currentWave >= a){//Flag Raised (Wave Passed)
+          fill(200,120,40);
+          rect(350+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,63,2,24);
+          fill(240,40,40);
+          rect(352+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,64,12,10);
+        }else{
+          fill(200,120,40);
+          rect(350+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,73,2,24);
+          fill(240,40,40);
+          rect(352+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,74,12,10);
+        }
+      }
+    }
+  }
+}
+
+// Draws elements active during a level
+function drawActiveObjects(){
   //Draw Plants
   for (let currentPlant of allPlants){
     currentPlant.draw();
@@ -273,87 +377,6 @@ function drawStack(){
       allEntities.splice(allEntities.indexOf(currentWhatever), 1);
     }
   }
-  //Draw Conveyor
-  if (currentLevel["type"].includes(2) === true){
-    fill(40);
-    rect(0,0,10,650);
-    rect(120,0,10,650);
-    fill(60);
-    rect(10,0,110,650);
-    fill(70);
-    for(let a = 0; a < 24; a++){
-      rect(10,10+a*30-(globalTimer)%30,110,8);
-    }
-  }
-  //Draw Fog (If Level Has It)
-  if (currentLevel["type"].includes(5) === true){
-    fill("rgba(0,0,0,0.3)");//Night Overlay
-    rect(0,0,900,650);
-    if (currentJam !== 8){//Not Ultimate Jam, Draw Fog
-      image(graphics.minor[8],currentLevel["fogLine"]-30,50,800,600);
-    }
-  }
-  //Display Fast Forward Buttons
-  strokeWeight(5);
-  stroke(80);
-  fill(100);
-  rect(700,50,60,40,5);
-  noStroke();
-  fill(40);
-  if (levelSpeed === 2){
-    regTriangle(714,70,10,-30);
-    regTriangle(730,70,10,-30);
-    regTriangle(746,70,10,-30);
-  }else if (levelSpeed === 1.5){
-    regTriangle(722,70,10,-30);
-    regTriangle(738,70,10,-30);
-  }else{
-    regTriangle(730,70,10,-30);
-  }
-  //Display Level Progress and Flags OR Boss Bar
-  if (currentLevel["type"].includes(10)){//Boss Bar
-    stroke(80);
-    fill(100);
-    rect(350,60,310,30,5);
-    noStroke();
-    fill(200,30,30);
-    rect(356,66,bossDamage/10000*297/currentLevel["waves"].length+currentWave*297/currentLevel["waves"].length,18,5);
-    fill(20);
-    for(let a=1;a<7;a++){
-      rect(348+a*310/7,60,4,30);
-    }
-  }else{//Regular Bar
-    stroke(80);
-    fill(100);
-    rect(350,60,310,30,5);
-    noStroke();
-    fill(200,30,30);
-    rect(356,66,currentWave/currentLevel["waves"].length*288,18,5);
-    for(let a = 1; a < currentLevel.flag.length + 1; a++){
-      if(currentLevel.flag[a - 1]){//Remember that 0th wave is not counted
-        if(currentWave >= a){//Flag Raised (Wave Passed)
-          fill(200,120,40);
-          rect(350+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,63,2,24);
-          fill(240,40,40);
-          rect(352+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,64,12,10);
-        }else{
-          fill(200,120,40);
-          rect(350+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,73,2,24);
-          fill(240,40,40);
-          rect(352+288/currentLevel.flag.length+(a-1)*288/currentLevel.flag.length-3,74,12,10);
-        }
-      }
-    }
-  }
-  //Display Quit Button
-  fill(100);
-  stroke(80);
-  strokeWeight(5);
-  rect(800,30,60,40,5);
-  noStroke();
-  fill(255,255,255);
-  textSize(20);
-  text("Quit", 830, 50);
   //Draw Seed Packets and Shovel
   for (let currentPacket of allPackets){
     currentPacket.draw();
@@ -363,3 +386,40 @@ function drawStack(){
     currentCollectible.draw();
   }
 }
+
+// Draws boss
+function drawBoss(){
+  //Draw Boss
+  if (currentLevel["type"].includes(10)){
+    fill(100);
+    rect(660,120,240,500);
+    fill(200);
+    ellipse(780,370,160,160);
+    translate(780,420);
+    stroke(240);
+    strokeWeight(4);
+    line(-4,-30,-8,0);
+    line(4,-30,8,0);
+    line(-6,-45,-24,-39-sin(globalTimer*9)*3);
+    line(-6,-51,-24,-57+sin(globalTimer*9)*3);
+    noStroke();
+    fill(240);
+    ellipse(0,-47,18,42);
+    fill(60);
+    rect(-10,-45,20,3);
+    fill(240,220,180);
+    ellipse(0,-78,30,30);
+    fill(0);
+    ellipse(-4,-75,4,4);
+    ellipse(-12,-75,4,4);
+    stroke(40);
+    strokeWeight(1);
+    fill(255,50);
+    ellipse(-4,-74,6,5);
+    ellipse(-12,-74,6,5);
+    line(-7,-74,-9,-74);
+    translate(-780,-420);
+  }
+  noStroke();
+}
+
