@@ -66,7 +66,6 @@ class SeedPacket extends Entity{
     //   line(this.x+108,this.y+26,this.x+108,this.y+32)
     //   line(this.x+114,this.y+26,this.x+114,this.y+32)
     // }
-
     // Draw Disabled Overlay
     if (this.disabled === true){
       fill(0,0,0,100);
@@ -76,7 +75,7 @@ class SeedPacket extends Entity{
 
   move(){
     if (this.moving === true){//Conveyor
-      if (this.y > 65*(allPackets.indexOf(this) - 1) + 20){
+      if (this.y > 75*(allPackets.indexOf(this) - 1) + 20){
         this.y -= levelSpeed;
       }
     }else{//Other Levels

@@ -1,3 +1,158 @@
+// Draw Title Screen
+function drawTitleScreen(){
+  background(0);
+  noStroke();
+  fill(200);
+  textSize(80);
+  text('NMT',width/2,200);
+  textSize(20);
+  text('MD/DP Production',width/2,250);
+  fill(120);
+  rect(width/2-60,400,120,50,10);
+  rect(width/2-60,460,120,50,10);
+  rect(width/2-60,570,120,50,10);
+  fill(0);
+  textSize(20);
+  text('Adventure',width/2,425);
+  text('Minigames',width/2,485);
+  text('Save',width/2,595);
+}
+
+// Draw Level Select Screens
+function drawLevelSelect(screenNum){
+  background(0,0,0);
+  fill(230,230,230);
+  textSize(25);
+  switch(screenNum){
+    case 1://Level Select
+      text("Adventure", 450, 60);
+      noStroke();
+      for (let a = 1; a < 37; a++){//Level Button Select
+        let levelName = "l" + a.toString();
+        let levelUnlocked = unlockedLevels.includes(levelName);
+        //Level Button
+        if (levelUnlocked){
+          if((a+floor((a-1)/6))%2 === 0){
+            fill(110,105,220);
+          }else{
+            fill(80,170,230);
+          }
+        }else{
+          fill(110);
+        }
+        let buttonX = ((a-1)%6)*80+225;
+        let buttonY = floor((a-1)/6)*80+100;
+        rect(buttonX, buttonY, 50, 50,3);
+        fill(0);
+        text(a, buttonX + 25, buttonY + 25);
+        // Starts levels in various methods
+        if (pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50)&&(mouseIsPressed === true)&&(levelUnlocked)){
+          currentLevel = levels["l" + a.toString()];
+          if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
+            daveSetup();
+          }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
+            initialLevelSetup();
+            finalLevelSetup();
+            transition.trigger = true;
+            transition.screen = "level";
+          }else{//Normal
+            initialLevelSetup();
+            chooseSeeds();
+          }
+          break;
+        }
+      }
+      break;
+    case 2://Minigame Select
+      text("Minigames", 450, 60);
+      noStroke();
+      for (let a = 1; a < 14; a++){//Minigame Select
+        let levelName = "m" + a.toString();
+        let levelUnlocked = unlockedLevels.includes(levelName);
+        //Level Button
+        if (levelUnlocked){
+          if(a%2 === 0){
+            fill(110,105,220);   
+          }else{
+            fill(80,170,230);
+          }
+        }else{
+          fill(110);
+        }
+        let buttonX = ((a-1)%3)*80+345;
+        let buttonY = floor((a-1)/3)*80+130;
+        if (a === 13){//Survival Special Placement
+          buttonX = 425;
+        }
+        rect(buttonX, buttonY, 50, 50,3);
+        fill(0);
+        text(`M${a}`, buttonX + 25, buttonY + 25);
+        //Make sure level is unlocked
+        if ((pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50))&&(mouseIsPressed === true)&&(levelUnlocked)){
+          currentLevel = levels[levelName];
+          if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
+            daveSetup();
+          }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
+            initialLevelSetup();
+            finalLevelSetup();
+            transition.trigger=true;
+            transition.screen="level";
+          }else{//Normal
+            initialLevelSetup();
+            chooseSeeds();
+          }
+          break;
+        }
+      }
+      break;
+    default:
+      break;
+  }
+
+  //Almanac Button 
+  fill(180);
+  rect(760,20,120,40,3);
+  rect(310,570,120,40,3);
+  rect(470,570,120,40,3);
+  fill(0);
+  textSize(20);
+  text('Almanac',370,590);
+  text('Shop',530,590);
+  text('Back',820,40);
+}
+
+// Draw Game Over Screen
+function drawGameOver(){
+  background(20);
+  stroke(100);
+  strokeWeight(5);
+  fill(120);
+  rect(width/2-60,height-150, 120, 60,5);
+  fill(200);
+  noStroke();
+  textSize(60);
+  text("Game Over", width/2, 60);
+  textSize(20);
+  text("Return",width/2,height-120);
+  noFill();
+  stroke(50,200,50);
+  strokeWeight(10);
+  ellipse(width/2,height/2-50,300,300);
+  line(width/2-50,height/2-80+sin(frameCount*3)*5,width/2-50,height/2-120+sin(frameCount*3)*5);
+  line(width/2+50,height/2-80+sin(frameCount*3)*5,width/2+50,height/2-120+sin(frameCount*3)*5);
+  line(width/2-60,height/2+40+sin(frameCount*3)*15,width/2+60,height/2+40+sin(frameCount*3)*15);
+  arc(width/2,height/2+40+sin(frameCount*3)*15,120,80-sin(frameCount*3)*40,-180,0);
+  strokeWeight(5);
+  if(frameCount%120<30){
+    ellipse(width/2+50,height/2-80+(frameCount%120)/4,(frameCount%120)/2,(frameCount%120)/2);
+  }else{
+    ellipse(width/2+50,height/2-312.5+(frameCount%120)*8,15,15);
+  }  
+}
+
+
+
+// Shortcut Draw Methods
 //Default Create Triangle
 function regTriangle(x, y, radius, direction){
   triangle(x+sin(direction)*radius,y+cos(direction)*radius,x+sin(direction+120)*radius,y+cos(direction+120)*radius,x+sin(direction+240)*radius,y+cos(direction+240)*radius);
@@ -29,7 +184,6 @@ function displayTransition(transition){
     transition.anim=round(transition.anim*10-1)/10;
   }
 }
-
 
 //Draw Methods 
 
@@ -207,16 +361,16 @@ function drawObjectives(){
   }
 }
 
+//Draw Conveyor Belt
 function drawConveyor(){
-  //Draw Conveyor
   if (currentLevel["type"].includes(2) === true){
     fill(40);
-    rect(0,0,10,650);
-    rect(120,0,10,650);
+    rect(0,0,10,700);
+    rect(120,0,10,700);
     fill(60);
-    rect(10,0,110,650);
+    rect(10,0,110,700);
     fill(70);
-    for(let a = 0; a < 24; a++){
+    for(let a = 0; a < 25; a++){
       rect(10,10+a*30-(globalTimer)%30,110,8);
     }
   }
@@ -288,7 +442,7 @@ function drawNavigation(){
 function drawTiles(){
   //Draw Tiles
   for (let currentTile of tiles){
-    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
+    if((currentLevel["type"].includes(13))&&(currentLevel.unsoddedLanes.includes(currentTile.y))){//Unsodded
       fill(100,60,20);
     }else if (currentTile.color === 0){//Light Blue
       fill(110,105,220);   
@@ -297,7 +451,7 @@ function drawTiles(){
     }
     rect(currentTile.x, currentTile.y, 80, 100);
     //Outline
-    if((currentLevel["type"].includes(13))&&(currentTile.y===420)){//Unsodded
+    if((currentLevel["type"].includes(13))&&(currentLevel.unsoddedLanes.includes(currentTile.y))){//Unsodded
       fill(90,50,10);
     }else if (currentTile.color === 0){//Light Blue
       fill(100,95,210);   

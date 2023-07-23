@@ -73,26 +73,22 @@ function daveLoop(){
 
 //Initiate choose your seeds screen
 function chooseSeeds(){
+  allPackets = [];
+  if (currentLevel["type"].includes(3) === true){//Locked and Loaded (Show Seed Packets)
+    for (let currentPacket of currentLevel.givenPlants){
+      let newPacket = createSeedPacket(currentPacket[0], -1000, -1000, currentPacket[1]);
+      newPacket.move();
+    }
+  }
   for (let a = 0, plantLength = plantStat.length; a < plantLength; a++){
     let buttonX = ((a)%5)*140+180;
     let buttonY = floor((a)/5)*70+100;
     createSeedPacket(a+1, buttonX, buttonY);
   }
-  // Specific Setup for Level Types
-  if (currentLevel["type"].includes(3) === true){//Locked and Loaded
-    selectedPackets = currentLevel["givenPlants"];
-    transition.trigger=true;
-    transition.screen="chooseSeeds";
-  }else if (currentLevel["type"].includes(2) === true){//Conveyor
-    selectedPackets = [];
-    transition.trigger=true;
-    transition.screen="chooseSeeds";
-  }else{//Normal and Other Level Types
-    // Set up display seed packets
-    transition.trigger=true;
-    transition.screen="chooseSeeds";
-    selectedPackets = [];
-  }
+  // Move onto next screen
+  selectedPackets = [];
+  transition.trigger=true;
+  transition.screen="chooseSeeds";
 }
 
 //Loop for Choose Your Seeds
@@ -325,11 +321,11 @@ function initialLevelSetup(){
       }
     }
   }
-  //Create Seed Packets
+  //Create CYS (Choose Your Seeds) Seed Packets
   if (currentLevel["type"].includes(3) === true){//Locked and Loaded
     if (currentLevel["type"].includes(14)){//I Zombie
       for (let currentPacket of currentLevel.givenPlants){
-        for (let currentZombieNum in zombieStat){//Find correct plant
+        for (let currentZombieNum in zombieStat){//Find correct zombie
           let currentZombie = zombieStat[currentZombieNum];
           if (currentZombie["type"] === currentPacket[0]){//Find type
             let newPacket = new SeedPacket(currentPacket[0], currentZombie.name, currentZombie.sun, 1, 0, 0, false, true);
@@ -337,55 +333,42 @@ function initialLevelSetup(){
           }
         }
       }
-    }else{//Normal
-      for (let currentPacket of currentLevel.givenPlants){
-        for (let currentPlantNum in plantStat){//Find correct plant
-          let currentPlant = plantStat[currentPlantNum];
-          if (currentPlant["type"] === currentPacket[0]){//Find type
-            if (currentPacket[1] === 1){//Tier 1
-              let tier1Stat = currentPlant["t1"];
-              let newPacket = new SeedPacket(currentPacket[0], currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"]);//Tier 1
-              newPacket.move();
-            }else{//Tier 2
-              let tier2Stat = currentPlant["t2"];
-              let newPacket = new SeedPacket(currentPacket[0], currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"]);//Tier 2
-              newPacket.move();
-            }
-          }
-        }
-      }
+    }else{//Normal Locked and Loaded
+
     }
   }
 }
 
 // Create Seed Packets
 // Be Careful: Plants index from 1, not 0
-function createSeedPacket(plantIndex, startingX = 0, startingY = 0){
+function createSeedPacket(plantIndex, startingX = 0, startingY = 0, tier = 0){
   let currentPlant = plantStat[plantIndex-1];//Plant Types start at 1, but array starts at 0
   let newSeed;
-  if (plantTier[plantIndex] === 1){//Tier 1
+  let determineTier = tier === 0 ? plantTier[plantIndex] : tier;// Tier is specified (eg. Locked and Loaded)
+  if (determineTier === 1){//Tier 1
     let tier1Stat = currentPlant["t1"];
     newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"], false, false, startingX, startingY);//Tier 1
   }else{//Tier 2
     let tier2Stat = currentPlant["t2"];
     newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"], false, false, startingX, startingY);//Tier 2 
   }
+  // Set Disabled Packets
   newSeed.recharge = 0;
-  if (currentLevel["type"].includes(2) === true){//Conveyor
-    newSeed.disabled = true;
-  }else if (currentLevel["type"].includes(3) === true){//Locked and Loaded
+  if (((currentLevel["type"].includes(2))||(currentLevel["type"].includes(3)))&&(screen !== "level")){//Conveyor OR Locked and Loaded
     newSeed.disabled = true;
   }else if (currentLevel["type"].includes(4) === true){//Last Stand
     if ((plantIndex <= 3)||(plantIndex === 17)){//Ban Sun Producers and Red Stinger
       newSeed.disabled = true;
     }    
   }
+  return newSeed;
 }
 
 //Start game from choose your seeds
 function startGame(){
   transition.trigger = true;
   transition.screen = "level";
+  screen = "level";
   if (currentLevel["type"].includes(4) === false){//Not Last Stand
     finalLevelSetup();
   }
@@ -393,14 +376,19 @@ function startGame(){
 
 //Function to call when starting level AFTER Crazy Dave
 function finalLevelSetup(){
-  allPackets = [];
-  if (currentLevel["type"].includes(3) === true){//Locked and Loaded
+  //Get Rid of Seed Packets from Choose Your Seeds
+  if (!currentLevel.type.includes(14)){//I Zombie Exception due to no CYS
+    allPackets = [];
+  }
+  
+  //Create Seed Packets
+  if ((currentLevel["type"].includes(3))&&(!currentLevel.type.includes(14))){//Locked and Loaded
     for (let currentPacket of currentLevel.givenPlants){
-      
+      createSeedPacket(currentPacket[0], -1000, -1000, currentPacket[1]);//Create Seed Packets
     }
   }
-  if (!((currentLevel["type"].includes(2))||(currentLevel.type.includes(14)))){//Other Level Types With Choose Your Seeds But No Conveyor
-    
+  //Other Level Types With Choose Your Seeds But No Conveyor (Excluding Locked and Loaded)
+  if (!((currentLevel["type"].includes(2))||(currentLevel.type.includes(14))||(currentLevel.type.includes(3)))){
     for (let cPacket of selectedPackets){
       createSeedPacket(cPacket.type); //Create Seed Packets
     }

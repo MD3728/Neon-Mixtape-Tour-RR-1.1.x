@@ -24,6 +24,7 @@ document.addEventListener("mousedown",function(e){
               currentPacket.disabled = true;
               selectedPackets.push(new SeedPacket(currentPacket.type, currentPacket.name, currentPacket.sun, currentPacket.tier,
                  0, 0, currentPacket.moving, currentPacket.spawnZombie, 0, 0, false));
+              break;
             }
           }
         }
@@ -128,9 +129,8 @@ document.addEventListener("mouseup",function(e){
       }else if (readyPlant !== null){//Planting Process and Shoveling (Regular)
         if (readyPlant.type === "shovel"){//Shoveling
           for (let currentTile of tiles){
-            if ((mouseX > currentTile.x + 5)&&(mouseX < currentTile.x + 75)
-            &&(mouseY > currentTile.y + 10)&&(mouseY < currentTile.y + 90)
-            &&(currentTile.occupied === true)&&!((currentLevel["type"].includes(10))&&(currentTile.x >= 660))&&!((currentLevel["type"].includes(13))&&(currentTile.y === 420))){
+            if ((mouseX > currentTile.x + 5)&&(mouseX < currentTile.x + 75)&&(mouseY > currentTile.y + 10)&&(mouseY < currentTile.y + 90)
+            &&(currentTile.occupied)){
               //Make sure to not plant on boss or unsodded lane
               currentTile.occupied = false;
               for (let currentPlant of allPlants){//Find Correct Plant and Not Endangered
@@ -151,13 +151,17 @@ document.addEventListener("mouseup",function(e){
           readyPlant.selected = false;
           readyPlant = null;
         }else{//Planting
+          let unsoddedLanes = currentLevel.type.includes(13) ? currentLevel.unsoddedLanes : [];// Get unsodded lanes (or blank)
+          let overPlantLimit = currentLevel.type.includes(9) ? (allPlants.length >= currentLevel.maxPlantLimit) : false;// Get over plant limit (or false)
           for (let currentTile of tiles){
             if ((mouseX > currentTile.x)&&(mouseX < currentTile.x + 80)&&(mouseY > currentTile.y)&&(mouseY < currentTile.y + 100)
-            &&(currentTile.occupied === false)&&!((currentLevel["type"].includes(10))&&(currentTile.x >= 660))&&!((currentLevel["type"].includes(13))&&(currentTile.y === 420))){
-              //Make sure to not plant on boss or unsodded lane
+            &&(currentTile.occupied === false)&&!((currentLevel["type"].includes(10))&&(currentTile.x >= 660))
+            &&!(overPlantLimit)&&!(unsoddedLanes.includes(currentTile.y))){
+              //Make sure to not plant on boss or unsodded lane or plant limit
               currentTile.occupied = true;
               sun -= readyPlant.sun;
-              let newPlant = createPlant(readyPlant.type, readyPlant.tier, currentTile.x + 10, currentTile.y + 10);            currentTile.plantID = newPlant.id;
+              let newPlant = createPlant(readyPlant.type, readyPlant.tier, currentTile.x + 10, currentTile.y + 10);            
+              currentTile.plantID = newPlant.id;
               readyPlant.recharge = readyPlant.maxRecharge;//Assign plant to tile
               if (readyPlant.moving === true){//Conveyor Packets
                 allPackets.splice(allPackets.indexOf(readyPlant), 1);

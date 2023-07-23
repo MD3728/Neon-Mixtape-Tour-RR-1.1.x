@@ -85,7 +85,7 @@ let unlockedLevels = [
 "l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
 "l21","l22","l23","l24","l25","l26","l27","l28","l29","l30",
-"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9"
+"l31","l32","l33","l34","l35","l36","m1","m2","m3","m4","m5","m6","m7","m8","m9","m10","m11","m12","m13"
 ];
 
 
@@ -521,7 +521,7 @@ function levelMainloop(){
               newPacket = new SeedPacket(seedData[0], currentPlant["name"], 0, 2, 0, 0, true);
             }
             newPacket.x = 5;
-            newPacket.y = 655;
+            newPacket.y = 705;
           }
         }
         conveyorTimer = 0;
@@ -692,125 +692,13 @@ function draw(){
   clear();
   switch (screen){
     case "initial"://Title Screen 
-      background(0);
-      noStroke();
-      fill(200);
-      textSize(80);
-      text('NMT',width/2,200);
-      textSize(20);
-      text('MD/DP Production',width/2,250);
-      fill(120);
-      rect(width/2-60,400,120,50,10);
-      rect(width/2-60,460,120,50,10);
-      rect(width/2-60,570,120,50,10);
-      fill(0);
-      textSize(20);
-      text('Start',width/2,425);
-      text('Minigames',width/2,485);
-      text('Save',width/2,595);
+      drawTitleScreen();
       break;
     case "regularLevelSelect"://Levels 1-36 Selection
-      background(0,0,0);
-      fill(230,230,230);
-      textSize(25);
-      text("Level Select", 450, 60);
-      noStroke();
-      for (let a = 1; a < 37; a++){//Level Button Select
-        let levelName = "l" + a.toString();
-        let levelUnlocked = unlockedLevels.includes(levelName);
-        //Level Button
-        if (levelUnlocked){
-          if((a+floor((a-1)/6))%2 === 0){
-            fill(110,105,220);
-          }else{
-            fill(80,170,230);
-          }
-        }else{
-          fill(110);
-        }
-        let buttonX = ((a-1)%6)*80+225;
-        let buttonY = floor((a-1)/6)*80+100;
-        rect(buttonX, buttonY, 50, 50,3);
-        fill(0);
-        text(a, buttonX + 25, buttonY + 25);
-        // Starts levels in various methods
-        if (pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50)&&(mouseIsPressed === true)&&(levelUnlocked)){
-          currentLevel = levels["l" + a.toString()];
-          if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
-            daveSetup();
-          }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
-            initialLevelSetup();
-            finalLevelSetup();
-            transition.trigger = true;
-            transition.screen = "level";
-          }else{//Normal
-            initialLevelSetup();
-            chooseSeeds();
-          }
-          break;
-        }
-      }
-      //Almanac Button 
-      fill(180);
-      rect(760,20,120,40,3);
-      rect(310,570,120,40,3);
-      rect(470,570,120,40,3);
-      fill(0);
-      textSize(20);
-      text('Almanac',370,590);
-      text('Shop',530,590);
-      text('Back',820,40);
+      drawLevelSelect(1);
       break;
     case "minigameSelect"://Minigames
-      background(0,0,0);
-      fill(230,230,230);
-      textSize(25);
-      text("Minigames", 450, 60);
-      noStroke();
-      for (let a = 1; a < 10; a++){//Minigame Select
-        let levelName = "m" + a.toString();
-        let levelUnlocked = unlockedLevels.includes(levelName);
-        //Level Button
-        if (levelUnlocked){
-          if(a%2 === 0){
-            fill(110,105,220);   
-          }else{
-            fill(80,170,230);
-          }
-        }else{
-          fill(110);
-        }
-        let buttonX = ((a-1)%3)*80+345;
-        let buttonY = floor((a-1)/3)*80+180;
-        rect(buttonX, buttonY, 50, 50,3);
-        fill(0);
-        text(a, buttonX + 25, buttonY + 25);
-        //Make sure level is unlocked
-        if ((pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50))&&(mouseIsPressed === true)&&(levelUnlocked)){
-          currentLevel = levels[levelName];
-          if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
-            daveSetup();
-          }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
-            initialLevelSetup();
-            finalLevelSetup();
-            transition.trigger=true;
-            transition.screen="level";
-          }else{//Normal
-            initialLevelSetup();
-            chooseSeeds();
-          }
-          break;
-        }
-      }
-      fill(180);
-      rect(760,20,120,40,3);
-      rect(310,570,120,40,3);
-      rect(470,570,120,40,3);
-      fill(0);
-      textSize(20);
-      text('Almanac',370,590);
-      text('Shop',530,590);
-      text('Back',820,40);
+      drawLevelSelect(2);      
       break;
     case "daveSpeech"://Crazy Dave
       daveLoop();
@@ -834,31 +722,7 @@ function draw(){
       levelMainloop();
       break;
     case "gameOver"://Game Over Screen
-      background(20);
-      stroke(100);
-      strokeWeight(5);
-      fill(120);
-      rect(width/2-60,height-150, 120, 60,5);
-      fill(200);
-      noStroke();
-      textSize(60);
-      text("Game Over", width/2, 60);
-      textSize(20);
-      text("Return",width/2,height-120);
-      noFill();
-      stroke(50,200,50);
-      strokeWeight(10);
-      ellipse(width/2,height/2-50,300,300);
-      line(width/2-50,height/2-80+sin(frameCount*3)*5,width/2-50,height/2-120+sin(frameCount*3)*5);
-      line(width/2+50,height/2-80+sin(frameCount*3)*5,width/2+50,height/2-120+sin(frameCount*3)*5);
-      line(width/2-60,height/2+40+sin(frameCount*3)*15,width/2+60,height/2+40+sin(frameCount*3)*15);
-      arc(width/2,height/2+40+sin(frameCount*3)*15,120,80-sin(frameCount*3)*40,-180,0);
-      strokeWeight(5);
-      if(frameCount%120<30){
-        ellipse(width/2+50,height/2-80+(frameCount%120)/4,(frameCount%120)/2,(frameCount%120)/2);
-      }else{
-        ellipse(width/2+50,height/2-312.5+(frameCount%120)*8,15,15);
-      }  
+      drawGameOver();
       break;
     case "almanac"://General Almanac Screen
       //Basic Interface
@@ -1055,6 +919,5 @@ function draw(){
   displayTransition(transition);
 }
 
-// Fix locked and loaded issues
-// Fix I Zombie Issues
+
 
