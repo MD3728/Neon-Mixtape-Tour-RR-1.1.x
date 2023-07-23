@@ -1,8 +1,8 @@
 /* Seed Packet Class File */
 
 class SeedPacket extends Entity{
-  constructor(type,name,sunCost,tier,recharge,startingRecharge, moving = false, spawnZombie = false){
-    super(type, 1000, 1000);
+  constructor(type,name,sunCost,tier,recharge,startingRecharge, moving = false, spawnZombie = false, startingX = 1000, startingY = 1000, disabled = false){
+    super(type, startingX, startingY);
     this.name = name;
     this.recharge = startingRecharge;
     this.startingRecharge = startingRecharge;
@@ -12,6 +12,7 @@ class SeedPacket extends Entity{
     this.tier = tier;
     this.selected = false;
     this.spawnZombie = spawnZombie;
+    this.disabled = disabled;
     allPackets.push(this);
   }
 
@@ -40,7 +41,7 @@ class SeedPacket extends Entity{
     // Draw Sun Cost
     textSize(18);
     if ((!currentLevel["type"].includes(2))&&(this.type !== "shovel")){//Not Conveyor
-      if (sun < this.sun){
+      if ((sun < this.sun)&&(screen === "level")){
         fill(255,0,0);
       }
       text(this.sun,this.x+103,this.y+38);
@@ -65,6 +66,12 @@ class SeedPacket extends Entity{
     //   line(this.x+108,this.y+26,this.x+108,this.y+32)
     //   line(this.x+114,this.y+26,this.x+114,this.y+32)
     // }
+
+    // Draw Disabled Overlay
+    if (this.disabled === true){
+      fill(0,0,0,100);
+      rect(this.x, this.y, 120, 60, 2);
+    }
   }
 
   move(){

@@ -10,7 +10,7 @@ class Zombie extends Entity{
     this.maxHealth = health;//Maximum Health
     this.maxShieldHealth = shield;//Maximum Health
     this.degrade = degrade;//List of degrades with healths
-    this.speed = speed;//Regular walking speed
+    this.speed = speed * ((97+Math.random()*6)/100) ;//Regular walking speed
     this.eatSpeed = eatSpeed;//Regular Eat Speed
     this.altSpeed = altSpeed;//Speed during jam OR when shield is active
     this.altEatSpeed = altEatSpeed;//Eat speed
@@ -25,7 +25,7 @@ class Zombie extends Entity{
     this.garlicCounter = 0;//For garlic, zombie switches lane when it gets to 60
     this.playedMusic = false;//For Boombox (Cannot Play Music Twice)
     this.permanentDamage = 0;//For Valley Lily Damage Over Time
-    this.offSetY=0
+    this.offSetY=0;
     //Determine Reload and Max Shield Health
     switch (this.type){
       case 18://Gargantuar
@@ -66,14 +66,14 @@ class Zombie extends Entity{
     }
     if (performDraw){//Zombies not drawn in Invisighoul
       switch(this.type){
-        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 32: ///Regulars
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 32: //Regulars
           stroke(60,80,100,this.fade)
           strokeWeight(4)
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
           line(4,-30,8+sin(this.rate[0]*18)*3,0)
           stroke(120,80,40,this.fade)
           line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
-          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Special health value for Flag Zombie
             line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
           }
           noStroke()
@@ -88,7 +88,7 @@ class Zombie extends Entity{
           fill(0,this.fade)
           ellipse(-4,-72,4,4)
           ellipse(-12,-72,4,4)
-          if(this.type==1&&this.health>200){
+          if(this.type==1&&this.health>200){//Conehead
             strokeJoin(ROUND)
             stroke(255,150,0,this.fade)
             strokeWeight(4)
@@ -100,7 +100,7 @@ class Zombie extends Entity{
               quad(-10,-85,10,-85,5,-93,-5,-93)
             }
             strokeJoin(MITER)
-          }else if(this.type==2&&this.health>200){
+          }else if(this.type==2&&this.health>200){//Buckethead
             fill(180,185,190,this.fade)
             if(this.health>930){
               quad(-15,-81,15,-81,10,-101,-10,-101)
@@ -120,12 +120,12 @@ class Zombie extends Entity{
             quad(-15,-81,-12,-81,-15,-78,-18,-78)
             quad(0,-81,3,-81,0,-78,-3,-78)
             rect(-18,-78,18,3)
-          }else if(this.type==3){
+          }else if(this.type==3){//Rally Flag
             fill(200,120,40,this.fade)
             rect(-28,-84,4,48)
             fill(240,40,40,this.fade)
             rect(-52,-82,24,20)
-          }else if(this.type==4&&this.health>200){
+          }else if(this.type==4&&this.health>200){//Discohead
             translate(0,-75)
             rotate(this.rate[0]*30)
             if(this.health>730){
@@ -143,17 +143,17 @@ class Zombie extends Entity{
             }
             rotate(this.rate[0]*-30)
             translate(0,75)
-          }else if(this.type==5&&this.health>200){
+          }else if(this.type==5&&this.health>200){//Holohead
             stroke(100,200,200,this.fade/2)
             fill(75,150,150,this.fade/2)
             strokeWeight(1)
-            if(this.health>1670){
+            if(this.health>2070){
               rect(-20,-95,8,40)
               rect(-12,-95,8,40)
               rect(-4,-95,8,40)
               rect(4,-95,8,40)
               rect(12,-95,8,40)
-            }else if(this.health>930){
+            }else if(this.health>1130){
               rect(12,-91,8,36)
               rect(4,-83,8,28)
               rect(-4,-87,8,32)

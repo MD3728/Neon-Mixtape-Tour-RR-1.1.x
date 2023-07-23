@@ -5,6 +5,7 @@ function daveSetup(){
   transition.trigger = true;
   transition.screen = "daveSpeech";
   screen = "daveSpeech";
+  clickCooldown = 20;//Prevent dialogue skipping
   daveIndex = 0;
   initialLevelSetup();
   if (currentLevel.type.includes(3)){//Locked and Loaded
@@ -14,6 +15,7 @@ function daveSetup(){
 
 //Crazy Dave Loop
 function daveLoop(){
+  clickCooldown--;
   backgroundDrawStack();
   background('rgba(0,0,0,0.2)');
   if (daveIndex >= currentLevel.daveSpeech.length){
@@ -71,11 +73,10 @@ function daveLoop(){
 
 //Initiate choose your seeds screen
 function chooseSeeds(){
-  // Set up display seed packets
-  for (let a = 0; a < 30; a++){
-    let buttonX = ((a)%5)*150+150;
-    let buttonY = floor((a)/5)*60+100;
-    createSeedPacket(a, buttonX, buttonY, 120, 40, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0);//To Do
+  for (let a = 0, plantLength = plantStat.length; a < plantLength; a++){
+    let buttonX = ((a)%5)*140+180;
+    let buttonY = floor((a)/5)*70+100;
+    createSeedPacket(a+1, buttonX, buttonY);
   }
   // Specific Setup for Level Types
   if (currentLevel["type"].includes(3) === true){//Locked and Loaded
@@ -87,6 +88,7 @@ function chooseSeeds(){
     transition.trigger=true;
     transition.screen="chooseSeeds";
   }else{//Normal and Other Level Types
+    // Set up display seed packets
     transition.trigger=true;
     transition.screen="chooseSeeds";
     selectedPackets = [];
@@ -106,48 +108,30 @@ function chooseSeedLoop(){
   if ((!currentLevel.type.includes(14))&&(!currentLevel.type.includes(2))){
     text(`Starting Sun: ${sun}`, width/2, 80);
   }
-
   //Display Zombies In level
   for (let displayingZombie of displayZombies){
     displayingZombie.draw();
   }
-
-  //All Seed Packets
-  for (let a = 1; a < 30; a++){
-    let buttonX = ((a-1)%5)*150+150;
-    let buttonY = floor((a-1)/5)*60+100;
-    stroke(200);
-    strokeWeight(4);
-    fill(180,200,180);
-    rect(buttonX, buttonY, 120, 40,3);
-    if (((currentLevel["type"].includes(4) === true)&&((a <= 3)||(a === 17)))//Last Stand Ban Sun Producers and Red Stinger AND Ignore Seed Select
-    ||(currentLevel.type.includes(2))||(currentLevel.type.includes(3))||(!unlockedPackets.includes(a))){//And Unlocking System
-      noStroke();
-      fill(0,100);
-      rect(buttonX, buttonY, 120, 40,3);
-    }
-    noStroke();
-    fill(0);
-    textSize(12);
-    text(plantStat[a-1].name, buttonX + 60, buttonY + 20);
-  }
-
+  // Draw Seed Packets
+  drawSeedPackets();
   //Start Button
   stroke(200);
   strokeWeight(4);
   fill(180,200,180);
-  rect(15,400, 100, 40, 3);
+  rect(30, 640, 100, 40, 3);
   if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){
     rect(115,20, 100, 40, 3);
   }
-  noStroke();
   fill(0);
+  noStroke();
+  textAlign(CENTER,CENTER);
+  textSize(18);
+  text('Start', 80, 660);
+  // Money
   textSize(15);
   textAlign(LEFT,CENTER);
   text('$'+money, 805, 635);
   textAlign(CENTER,CENTER);
-  textSize(12);
-  text('Start', 65,420);
   if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
     textSize(13)
     if(rentSlot){
@@ -160,16 +144,6 @@ function chooseSeedLoop(){
       text(selectedPackets.length+'/'+(seedSlots+1),55,40);
     }else{
       text(selectedPackets.length+'/'+seedSlots,55,40);
-    }
-    for (let currentPacket in selectedPackets){//Selected Seed Packets
-      stroke(200);
-      strokeWeight(3);
-      fill(180,200,180);
-      rect(15, currentPacket*40+68, 80, 80/3,2);
-      noStroke();
-      fill(0);
-      textSize(8);
-      text(plantStat[selectedPackets[currentPacket]-1].name, 55, currentPacket*40 + 68+40/3);
     }
   }
   //Quit Button
@@ -230,9 +204,9 @@ function initialLevelSetup(){
     // And swap it with the current element.
     [zombiesInLevel[currentIndex], zombiesInLevel[randomIndex]] = [zombiesInLevel[randomIndex], zombiesInLevel[currentIndex]];
   }
-  displayZombies = [];
+  displayZombies = []; //Create Display Zombies
   for(let a = 0, la = zombiesInLevel.length; a < la; a++){
-    displayZombies.push(new Zombie(75+a*40,550-(a%2)*60,0,zombiesInLevel[a],9999,9999,0,0,0,0,0,-1,-1));
+    displayZombies.push(new Zombie(190+a*40,590-(a%2)*60,0,zombiesInLevel[a],9999,9999,0,0,0,0,0,-1,-1));
     displayZombies[displayZombies.length-1].fade = 255;
   }
   //Reset Variables and Arrays
@@ -385,31 +359,26 @@ function initialLevelSetup(){
 }
 
 // Create Seed Packets
-function createSeedPacket(){
-  for (let a in selectedPackets){
-    let packetID = selectedPackets[a];
-    for (let currentPlantNum in plantStat){//Find correct plant
-      let currentPlant = plantStat[currentPlantNum];
-      if (currentPlant["type"] === packetID){
-        if (plantTier[packetID - 1] === 1){//Tier 1
-          let tier1Stat = currentPlant["t1"];
-          new SeedPacket(packetID, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"]);//Tier 1
-        }else{//Tier 2
-          let tier2Stat = currentPlant["t2"];
-          new SeedPacket(packetID, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"]);//Tier 2
-        }
-      }
-    }
+// Be Careful: Plants index from 1, not 0
+function createSeedPacket(plantIndex, startingX = 0, startingY = 0){
+  let currentPlant = plantStat[plantIndex-1];//Plant Types start at 1, but array starts at 0
+  let newSeed;
+  if (plantTier[plantIndex] === 1){//Tier 1
+    let tier1Stat = currentPlant["t1"];
+    newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"], false, false, startingX, startingY);//Tier 1
+  }else{//Tier 2
+    let tier2Stat = currentPlant["t2"];
+    newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"], false, false, startingX, startingY);//Tier 2 
   }
-}
-
-//Function to call when starting level AFTER Crazy Dave
-function finalLevelSetup(){
-  if ((!currentLevel["type"].includes(2))&&(!currentLevel.type.includes(14))){//Other Level Types With Choose Your Seeds But No Conveyor
-    createSeedPacket(); //Create Seed Packets
-  }
-  if (!currentLevel["type"].includes(14)){//Create shovel if not I Zombie
-    new SeedPacket("shovel", "Shovel", 0, 0, 0, 0);
+  newSeed.recharge = 0;
+  if (currentLevel["type"].includes(2) === true){//Conveyor
+    newSeed.disabled = true;
+  }else if (currentLevel["type"].includes(3) === true){//Locked and Loaded
+    newSeed.disabled = true;
+  }else if (currentLevel["type"].includes(4) === true){//Last Stand
+    if ((plantIndex <= 3)||(plantIndex === 17)){//Ban Sun Producers and Red Stinger
+      newSeed.disabled = true;
+    }    
   }
 }
 
@@ -421,3 +390,24 @@ function startGame(){
     finalLevelSetup();
   }
 }
+
+//Function to call when starting level AFTER Crazy Dave
+function finalLevelSetup(){
+  allPackets = [];
+  if (currentLevel["type"].includes(3) === true){//Locked and Loaded
+    for (let currentPacket of currentLevel.givenPlants){
+      
+    }
+  }
+  if (!((currentLevel["type"].includes(2))||(currentLevel.type.includes(14)))){//Other Level Types With Choose Your Seeds But No Conveyor
+    
+    for (let cPacket of selectedPackets){
+      createSeedPacket(cPacket.type); //Create Seed Packets
+    }
+  }
+  if (!currentLevel["type"].includes(14)){//Create Shovel if not I Zombie
+    new SeedPacket("shovel", "Shovel", 0, 0, 0, 0);
+  }
+}
+
+

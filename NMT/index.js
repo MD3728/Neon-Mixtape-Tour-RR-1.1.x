@@ -75,10 +75,12 @@ let boomberryActive = false;//Determines if Boomberry Effect is Active
 let boomboxActive = false;//Determines if Boombox Effect is Active
 let lostPlants = 0;//Number of Plants Lost(for Don't Lose Plants Levels)
 let daveIndex = 0;//Current Index of Crazy Dave Dialogue
+let clickCooldown = 0; //Will prevent clicks from happening to often (1/6 of second) 
 let rentSlot = false;//Determines if Seed Slot is Being Rented
 let unlockedPackets = [
   1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
   ];
+
 let unlockedLevels = [
 "l1","l2","l3","l4","l5","l6","l7","l8","l9","l10",
 "l11","l12","l13","l14","l15","l16","l17","l18","l19","l20",
@@ -88,7 +90,6 @@ let unlockedLevels = [
 
 
 //
-
 
 //Array of classes
 let allEntities = [];
@@ -637,6 +638,7 @@ function levelMainloop(){
 function saveData(){
   localStorage.setItem("money",`${money}`);
   localStorage.setItem("unlockedPlants", unlockedPackets.join(","));
+  localStorage.setItem("plantTiers", plantTier.join(","));
   localStorage.setItem("unlockedLevels", unlockedLevels.join(","));
 }
 
@@ -670,6 +672,7 @@ function setup(){
   //   unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
   // }
   // unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
+  // plantTier = localStorage.getItem("plantTiers").split(",");
   // //Shop Data
   // displayPlants = [];
   // shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
@@ -730,6 +733,7 @@ function draw(){
         rect(buttonX, buttonY, 50, 50,3);
         fill(0);
         text(a, buttonX + 25, buttonY + 25);
+        // Starts levels in various methods
         if (pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50)&&(mouseIsPressed === true)&&(levelUnlocked)){
           currentLevel = levels["l" + a.toString()];
           if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
@@ -1046,9 +1050,11 @@ function draw(){
       textAlign(CENTER,CENTER);
       break;
     default:
-      console.log("This Screen Does Not Exist");
+      console.log("Screen Does Not Exist");
   }
   displayTransition(transition);
 }
 
+// Fix locked and loaded issues
+// Fix I Zombie Issues
 

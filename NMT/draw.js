@@ -39,7 +39,14 @@ function drawStack(){
   drawTiles();
   drawBoss();
   drawJams();
-  drawActiveObjects();
+  drawConveyor();
+  drawPlants();
+  drawZombies();
+  drawProjectiles();
+  drawLawnmowers();
+  drawParticles();
+  drawSeedPackets();
+  drawSun();
   drawUserStats();
   drawObjectives();
   drawProgressBar();
@@ -51,7 +58,12 @@ function backgroundDrawStack(){
   drawBackground();
   drawTiles();
   drawBoss();
-  drawActiveObjects();
+  drawConveyor();
+  drawPlants();
+  drawZombies();
+  drawLawnmowers();
+  //drawSeedPackets(); Done after dark filter
+  drawSun();
   drawObjectives();
   drawProgressBar();
 }
@@ -193,6 +205,9 @@ function drawObjectives(){
       image(graphics.minor[8],currentLevel["fogLine"]-30,50,800,600);
     }
   }
+}
+
+function drawConveyor(){
   //Draw Conveyor
   if (currentLevel["type"].includes(2) === true){
     fill(40);
@@ -209,10 +224,6 @@ function drawObjectives(){
 
 // Draws coins and suns
 function drawUserStats(){
-  //Draw Sun and Coin Amount
-  if (!currentLevel["type"].includes(2)){
-    text(sun, 65, 40);
-  }
   translate(830,635)
   scale(0.6)
   fill(225,this.fade)
@@ -237,6 +248,9 @@ function drawUserStats(){
   noStroke();
   fill(0,0,0);
   textSize(24);
+  if (!currentLevel["type"].includes(2)){
+    text(sun, 65, 40);
+  }
 }
 
 // Draw navigation buttons
@@ -339,20 +353,28 @@ function drawProgressBar(){
   }
 }
 
-// Draws elements active during a level
-function drawActiveObjects(){
+function drawPlants(){
   //Draw Plants
   for (let currentPlant of allPlants){
     currentPlant.draw();
   }
+}
+
+function drawZombies(){
   //Draw Zombies
   for (let currentZombie of allZombies){
     currentZombie.draw();
   }
+}
+
+function drawProjectiles(){
   //Draw Projectiles
   for (let currentProjectile of allProjectiles){
     currentProjectile.draw();
   }
+}
+
+function drawLawnmowers(){
   //Draw Lawnmowers
   for (let currentMower of lawnMowers){
     if (currentMower.active === true){
@@ -369,21 +391,30 @@ function drawActiveObjects(){
     quad(currentMower.x-3,currentMower.y+40,currentMower.x,currentMower.y+43,currentMower.x,currentMower.y+45,currentMower.x-3,currentMower.y+42);
     quad(currentMower.x-3,currentMower.y+50,currentMower.x,currentMower.y+53,currentMower.x,currentMower.y+55,currentMower.x-3,currentMower.y+52);
   }
+}
+
+function drawParticles(){
   //Draw Particles
-  for (let currentWhatever of allParticles){
-    currentWhatever.draw();
-    if(currentWhatever.remove){
-      allParticles.splice(allParticles.indexOf(currentWhatever), 1);
-      allEntities.splice(allEntities.indexOf(currentWhatever), 1);
+  for (let currentParticle of allParticles){
+    currentParticle.draw();
+    if(currentParticle.remove){
+      allParticles.splice(allParticles.indexOf(currentParticle), 1);
+      allEntities.splice(allEntities.indexOf(currentParticle), 1);
     }
   }
+}
+
+function drawSeedPackets(){
   //Draw Seed Packets and Shovel
   for (let currentPacket of allPackets){
     currentPacket.draw();
   }
-  //Draw Sun
-  for (let currentCollectible of allCollectibles){
-    currentCollectible.draw();
+}
+
+function drawSun(){
+  //Draw Sun and Coins
+  for (let currentSun of allCollectibles){
+    currentSun.draw();
   }
 }
 

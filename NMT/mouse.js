@@ -1,19 +1,53 @@
 
 //Mouse down
 document.addEventListener("mousedown",function(e){
-  //Normal Level or Last Stand Preparation
-  if ((screen === "level")||(screen === "prepareDefense")){
-    //Planting initial process
-    if (readyPlant === null){//No plant selected
-      readyPlant = null;
+  switch (screen){
+    case "chooseSeeds"://Choose Your Seeds & Zombie Display Screen
       for (let currentPacket of allPackets){
-        if (pointBox(mouseX, mouseY, currentPacket.x, currentPacket.y, 120, 60)  //If packet clicked on
-        &&(currentPacket.recharge === 0)&&(sun >= currentPacket.sun)){
-          readyPlant = currentPacket;
-          currentPacket.selected = true;
+        if (pointBox(mouseX, mouseY, currentPacket.x, currentPacket.y, 120, 60)){
+          // Removing Packets
+          let gotRemoved = false;
+          for (let cSelectPacket of allPackets){
+            if ((cSelectPacket.type === currentPacket.type)&&(cSelectPacket !== currentPacket)&&(currentPacket.disabled === false)){
+              allPackets.splice(allPackets.indexOf(currentPacket), 1);
+              selectedPackets.splice(selectedPackets.indexOf(currentPacket), 1);
+              cSelectPacket.disabled = false;
+              gotRemoved = true;
+              break;
+            }
+          }
+          if (gotRemoved){break;}
+
+          // Selecting Packets
+          if (currentPacket.disabled === false){//Not Disabled
+            if ((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentSlot)&&(unlockedPackets.includes(currentPacket.type+1))&&(!gotRemoved)){//Add Packet
+              currentPacket.disabled = true;
+              selectedPackets.push(new SeedPacket(currentPacket.type, currentPacket.name, currentPacket.sun, currentPacket.tier,
+                 0, 0, currentPacket.moving, currentPacket.spawnZombie, 0, 0, false));
+            }
+          }
         }
       }
-    }
+      for (let currentPacket in selectedPackets){//Update Status of Selected Packets
+        selectedPackets[currentPacket].x = 30;
+        selectedPackets[currentPacket].y = 70 + 70*currentPacket;
+      }
+      break;
+    case "level": case "prepareDefense"://Level (Gameplay) Screen
+      //Planting initial process
+      if (readyPlant === null){//No plant selected
+        readyPlant = null;
+        for (let currentPacket of allPackets){
+          if (pointBox(mouseX, mouseY, currentPacket.x, currentPacket.y, 120, 60)  //If packet clicked on
+          &&(currentPacket.recharge === 0)&&(sun >= currentPacket.sun)){
+            readyPlant = currentPacket;
+            currentPacket.selected = true;
+          }
+        }
+      }
+      break;
+    default:
+      break;
   }
 });
 
@@ -34,33 +68,22 @@ document.addEventListener("mouseup",function(e){
       }
       break;
     case "daveSpeech"://Crazy Dave Screen
-      //Dialogue Box
-      if (pointBox(mouseX,mouseY,450,350,300,180)){
-        daveIndex++;
-      }   
-      //Quit Button Hitbox
-      if (pointBox(mouseX, mouseY, 800, 30, 60, 40)){
-        transition.trigger = true;
-        transition.screen = "initial";
+      if (clickCooldown <= 0){
+        //Dialogue Box
+        if (pointBox(mouseX,mouseY,450,350,300,180)){
+          daveIndex++;
+        }   
+        //Quit Button Hitbox
+        if (pointBox(mouseX, mouseY, 800, 30, 60, 40)){
+          transition.trigger = true;
+          transition.screen = "initial";
+        }
+        clickCooldown = 10;
       }
       break;
     case "chooseSeeds"://Choose Your Seeds & Zombie Display Screen
-      //Plants
-      for (let a = 1; a < 30; a++){
-        let buttonX = ((a-1)%5)*150+150;
-        let buttonY = floor((a-1)/5)*60+100;
-        if ((mouseX > buttonX)&&(mouseX < buttonX + 120)&&(mouseY > buttonY)&&(mouseY < buttonY + 36)){
-          if (selectedPackets.includes(a) === true){//Deselect
-            selectedPackets.splice(selectedPackets.indexOf(a), 1);
-          }else if (((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentSlot)&&(!currentLevel.type.includes(2))&&(!currentLevel.type.includes(3))
-          &&!((currentLevel.type.includes(4))&&((a <= 3)||(a === 17))))&&(unlockedPackets.includes(a))){
-            //Add Packet AND Prevent Picking Sun Producers/Red Stinger In Last Stand AND Plant Unlock
-            selectedPackets.push(a);
-          }
-        }
-      }
       //Start Game Button
-      if(pointBox(mouseX, mouseY, 15, 400, 100, 40)){
+      if(pointBox(mouseX, mouseY, 30, 640, 100, 40)){
         if (currentLevel["type"].includes(4)){//Last Stand Preparation Phase
           finalLevelSetup();
           transition.trigger = true;
@@ -129,8 +152,7 @@ document.addEventListener("mouseup",function(e){
           readyPlant = null;
         }else{//Planting
           for (let currentTile of tiles){
-            if ((mouseX > currentTile.x)&&(mouseX < currentTile.x + 80)
-            &&(mouseY > currentTile.y)&&(mouseY < currentTile.y + 100)
+            if ((mouseX > currentTile.x)&&(mouseX < currentTile.x + 80)&&(mouseY > currentTile.y)&&(mouseY < currentTile.y + 100)
             &&(currentTile.occupied === false)&&!((currentLevel["type"].includes(10))&&(currentTile.x >= 660))&&!((currentLevel["type"].includes(13))&&(currentTile.y === 420))){
               //Make sure to not plant on boss or unsodded lane
               currentTile.occupied = true;
@@ -205,7 +227,7 @@ document.addEventListener("mouseup",function(e){
       }
       break;
     case "regularLevelSelect"://Adventure Level Select
-      if (pointBox(mouseX, mouseY,310,570,120,40,)){
+      if (pointBox(mouseX, mouseY,310,570,120,40)){
         transition.trigger=true;
         transition.screen="almanac";
       }
@@ -219,18 +241,18 @@ document.addEventListener("mouseup",function(e){
       }
       break;
     case "minigameSelect"://Minigame Level Select
-    if (pointBox(mouseX, mouseY,310,570,120,40,)){
-      transition.trigger=true;
-      transition.screen="almanac";
-    }
-    if (pointBox(mouseX, mouseY,470,570,120,40)){
-      transition.trigger=true;
-      transition.screen="shop";
-    }
-    if (pointBox(mouseX, mouseY,760,20,120,40)){
-      transition.trigger=true;
-      transition.screen="initial";
-    }
+      if (pointBox(mouseX, mouseY,310,570,120,40)){
+        transition.trigger=true;
+        transition.screen="almanac";
+      }
+      if (pointBox(mouseX, mouseY,470,570,120,40)){
+        transition.trigger=true;
+        transition.screen="shop";
+      }
+      if (pointBox(mouseX, mouseY,760,20,120,40)){
+        transition.trigger=true;
+        transition.screen="initial";
+      }
       break;
     case "almanac"://General Almanac Screen
       if(pointBox(mouseX,mouseY,width/4-50,height/2-50,100,100)){

@@ -1218,6 +1218,7 @@ const levels = {
   }
 };
 
+
 //Plant Data
 const plantStat = [
   {//1 Sunflower
@@ -2080,9 +2081,9 @@ const zombieStat = [
   },
   {//Holohead 5
     type: 5,
-    health: 2400,
+    health: 3000,
     name:'Holohead',
-    description: "Futuristic Protection === Most Health",
+    description: "Futuristic Protection = Most Health",
     shield: 0,
     speed: 1,
     eatSpeed: 1,

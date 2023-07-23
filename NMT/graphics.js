@@ -2,6 +2,7 @@
 
 //Minature collision method
 
+// Developer Shortcut Keys
 function refresh(){
     for(currentPacket of allPackets){
         currentPacket.recharge=0
@@ -11,10 +12,6 @@ function refresh(){
 function rich(){
     sun=99999
     money=99999
-}
-
-function shut(){
-    daveIndex=9999
 }
 
 function l1(){

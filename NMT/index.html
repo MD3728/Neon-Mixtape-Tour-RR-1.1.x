@@ -8,7 +8,15 @@
       body{
         padding: 0;
         margin: 0;
-        background-color: rgba(129, 129, 129, 0.658);
+        background-color: rgba(5, 107, 0, 0.658);
+      }
+
+      #CenterDisplay{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 20px solid rgb(81, 81, 81);
       }
     </style>
     <script src="../p5_library/p5.js"></script>
@@ -28,7 +36,11 @@
     <script src="index.js"></script>
   </head>
   <body>
-    <main>
-    </main>
+    <!-- Div added to ensure canvas stays in middle of screen -->
+    <div id = "CenterDisplay">
+      <main>
+      </main>
+    </div>
+
   </body>
 </html>
