@@ -89,6 +89,9 @@ let unlockedLevels = [
 ];
 
 
+let currentSurvivalNum = 1;//Current Survival Level Number
+let previousSurvivalNum = 0;//Previous Survival Level Number
+
 //
 
 //Array of classes
@@ -192,6 +195,12 @@ function determineReward(){
           }
         }
         break;
+      case 3: //New Survival Level
+        if (currentSurvivalNum === previousSurvivalNum + 1){
+          currentSurvivalNum++;
+        }        
+        finalText += `Reached Day ${currentSurvivalNum}\n`
+        break;
       default:
         finalText +=`Nothing\n`;
         break;
@@ -201,6 +210,104 @@ function determineReward(){
 }
 
 // General Methods
+
+// Creates a survival level
+function createSurvivalLevel(){
+  //Determine Level Length
+  let flagWaveCombo = [[1,10],[2,12],[2,14],[2,16],[3,12],[3,15],[3,18],[4,20],[5,25]];
+  let randomCombo = flagWaveCombo[Math.floor(Math.random()*flagWaveCombo.length)];
+  let numFlags = randomCombo[0];
+  let numWaves = randomCombo[1];
+  //Define Level Parameters
+  let currentJamStreak = 2;
+  let currentJam = 0;//Jam starts on nothing
+  let jamArray = [];
+  let flagArray = [];
+  //Create Waves
+  let waveValue = 1;
+  let waveArray = [];
+  let waveDelayArray = [];
+  for (let a = 1; a <= numWaves; a++){
+    //Determine Wave Value
+    let cWaveValue = waveValue > 200 ? 200 : waveValue;
+    let cWaveArray = [];
+    if (a === 1){//Wave Delay
+      waveDelayArray.push(720);
+    }else{
+      waveDelayArray.push(1200);
+    }    
+    if (a%(numWaves/numFlags) === 0){//Flag
+      cWaveValue *= 1.5;
+      flagArray.push(true);
+    }else{
+      flagArray.push(false);
+    }
+    //Determine Jam
+    if (currentJamStreak <= 0){//Jam
+      if (Math.random() <= 0.5){//Change Jam
+        currentJamStreak = 2;
+        currentJam = Math.floor(Math.random()*6) + 1;
+        jamArray.push(currentJam);
+      }else{// No Change
+        jamArray.push(currentJam);
+      }
+    }else{
+      currentJamStreak--;
+      jamArray.push(currentJam);
+    }
+    //Determine Wave
+
+    //Randomize Zombie Array Order (Knuth Shuffle)
+    let randomZombieStat = structuredClone(zombieStat).splice(3, zombieStat.length-3);//Ensure there is always basic
+    let currentIndex = randomZombieStat.length,  randomIndex;
+    // While there remain elements to shuffle.
+    while (currentIndex !== 0){
+      // Pick a remaining element.
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      // And swap it with the current element.
+      [randomZombieStat[currentIndex], randomZombieStat[randomIndex]] = [randomZombieStat[randomIndex], randomZombieStat[currentIndex]];
+    }
+    randomZombieStat.splice(15, zombieStat.length-15);//Remove all random zombies after index 15 
+    randomZombieStat.push(zombieStat[0], zombieStat[1], zombieStat[2]);//Add basic zombies (Normal, Conehead, Buckethead)
+
+    //Create Wave
+    while (cWaveValue > 0){
+      if (Math.random() <= 0.5){//Choose Jam Zombie
+        for (let cZombieStat of randomZombieStat){
+          if ((cZombieStat.jam === currentJam)&&(cZombieStat.survivalWeight <= cWaveValue)&&(cZombieStat.survivalWeight !== -1)&&(Math.random()<=0.6)){
+            cWaveArray.push([cZombieStat.type, 5, Math.random() <= 0.8 ? 9 : Math.floor(Math.random()*3)+6]);// Determine random column
+            cWaveValue -= cZombieStat.survivalWeight;
+            break;
+          }
+        }
+      }else{//Choose Any Random Regular Zombie
+        for (let cZombieStat of randomZombieStat){
+          if ((cZombieStat.survivalWeight <= cWaveValue)&&(cZombieStat.jam === -1)&&(cZombieStat.survivalWeight !== -1)&&(Math.random()<=0.6)){
+            cWaveArray.push([cZombieStat.type, 5, Math.random() <= 0.8 ? 9 : Math.floor(Math.random()*3)+6]);// Determine random column
+            cWaveValue -= cZombieStat.survivalWeight;
+            break;
+          }
+        }
+      }
+    }
+    waveArray.push(cWaveArray);
+    
+    currentJamStreak--;
+    waveValue += currentSurvivalNum;
+  }
+
+  // Returned Level Object
+  return {
+    type: [1],
+    daveSpeech: [`Survival Endless Day ${currentSurvivalNum}`],
+    flag: flagArray,
+    jams: jamArray,
+    waveDelay: waveDelayArray,
+    waves: waveArray,
+    reward:[[1,200+50*currentSurvivalNum],[3]]
+  }
+}
 
 //General Collision
 function collision(){

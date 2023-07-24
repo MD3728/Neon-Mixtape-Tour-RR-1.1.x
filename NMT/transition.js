@@ -44,7 +44,7 @@ function daveLoop(){
   textSize(16);
   text(currentLevel.daveSpeech[min(currentLevel.daveSpeech.length-1,daveIndex)], 600, 420);
   textSize(12);
-  text("Click to continue", 600, 510);
+  text("Click to Continue", 600, 510);
   translate(300,800);
   scale(6);
   stroke(120,80,40,this.fade);

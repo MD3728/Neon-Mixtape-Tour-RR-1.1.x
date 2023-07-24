@@ -90,6 +90,10 @@ function drawLevelSelect(screenNum){
         //Make sure level is unlocked
         if ((pointBox(mouseX, mouseY, buttonX, buttonY, 50, 50))&&(mouseIsPressed === true)&&(levelUnlocked)){
           currentLevel = levels[levelName];
+          if (currentLevel.type.includes(15)){//Survival
+            previousSurvivalNum = currentSurvivalNum - 1;
+            currentLevel = createSurvivalLevel();
+          }
           if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
             daveSetup();
           }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
