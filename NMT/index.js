@@ -214,7 +214,7 @@ function determineReward(){
 // Creates a survival level
 function createSurvivalLevel(){
   //Determine Level Length
-  let flagWaveCombo = [[1,10],[2,12],[2,14],[2,16],[3,12],[3,15],[3,18],[4,20],[5,25]];
+  let flagWaveCombo = [[1,10],[2,12],[2,14],[2,16],[3,12],[3,15],[3,18]];
   let randomCombo = flagWaveCombo[Math.floor(Math.random()*flagWaveCombo.length)];
   let numFlags = randomCombo[0];
   let numWaves = randomCombo[1];
@@ -229,7 +229,7 @@ function createSurvivalLevel(){
   let waveDelayArray = [];
   for (let a = 1; a <= numWaves; a++){
     //Determine Wave Value
-    let cWaveValue = waveValue > 200 ? 200 : waveValue;
+    let cWaveValue = waveValue > 250 ? 250 : waveValue;
     let cWaveArray = [];
     if (a === 1){//Wave Delay
       waveDelayArray.push(720);
@@ -238,6 +238,7 @@ function createSurvivalLevel(){
     }    
     if (a%(numWaves/numFlags) === 0){//Flag
       cWaveValue *= 1.5;
+      cWaveArray.push([3,5]);
       flagArray.push(true);
     }else{
       flagArray.push(false);
@@ -272,7 +273,12 @@ function createSurvivalLevel(){
     randomZombieStat.push(zombieStat[0], zombieStat[1], zombieStat[2]);//Add basic zombies (Normal, Conehead, Buckethead)
 
     //Create Wave
+    let numIterations = 0;
     while (cWaveValue > 0){
+      if (numIterations > 10000){//Prevent Infinite Loop
+        cWaveArray.push([1, 5, Math.random() <= 0.8 ? 9 : Math.floor(Math.random()*3)+6]);// Determine random column
+        break;
+      }
       if (Math.random() <= 0.5){//Choose Jam Zombie
         for (let cZombieStat of randomZombieStat){
           if ((cZombieStat.jam === currentJam)&&(cZombieStat.survivalWeight <= cWaveValue)&&(cZombieStat.survivalWeight !== -1)&&(Math.random()<=0.6)){
@@ -290,9 +296,9 @@ function createSurvivalLevel(){
           }
         }
       }
+      numIterations++;
     }
     waveArray.push(cWaveArray);
-    
     currentJamStreak--;
     waveValue += currentSurvivalNum;
   }
@@ -301,11 +307,12 @@ function createSurvivalLevel(){
   return {
     type: [1],
     daveSpeech: [`Survival Endless Day ${currentSurvivalNum}`],
+    startingSun: currentSurvivalNum*100-50,
     flag: flagArray,
     jams: jamArray,
     waveDelay: waveDelayArray,
     waves: waveArray,
-    reward:[[1,200+50*currentSurvivalNum],[3]]
+    reward:[[1,300+200*currentSurvivalNum],[3]]
   }
 }
 
@@ -747,6 +754,7 @@ function saveData(){
   localStorage.setItem("unlockedPlants", unlockedPackets.join(","));
   localStorage.setItem("plantTiers", plantTier.join(","));
   localStorage.setItem("unlockedLevels", unlockedLevels.join(","));
+  localStorage.setItem("survivalStreak", `${currentSurvivalNum}`);
 }
 
 //Setup 
@@ -767,6 +775,7 @@ function setup(){
   displayZombie.size = 2.4;
   //Set and Read Save Data
   //money = localStorage.getItem("money");
+  //currentSurvivalNum = localStorage.getItem("survivalStreak");
   // if (money === null){//If Save Data Does Not Exist
   //   money = 0;
   //   unlockedPackets = [1,4,7,12,18];

@@ -2229,7 +2229,7 @@ const zombieStat = [
     name:'Newspaper',
     description: "Gets enraged once its newspaper is destroyed",
     shield: 1000,
-    speed: 2,
+    speed: 3,
     eatSpeed: 4,
     altSpeed: 1,
     altEatSpeed: 1,
@@ -2476,7 +2476,7 @@ const zombieStat = [
     degrade: [120],
     sun: 100,
     jam: -1,
-    survivalWeight: 2
+    survivalWeight: 3
   },
   {//Zombot Multistage Masher (each lane) 24 
     type: 24,

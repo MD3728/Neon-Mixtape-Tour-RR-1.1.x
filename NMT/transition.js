@@ -1,5 +1,9 @@
 /* Screen Entrances */
 
+// Imporant Info
+// 1. Screens are listed in order of appearance (eg. daveSetup -> daveLoop -> etc.)
+// 2. index.js or draw.js contains majority of calls to these functions
+
 //Crazy Dave Entrance
 function daveSetup(){
   transition.trigger = true;
@@ -69,112 +73,6 @@ function daveLoop(){
   rect(-24,-82,24,4);
   scale(1/6);
   translate(-300,800);
-}
-
-//Initiate choose your seeds screen
-function chooseSeeds(){
-  allPackets = [];
-  if (currentLevel["type"].includes(3) === true){//Locked and Loaded (Show Seed Packets)
-    for (let currentPacket of currentLevel.givenPlants){
-      let newPacket = createSeedPacket(currentPacket[0], -1000, -1000, currentPacket[1]);
-      newPacket.move();
-    }
-  }
-  for (let a = 0, plantLength = plantStat.length; a < plantLength; a++){
-    let buttonX = ((a)%5)*140+180;
-    let buttonY = floor((a)/5)*70+100;
-    createSeedPacket(a+1, buttonX, buttonY);
-  }
-  // Move onto next screen
-  selectedPackets = [];
-  transition.trigger=true;
-  transition.screen="chooseSeeds";
-}
-
-//Loop for Choose Your Seeds
-function chooseSeedLoop(){
-  backgroundDrawStack();
-  //General Looks
-  background('rgba(0,0,0,0.2)');
-  fill(255,255,255);
-  noStroke();
-  textSize(30);
-  text("Choose Your Plants", width/2, 50);
-  textSize(20);
-  if ((!currentLevel.type.includes(14))&&(!currentLevel.type.includes(2))){
-    text(`Starting Sun: ${sun}`, width/2, 80);
-  }
-  //Display Zombies In level
-  for (let displayingZombie of displayZombies){
-    displayingZombie.draw();
-  }
-  // Draw Seed Packets
-  drawSeedPackets();
-  //Start Button
-  stroke(200);
-  strokeWeight(4);
-  fill(180,200,180);
-  rect(30, 640, 100, 40, 3);
-  if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){
-    rect(115,20, 100, 40, 3);
-  }
-  fill(0);
-  noStroke();
-  textAlign(CENTER,CENTER);
-  textSize(18);
-  text('Start', 80, 660);
-  // Money
-  textSize(15);
-  textAlign(LEFT,CENTER);
-  text('$'+money, 805, 635);
-  textAlign(CENTER,CENTER);
-  if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
-    textSize(13)
-    if(rentSlot){
-      text('Rented',165,40);
-    }else{
-      text('Rent Slot\n2500 Coins',165,40);
-    }
-    textSize(25);
-    if(rentSlot){
-      text(selectedPackets.length+'/'+(seedSlots+1),55,40);
-    }else{
-      text(selectedPackets.length+'/'+seedSlots,55,40);
-    }
-  }
-  //Quit Button
-  fill(100);
-  stroke(80);
-  strokeWeight(5);
-  rect(800,30,60,40,5);
-  noStroke();
-  fill(255,255,255);
-  textSize(20);
-  text("Quit", 830, 50);
-}
-
-//Loop for last stand preparation
-function prepareDefense(){
-  for (let currentPacket of allPackets){//Get Seed Packets to Correct Position, Set Recharge to Nothing
-    currentPacket.recharge = 0;
-    currentPacket.move();
-  }
-  //Clean up dead (shoveled) plant
-  for (let c = 0; c < allPlants.length; c++){
-    if (allPlants[c].health <= 0){
-      for (let currentTile of tiles){
-        if (currentTile.plantID === allPlants[c].id){
-          currentTile.occupied = false;
-          currentTile.plantID = null;
-          break;
-        }
-      }
-      allEntities.splice(allEntities.indexOf(allPlants[c]),1);
-      allPlants.splice(c,1);
-      c--;
-    }
-  }
-  drawStack();
 }
 
 //Get Game To Crazy Dave Screen (Or Equivalent)
@@ -339,12 +237,119 @@ function initialLevelSetup(){
   }
 }
 
+//Initiate choose your seeds screen
+function chooseSeeds(){
+  allPackets = [];
+  if (currentLevel["type"].includes(3) === true){//Locked and Loaded (Show Seed Packets)
+    for (let currentPacket of currentLevel.givenPlants){
+      let newPacket = createSeedPacket(currentPacket[0], -1000, -1000, currentPacket[1]);
+      newPacket.move();
+    }
+  }
+  for (let a = 0, plantLength = plantStat.length; a < plantLength; a++){
+    let buttonX = ((a)%5)*140+180;
+    let buttonY = floor((a)/5)*70+100;
+    let newPacket = createSeedPacket(a+1, buttonX, buttonY);
+    newPacket.recharge = 0;
+  }
+  // Move onto next screen
+  selectedPackets = [];
+  transition.trigger=true;
+  transition.screen="chooseSeeds";
+}
+
+//Loop for Choose Your Seeds
+function chooseSeedLoop(){
+  backgroundDrawStack();
+  //General Looks
+  background('rgba(0,0,0,0.2)');
+  fill(255,255,255);
+  noStroke();
+  textSize(30);
+  text("Choose Your Plants", width/2, 50);
+  textSize(20);
+  if ((!currentLevel.type.includes(14))&&(!currentLevel.type.includes(2))){
+    text(`Starting Sun: ${sun}`, width/2, 80);
+  }
+  //Display Zombies In level
+  for (let displayingZombie of displayZombies){
+    displayingZombie.draw();
+  }
+  // Draw Seed Packets
+  drawSeedPackets();
+  //Start Button
+  stroke(200);
+  strokeWeight(4);
+  fill(180,200,180);
+  rect(30, 640, 100, 40, 3);
+  if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){
+    rect(115,20, 100, 40, 3);
+  }
+  fill(0);
+  noStroke();
+  textAlign(CENTER,CENTER);
+  textSize(18);
+  text('Start', 80, 660);
+  // Money
+  textSize(15);
+  textAlign(LEFT,CENTER);
+  text('$'+money, 805, 635);
+  textAlign(CENTER,CENTER);
+  if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
+    textSize(13)
+    if(rentSlot){
+      text('Rented',165,40);
+    }else{
+      text('Rent Slot\n2500 Coins',165,40);
+    }
+    textSize(25);
+    if(rentSlot){
+      text(selectedPackets.length+'/'+(seedSlots+1),55,40);
+    }else{
+      text(selectedPackets.length+'/'+seedSlots,55,40);
+    }
+  }
+  //Quit Button
+  fill(100);
+  stroke(80);
+  strokeWeight(5);
+  rect(800,30,60,40,5);
+  noStroke();
+  fill(255,255,255);
+  textSize(20);
+  text("Quit", 830, 50);
+}
+
+//Loop for last stand preparation
+function prepareDefense(){
+  for (let currentPacket of allPackets){//Get Seed Packets to Correct Position, Set Recharge to Nothing
+    currentPacket.recharge = 0;
+    currentPacket.move();
+  }
+  //Clean up dead (shoveled) plant
+  for (let c = 0; c < allPlants.length; c++){
+    if (allPlants[c].health <= 0){
+      for (let currentTile of tiles){
+        if (currentTile.plantID === allPlants[c].id){
+          currentTile.occupied = false;
+          currentTile.plantID = null;
+          break;
+        }
+      }
+      allEntities.splice(allEntities.indexOf(allPlants[c]),1);
+      allPlants.splice(c,1);
+      c--;
+    }
+  }
+  drawStack();
+}
+
 // Create Seed Packets
 // Be Careful: Plants index from 1, not 0
 function createSeedPacket(plantIndex, startingX = 0, startingY = 0, tier = 0){
   let currentPlant = plantStat[plantIndex-1];//Plant Types start at 1, but array starts at 0
   let newSeed;
-  let determineTier = tier === 0 ? plantTier[plantIndex] : tier;// Tier is specified (eg. Locked and Loaded)
+  let determineTier = tier === 0 ? plantTier[plantIndex-1] : tier;// Tier is specified (eg. Locked and Loaded)
   if (determineTier === 1){//Tier 1
     let tier1Stat = currentPlant["t1"];
     newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"], false, false, startingX, startingY);//Tier 1
@@ -353,7 +358,6 @@ function createSeedPacket(plantIndex, startingX = 0, startingY = 0, tier = 0){
     newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier2Stat["sun"], 2, tier2Stat["recharge"], tier2Stat["startingRecharge"], false, false, startingX, startingY);//Tier 2 
   }
   // Set Disabled Packets
-  newSeed.recharge = 0;
   if (((currentLevel["type"].includes(2))||(currentLevel["type"].includes(3)))&&(screen !== "level")){//Conveyor OR Locked and Loaded
     newSeed.disabled = true;
   }else if (currentLevel["type"].includes(4) === true){//Last Stand
@@ -379,8 +383,7 @@ function finalLevelSetup(){
   //Get Rid of Seed Packets from Choose Your Seeds
   if (!currentLevel.type.includes(14)){//I Zombie Exception due to no CYS
     allPackets = [];
-  }
-  
+  }  
   //Create Seed Packets
   if ((currentLevel["type"].includes(3))&&(!currentLevel.type.includes(14))){//Locked and Loaded
     for (let currentPacket of currentLevel.givenPlants){

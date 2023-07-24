@@ -154,8 +154,6 @@ function drawGameOver(){
   }  
 }
 
-
-
 // Shortcut Draw Methods
 //Default Create Triangle
 function regTriangle(x, y, radius, direction){
@@ -511,29 +509,29 @@ function drawProgressBar(){
   }
 }
 
+//Draw Plants
 function drawPlants(){
-  //Draw Plants
   for (let currentPlant of allPlants){
     currentPlant.draw();
   }
 }
 
+//Draw Zombies
 function drawZombies(){
-  //Draw Zombies
   for (let currentZombie of allZombies){
     currentZombie.draw();
   }
 }
 
+//Draw Projectiles
 function drawProjectiles(){
-  //Draw Projectiles
   for (let currentProjectile of allProjectiles){
     currentProjectile.draw();
   }
 }
 
+//Draw Lawnmowers
 function drawLawnmowers(){
-  //Draw Lawnmowers
   for (let currentMower of lawnMowers){
     if (currentMower.active === true){
       currentMower.x += 3*levelSpeed;
@@ -551,8 +549,8 @@ function drawLawnmowers(){
   }
 }
 
+//Draw Particles
 function drawParticles(){
-  //Draw Particles
   for (let currentParticle of allParticles){
     currentParticle.draw();
     if(currentParticle.remove){
@@ -562,23 +560,22 @@ function drawParticles(){
   }
 }
 
+//Draw Seed Packets and Shovel
 function drawSeedPackets(){
-  //Draw Seed Packets and Shovel
   for (let currentPacket of allPackets){
     currentPacket.draw();
   }
 }
 
+//Draw Sun and Coins
 function drawSun(){
-  //Draw Sun and Coins
   for (let currentSun of allCollectibles){
     currentSun.draw();
   }
 }
 
-// Draws boss
+// Draws Boss
 function drawBoss(){
-  //Draw Boss
   if (currentLevel["type"].includes(10)){
     fill(100);
     rect(660,120,240,500);
