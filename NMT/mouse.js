@@ -20,7 +20,7 @@ document.addEventListener("mousedown",function(e){
 
           // Selecting Packets
           if (currentPacket.disabled === false){//Not Disabled
-            if ((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentSlot)&&(unlockedPackets.includes(currentPacket.type+1))&&(!gotRemoved)){//Add Packet
+            if ((selectedPackets.length < seedSlots||selectedPackets.length<=seedSlots&&rentSlot)&&(unlockedPackets.includes(currentPacket.type))&&(!gotRemoved)){//Add Packet
               currentPacket.disabled = true;
               selectedPackets.push(new SeedPacket(currentPacket.type, currentPacket.name, currentPacket.sun, currentPacket.tier,
                  0, 0, currentPacket.moving, currentPacket.spawnZombie, 0, 0, false));
@@ -106,6 +106,9 @@ document.addEventListener("mouseup",function(e){
       break;
     case "prepareDefense"://Last Stand Preparation Screen
       if (pointBox(mouseX, mouseY, 190,30,80,40)){//Start Button
+        for (let currentPacket of allPackets){//Reset Recharge
+          currentPacket.recharge = currentPacket.startingRecharge;
+        }
         startGame();
       };
     case "level"://Level (Gameplay) Screen

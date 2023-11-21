@@ -92,7 +92,6 @@ let unlockedLevels = [
 let currentSurvivalNum = 1;//Current Survival Level Number
 let previousSurvivalNum = 0;//Previous Survival Level Number
 
-//
 
 //Array of classes
 let allEntities = [];
@@ -122,11 +121,7 @@ for (let d = 0; d < 30; d++){
 }
 
 //Hotkeys
-function keyPressed(){
-  // if(keyCode==SHIFT){
-  //   levelSpeed=(levelSpeed-0.5)%1.5+1
-  // }
-}
+function keyPressed(){}
 
 /* Shortcut Methods */
 
@@ -214,7 +209,7 @@ function determineReward(){
 // Creates a survival level
 function createSurvivalLevel(){
   //Determine Level Length
-  let flagWaveCombo = [[1,10],[2,12],[2,14],[2,16],[3,12],[3,15],[3,18]];
+  let flagWaveCombo = [[1,10],[2,12],[2,14],[2,16],[3,12],[3,15],[3,18],[4,20]];
   let randomCombo = flagWaveCombo[Math.floor(Math.random()*flagWaveCombo.length)];
   let numFlags = randomCombo[0];
   let numWaves = randomCombo[1];
@@ -227,12 +222,13 @@ function createSurvivalLevel(){
   let waveValue = 1;
   let waveArray = [];
   let waveDelayArray = [];
+  let waveMaxValue = Math.floor(250*14/numWaves);
   for (let a = 1; a <= numWaves; a++){
     //Determine Wave Value
-    let cWaveValue = waveValue > 250 ? 250 : waveValue;
+    let cWaveValue = waveValue > waveMaxValue ? waveMaxValue : waveValue;//Max num is 250, 14 is arbitrary, basically harder levels will have same number of zombies but more spread out
     let cWaveArray = [];
     if (a === 1){//Wave Delay
-      waveDelayArray.push(720);
+      waveDelayArray.push(120);
     }else{
       waveDelayArray.push(1200);
     }    
@@ -259,7 +255,7 @@ function createSurvivalLevel(){
     //Determine Wave
 
     //Randomize Zombie Array Order (Knuth Shuffle)
-    let randomZombieStat = structuredClone(zombieStat).splice(3, zombieStat.length-3);//Ensure there is always basic
+    let randomZombieStat = structuredClone(zombieStat).splice(3, zombieStat.length-3);//Ensure there are always basics, coneheads, bucketheads
     let currentIndex = randomZombieStat.length,  randomIndex;
     // While there remain elements to shuffle.
     while (currentIndex !== 0){
@@ -275,7 +271,7 @@ function createSurvivalLevel(){
     //Create Wave
     let numIterations = 0;
     while (cWaveValue > 0){
-      if (numIterations > 10000){//Prevent Infinite Loop
+      if (numIterations > 10000){//Prevent Infinite Loop (Add Conehead Zombie)
         cWaveArray.push([1, 5, Math.random() <= 0.8 ? 9 : Math.floor(Math.random()*3)+6]);// Determine random column
         break;
       }
@@ -300,19 +296,29 @@ function createSurvivalLevel(){
     }
     waveArray.push(cWaveArray);
     currentJamStreak--;
-    waveValue += currentSurvivalNum;
+    waveValue += currentSurvivalNum > (waveMaxValue/numWaves + 5) ? (waveMaxValue/numWaves + 5) : currentSurvivalNum;
   }
+
+  //Dave Speech
+  let determinedSpeech = [];
+  if (currentSurvivalNum === 1){// Day 1 Information
+    determinedSpeech.push("Survival Mode is a mode where\nyou fight against an endless\nhorde of zombies.");
+    determinedSpeech.push("More zombies will come\nas you progress through\nmore days.");
+    determinedSpeech.push("To compensate, you will receive\n 150 more starting sun\nas you progress.");
+    determinedSpeech.push("Every level will allow you to\nprepare before the attack starts.");
+  }
+  determinedSpeech.push(`Survival Endless Day ${currentSurvivalNum}`);
 
   // Returned Level Object
   return {
-    type: [1],
-    daveSpeech: [`Survival Endless Day ${currentSurvivalNum}`],
-    startingSun: currentSurvivalNum*100-50,
+    type: [4,15],
+    daveSpeech: determinedSpeech,
+    startingSun: currentSurvivalNum*150-50 > 6000 ? 6000 : currentSurvivalNum*150-50,
     flag: flagArray,
     jams: jamArray,
     waveDelay: waveDelayArray,
     waves: waveArray,
-    reward:[[1,300+200*currentSurvivalNum],[3]]
+    reward:[[1,300+200*currentSurvivalNum > 9000 ? 9000 : 300+200*currentSurvivalNum],[3]]
   }
 }
 

@@ -2474,9 +2474,9 @@ const zombieStat = [
     altSpeed: 1,
     altEatSpeed: 1,
     degrade: [120],
-    sun: 100,
+    sun: 125,
     jam: -1,
-    survivalWeight: 3
+    survivalWeight: 4
   },
   {//Zombot Multistage Masher (each lane) 24 
     type: 24,

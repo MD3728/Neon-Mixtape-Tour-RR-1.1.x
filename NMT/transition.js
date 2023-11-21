@@ -360,7 +360,7 @@ function createSeedPacket(plantIndex, startingX = 0, startingY = 0, tier = 0){
   // Set Disabled Packets
   if (((currentLevel["type"].includes(2))||(currentLevel["type"].includes(3)))&&(screen !== "level")){//Conveyor OR Locked and Loaded
     newSeed.disabled = true;
-  }else if (currentLevel["type"].includes(4) === true){//Last Stand
+  }else if ((currentLevel["type"].includes(4) === true)&&(!currentLevel.type.includes(15))){//Last Stand but Not Survival Endless
     if ((plantIndex <= 3)||(plantIndex === 17)){//Ban Sun Producers and Red Stinger
       newSeed.disabled = true;
     }    
