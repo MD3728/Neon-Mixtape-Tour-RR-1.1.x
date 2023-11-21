@@ -865,9 +865,9 @@ const levels = {
     daveSpeech: ["Our shipment of explosives\nhas been delayed","Survive with stallers \nfor as long as you can!"],
     flag: [false,false,false,false,false,false,false,false,false,false,false,true],
     jams:[0,0,0,0,3,3,4,4,1,6,6,5],
-    waveDelay: [130,900,900,900,900,900,900,900,900,900,900,900],
+    waveDelay: [350,900,900,900,900,900,900,900,900,900,900,900],
     conveyorProbability: [//Format: [Plant Type, Tier, Probability (Out of 100)], Starts at wave 0
-      [60,[[11,2,100]]],
+      [120,[[11,2,100]]],
       [200,[[11,2,50],[12,1,40],[8,2,10]]],
       [200,[[11,2,50],[12,1,40],[8,2,10]]],
       [200,[[11,2,50],[12,1,40],[8,2,10]]],
@@ -1120,7 +1120,7 @@ const levels = {
     waveDelay: [],
     startingRandomPlants: [[6,1,2],[9,1,2],[13,1,4],[18,2,3],[21,1,4],[24,1,3],[26,1,5],[1,2,12]],//Format is [Plant Type, Tier, Amount]
     plantLine: 740,
-    givenPlants: [[0],[2],[8],[29],[26],[13],[14],[15],[18]],
+    givenPlants: [[0],[2],[8],[29],[26],[13],[14],[18]],
     waves:[
       [],
       [],
@@ -1179,7 +1179,7 @@ const levels = {
     ],
     reward:[[1,500], [2,"m9"]]
   },
-  "m9": {//Unsodded Ultra 2 Flag Incomplete
+  "m9": {//Unsodded Ultra 2 Flag 
     type: [2,13],
     daveSpeech: ["We cannot plant in this\ndisaster of a lane!"],
     flag: [false,false,false,false,false,true,false,false,false,false,true],

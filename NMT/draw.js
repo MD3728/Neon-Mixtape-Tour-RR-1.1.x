@@ -195,9 +195,9 @@ function drawStack(){
   drawTiles();
   drawBoss();
   drawJams();
-  drawConveyor();
   drawPlants();
   drawZombies();
+  drawConveyor();
   drawProjectiles();
   drawLawnmowers();
   drawParticles();
