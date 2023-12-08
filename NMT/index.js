@@ -70,6 +70,7 @@ let waveTimer = 0;//Time between waves
 let sunTimer = 0;//Sun falling from the sky
 let conveyorTimer = 0;//Time between conveyor seed packets
 let globalTimer = 0;//Global timer for anything
+let actualGlobalTimer = 0;
 let bossDamage = 0;//Damage Done To Boss
 let boomberryActive = false;//Determines if Boomberry Effect is Active
 let boomboxActive = false;//Determines if Boombox Effect is Active
@@ -78,7 +79,7 @@ let daveIndex = 0;//Current Index of Crazy Dave Dialogue
 let clickCooldown = 0; //Will prevent clicks from happening to often (1/6 of second) 
 let rentSlot = false;//Determines if Seed Slot is Being Rented
 let unlockedPackets = [
-  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29
+  1,2,3,4,5
   ];
 
 let unlockedLevels = [
@@ -784,7 +785,7 @@ function setup(){
   //currentSurvivalNum = localStorage.getItem("survivalStreak");
   // if (money === null){//If Save Data Does Not Exist
   //   money = 0;
-  //   unlockedPackets = [1,4,7,12,18];
+  unlockedPackets = [1,4,7,12,18];
   //   unlockedLevels = ["l1"];
   //   saveData();
   // }
@@ -795,18 +796,25 @@ function setup(){
   // }
   // unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
   // plantTier = localStorage.getItem("plantTiers").split(",");
-  // //Shop Data
-  // displayPlants = [];
-  // shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
-  // for(let a = 0; a < 7; a++){
-  //   if (!unlockedPackets.includes(shopPlantList[a])){
-  //     displayPlants.push(new Plant(shopPlantList[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
-  //     0, 0, 0, 0, 0));
-  //   }
-  // }
+  //Shop Data
+  displayPlants = [];
+  shopPlantList = [3,8,9,13,21,24,27];//Shop Plants
+  for(let a = 0; a < 7; a++){
+    if (!unlockedPackets.includes(shopPlantList[a])){
+      displayPlants.push(new Plant(shopPlantList[a], width/2-320+(a%4)*200+floor(a/4)*100,250+floor(a/4)*200, 0,0,99999, 
+      0, 0, 0, 0, 0));
+    }
+  }
   allPlants = [];
   allZombies = [];
   allEntities = [];
+  seedpacketimages=[]
+  for(let a=0,la=plantStat.length;a<la;a++){
+    seedpacketimages.push(createGraphics(120,60))
+    seedpacketimages[a].angleMode(DEGREES)
+    seedpacketplant=createPlant(a+1, 1, 10, a==la-1?-20:0)
+    seedpacketplant.layeredDraw(seedpacketimages[a])
+  }
 }
 
 //Draw/Mainloop
@@ -849,38 +857,89 @@ function draw(){
     case "almanac"://General Almanac Screen
       //Basic Interface
       background(0);
-      noStroke();
-      fill(180);
-      rect(width/4-50,height/2-50,100,100,5);//Left
-      rect(width*3/4-50,height/2-50,100,100,5);//Right
-      rect(50,50,100,50,5);
       fill(255);
-      textSize(40);
-      text('Almanac',width/2,height/4);
-      fill(0);
-      textSize(20);
-      text('Plants',width/4,height/2);
-      text('Zombies',width*3/4,height/2);
-      textSize(16);
-      text('Back',100,75);  
+      textSize(30);
+      text('Almanac',width/2,height/2-100);
+      strokeJoin(ROUND)
+      fill(180);
+      stroke(160)
+      strokeWeight(3)
+      let buttonX=25
+      let buttonY=height-75
+      rect(buttonX, buttonY, 50, 50);
+      quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+      quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+      for(let a=0,la=2;a<la;a++){
+        strokeWeight(5)
+        let buttonX=width/2-125+a*150
+        let buttonY=height/2-50
+        rect(buttonX, buttonY, 100, 100);
+        quad(buttonX,buttonY,buttonX+100,buttonY,buttonX+110,buttonY-10,buttonX+10,buttonY-10)
+        quad(buttonX+100,buttonY,buttonX+100,buttonY+100,buttonX+110,buttonY+90,buttonX+110,buttonY-10) 
+      }
+      stroke(120)
+      noFill()
+      strokeWeight(5)
+      line(buttonX+10,buttonY+25,buttonX+20,buttonY+15)
+      line(buttonX+10,buttonY+25,buttonX+20,buttonY+35)
+      line(buttonX+10,buttonY+25,buttonX+30,buttonY+25)
+      arc(buttonX+30,buttonY+30,20,10,-90,90)
+      for(let a=0,la=2;a<la;a++){
+        let buttonX=width/2-125+a*150
+        let buttonY=height/2-50
+        switch(a){
+          case 0:
+            push()
+            translate(buttonX+50,buttonY+50)
+            rotate(45)
+            ellipse(0,0,50,80)
+            line(0,50,0,-40)
+            line(0,30,-12,20)
+            line(0,30,12,20)
+            line(0,18,-15,5.5)
+            line(0,18,15,5.5)
+            line(0,3,-15,-9.5)
+            line(0,3,15,-9.5)
+            line(0,-12,-12,-22)
+            line(0,-12,12,-22)
+            pop()
+          break
+          case 1:
+            ellipse(buttonX+50,buttonY+50,75)
+            arc(buttonX+40,buttonY+60,30,10,-165,-15)
+            strokeWeight(10)
+            point(buttonX+25,buttonY+40)
+            point(buttonX+55,buttonY+40)
+          break
+        }
+      }
+      strokeJoin(MITER)
       break;
     case "almanacPlant"://Plant Almanac
       genText=['',''];
       background(150);
+      if(displayPlant.type==6){
+        displayPlant.reload=1
+      }else{
+        displayPlant.reload=0
+      }
       displayPlant.draw();
       noStroke();
-      fill(110);
-      rect(width/2-70,350,140,50,5);
-      rect(50,350,100,50,5);
-      rect(width-150,350,100,50,5);
-      rect(50,50,100,50,5);
+      fill(120)
+      rect(width/2-210,100-50,420,100)
+      rect(width/3-100,500-130,200,220)
+      rect(width*2/3-100,500-130,200,220)
+      fill(140)
+      rect(width/2-200,100-40,400,80)
+      rect(width/3-90,500-120,180,200)
+      rect(width*2/3-90,500-120,180,200)
       fill(0);
       textSize(60);
       text(plantStat[displayPlant.type-1].name,width/2,100);
       textSize(20);
-      text(plantStat[displayPlant.type-1].description,width/2,585);
-      text('Tier 1',width/3,360);
-      text('Tier 2',width*2/3,360);
+      text(plantStat[displayPlant.type-1].description,width/2,640);
+      text('Tier 1',width/3,400);
+      text('Tier 2',width*2/3,400);
       textAlign(CENTER,TOP);
       genText[0]+='\nSun: '+plantStat[displayPlant.type-1].t1.sun;
       genText[1]+='\nSun: '+plantStat[displayPlant.type-1].t2.sun;
@@ -921,50 +980,93 @@ function draw(){
         genText[1]+='\nReload: '+ round(plantStat[displayPlant.type-1].t2.reload/60);
       }
       textSize(16);
-      text(genText[0],width/3,400);
-      text(genText[1],width*2/3,400);
-      text(`Current Tier: ${plantTier[displayPlant.type-1]}`,width/2,330);
-      textAlign(CENTER,CENTER);
-      text('Change Tier\n1000 Coins',width/2,375);
-      text('Previous', 100, 375);
-      text('Next', width-100, 375);
-      text('Back',100,75);
-      translate(830,635);
-      scale(0.6);
-      fill(225,this.fade);
-      ellipse(0,0,30,30);
-      stroke(150,this.fade);
-      strokeWeight(4);
-      noFill();
-      arc(0,-5,12,10,90,270);
-      arc(0,5,12,10,-90,90);
-      line(0,-10,5,-10);
-      line(0,10,-5,10);
-      line(0,-13,0,13);
-      scale(5/3);
-      translate(-830,-635);
+      text(genText[0],width/3,420);
+      text(genText[1],width*2/3,420);
+      text(`Current Tier: ${plantTier[displayPlant.type-1]}`,width/2,347.5);
+      text(`1000`,width/2+10,367.5);
+      for(let a=0,la=2;a<la;a++){
+        push()
+        translate(830+a*(width/2-830-20),635+a*(375-635));
+        scale(0.6);
+        fill(225,this.fade);
+        noStroke()
+        ellipse(0,0,30,30);
+        stroke(150,this.fade);
+        strokeWeight(4);
+        noFill();
+        arc(0,-5,12,10,90,270);
+        arc(0,5,12,10,-90,90);
+        line(0,-10,5,-10);
+        line(0,10,-5,10);
+        line(0,-13,0,13);
+        pop()
+      }
       noStroke();
       fill(0);
       textSize(15);
       textAlign(LEFT,CENTER);
       text('$'+money, 805, 635);
       textAlign(CENTER,CENTER);
+        
+      strokeJoin(ROUND)
+      fill(180);
+      stroke(160)
+      strokeWeight(3)
+      for(let a=0,la=4;a<la;a++){
+        let buttonX=[25,100-25,width-100-25,width/2-25][a]
+        let buttonY=[height-75,360-25,360-25,420-25][a]
+        rect(buttonX, buttonY, 50, 50);
+        quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+        quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+      }
+      stroke(120)
+      noFill()
+      strokeWeight(5)
+      for(let a=0,la=4;a<la;a++){
+        let buttonX=[25,100-25,width-100-25,width/2-25][a]
+        let buttonY=[height-75,360-25,360-25,420-25][a]
+        switch(a){
+          case 0:
+            line(buttonX+10,buttonY+25,buttonX+20,buttonY+15)
+            line(buttonX+10,buttonY+25,buttonX+20,buttonY+35)
+            line(buttonX+10,buttonY+25,buttonX+30,buttonY+25)
+            arc(buttonX+30,buttonY+30,20,10,-90,90)
+          break
+          case 1:
+            triangle(buttonX+35,buttonY+10,buttonX+35,buttonY+40,buttonX+10,buttonY+25)
+          break
+          case 2:
+            triangle(buttonX+15,buttonY+10,buttonX+15,buttonY+40,buttonX+40,buttonY+25)
+          break
+          case 3:
+            triangle(buttonX+5,buttonY+25,buttonX+15,buttonY+25,buttonX+10,buttonY+30)
+            triangle(buttonX+45,buttonY+25,buttonX+35,buttonY+25,buttonX+40,buttonY+20)
+            arc(buttonX+25,buttonY+25,30,30,-180,-45)
+            arc(buttonX+25,buttonY+25,30,30,0,135)
+          break
+        }
+      }
+      strokeJoin(MITER)
       break;
     case "almanacZombie"://Zombie Almanac
       genText=['',''];
       background(150);
+      let currentDisplayZombie = zombieStat[displayZombie.type];
       displayZombie.draw();
+      displayZombie.rate[0]+=currentDisplayZombie.speed*0.3
+      currentJam=8
       noStroke();
-      fill(110);
-      rect(50,350,100,50,5);
-      rect(width-150,350,100,50,5);
-      rect(50,50,100,50,5);
+      fill(120)
+      rect(width/2-210,100-50,420,100)
+      rect(width/2-100,550-70,200,140)
+      fill(140)
+      rect(width/2-200,100-40,400,80)
+      rect(width/2-90,550-60,180,120)
       fill(0);
       textSize(60);
-      let currentDisplayZombie = zombieStat[displayZombie.type];
       text(currentDisplayZombie.name,width/2, 100);
-      textSize(20);
-      text(currentDisplayZombie.description,width/2, 550);
+      textSize(18);
+      text(currentDisplayZombie.description,width/2, 650);
       textAlign(CENTER,TOP);
       if(currentDisplayZombie.health>0){
         genText[0]+='\nHealth: '+ currentDisplayZombie.health;
@@ -973,38 +1075,70 @@ function draw(){
         genText[0]+='\nShield: '+ currentDisplayZombie.shield;
       }
       if(currentDisplayZombie.speed>0){
-        genText[0]+='\nSpeed: '+ currentDisplayZombie.speed;
+        genText[0]+='\nSpeed: '+ currentDisplayZombie.speed+'x';
       }
       if((currentDisplayZombie.altSpeed > 0)&&(currentDisplayZombie.altSpeed !== currentDisplayZombie.speed)){
-        genText[0]+='\nAlternate Speed: '+ currentDisplayZombie.altSpeed;
+        genText[0]+='\nAlternate Speed: '+ currentDisplayZombie.altSpeed+'x';
       }
       if(currentDisplayZombie.eatSpeed>0){
-        genText[0]+='\nEat Speed: '+ currentDisplayZombie.eatSpeed;
+        genText[0]+='\nEat Speed: '+ currentDisplayZombie.eatSpeed+'x';
       }
       if((currentDisplayZombie.altEatSpeed > 0)&&(currentDisplayZombie.altEatSpeed !== currentDisplayZombie.eatSpeed)){
-        genText[0]+='\nAlternate Eat Speed: '+ currentDisplayZombie.altEatSpeed;
+        genText[0]+='\nAlternate Eat Speed: '+ currentDisplayZombie.altEatSpeed+'x';
       }
       textSize(16);
-      text(genText[0], width/2,400);
+      text(genText[0], width/2,480);
       textAlign(CENTER,CENTER);
-      text('Previous',100,375);
-      text('Next',width-100,375);
-      text('Back',100,75);  
+
+      strokeJoin(ROUND)
+      fill(180);
+      stroke(160)
+      strokeWeight(3)
+      for(let a=0,la=3;a<la;a++){
+        let buttonX=[25,100-25,width-100-25][a]
+        let buttonY=[height-75,360-25,360-25][a]
+        rect(buttonX, buttonY, 50, 50);
+        quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+        quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+      }
+      stroke(120)
+      noFill()
+      strokeWeight(5)
+      for(let a=0,la=3;a<la;a++){
+        let buttonX=[25,100-25,width-100-25][a]
+        let buttonY=[height-75,360-25,360-25][a]
+        switch(a){
+          case 0:
+            line(buttonX+10,buttonY+25,buttonX+20,buttonY+15)
+            line(buttonX+10,buttonY+25,buttonX+20,buttonY+35)
+            line(buttonX+10,buttonY+25,buttonX+30,buttonY+25)
+            arc(buttonX+30,buttonY+30,20,10,-90,90)
+          break
+          case 1:
+            triangle(buttonX+35,buttonY+10,buttonX+35,buttonY+40,buttonX+10,buttonY+25)
+          break
+          case 2:
+            triangle(buttonX+15,buttonY+10,buttonX+15,buttonY+40,buttonX+40,buttonY+25)
+          break
+        }
+      }
+      strokeJoin(MITER)
       break;
     case "shop"://Shop
       background(150);
       noStroke();
-      fill(80)
+      fill(80);
       for(let a=0;a<displayPlants.length;a++){
         rect(displayPlants[a].x-20,displayPlants[a].y-20,100,100,5)
+      }
+      fill(100);
+      for(let a=0;a<displayPlants.length;a++){
+        rect(displayPlants[a].x-10,displayPlants[a].y-10,80,80,5)
       }
       for(let a=0;a<displayPlants.length;a++){
         displayPlants[a].draw();
       }
       noStroke();
-      fill(80)
-      fill(110);
-      rect(50,50,100,50,5);
       fill(0);
       textSize(40)
       text('Costs 10000 Each',width/2,100)
@@ -1012,10 +1146,24 @@ function draw(){
       for(let a=0;a<displayPlants.length;a++){
         text(plantStat[displayPlants[a].type-1].name,displayPlants[a].x+30,displayPlants[a].y-60);
       }
-      textSize(16);
-      text('Back',100,75);
+      textSize(15);
+      for(let a=0;a<displayPlants.length;a++){
+        text(plantStat[displayPlants[a].type-1].t1.sun+' Sun',displayPlants[a].x+30,displayPlants[a].y-40);
+      }
+      fill(255,0,0)
+      textSize(25)
+      for(let a=0;a<displayPlants.length;a++){
+        if(unlockedPackets.includes(displayPlants[a].type)){
+          translate(displayPlants[a].x+30,displayPlants[a].y+30)
+          rotate(15)
+          text('Sold Out',0,0)
+          rotate(-15)
+          translate(-displayPlants[a].x-30,-displayPlants[a].y-30)
+        }
+      }
       translate(830,635);
       scale(0.6);
+      noStroke()
       fill(225,this.fade);
       ellipse(0,0,30,30);
       stroke(150,this.fade);
@@ -1034,11 +1182,32 @@ function draw(){
       textAlign(LEFT,CENTER);
       text(money, 845, 635);
       textAlign(CENTER,CENTER);
+
+      strokeJoin(ROUND)
+      fill(180);
+      stroke(160)
+      strokeWeight(3)
+      if(true){
+        let buttonX=25
+        let buttonY=height-75
+        rect(buttonX, buttonY, 50, 50);
+        quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+        quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+        stroke(120)
+        noFill()
+        strokeWeight(5)
+        line(buttonX+10,buttonY+25,buttonX+20,buttonY+15)
+        line(buttonX+10,buttonY+25,buttonX+20,buttonY+35)
+        line(buttonX+10,buttonY+25,buttonX+30,buttonY+25)
+        arc(buttonX+30,buttonY+30,20,10,-90,90)
+        strokeJoin(MITER)
+      }
       break;
     default:
       console.log("Screen Does Not Exist");
   }
   displayTransition(transition);
+  actualGlobalTimer++;
 }
 
 

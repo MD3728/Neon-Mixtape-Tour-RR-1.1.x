@@ -57,13 +57,13 @@ document.addEventListener("mouseup",function(e){
   //Title Screen
   switch (screen){
     case "initial"://Title Screen
-      if(pointBox(mouseX,mouseY,width/2-60,400,120,50)){
+      if(pointBox(mouseX,mouseY,width*0.3-50,400-50,100,100)){
         transition.trigger=true;
         transition.screen="regularLevelSelect";
-      }else if(pointBox(mouseX,mouseY,width/2-60,460,120,50)){
+      }else if(pointBox(mouseX,mouseY,width*0.5-50,400-50,100,100)){
         transition.trigger=true;
         transition.screen="minigameSelect";
-      }else if(pointBox(mouseX,mouseY,width/2-60,570,120,50)){
+      }else if(pointBox(mouseX,mouseY,width*0.7-50,400-50,100,100)){
         saveData();
         alert("Data Saved");
       }
@@ -234,45 +234,45 @@ document.addEventListener("mouseup",function(e){
       }
       break;
     case "regularLevelSelect"://Adventure Level Select
-      if (pointBox(mouseX, mouseY,310,570,120,40)){
+      if (pointBox(mouseX, mouseY,100,height-75,50,50)){
         transition.trigger=true;
         transition.screen="almanac";
       }
-      if (pointBox(mouseX, mouseY,470,570,120,40)){
+      if (pointBox(mouseX, mouseY,175,height-75,50,50)){
         transition.trigger=true;
         transition.screen="shop";
       }
-      if (pointBox(mouseX, mouseY,760,20,120,40)){
+      if (pointBox(mouseX, mouseY,25,height-75,50,50)){
         transition.trigger=true;
         transition.screen="initial";
       }
       break;
     case "minigameSelect"://Minigame Level Select
-      if (pointBox(mouseX, mouseY,310,570,120,40)){
+      if (pointBox(mouseX, mouseY,100,height-75,50,50)){
         transition.trigger=true;
         transition.screen="almanac";
       }
-      if (pointBox(mouseX, mouseY,470,570,120,40)){
+      if (pointBox(mouseX, mouseY,175,height-75,50,50)){
         transition.trigger=true;
         transition.screen="shop";
       }
-      if (pointBox(mouseX, mouseY,760,20,120,40)){
+      if (pointBox(mouseX, mouseY,25,height-75,50,50)){
         transition.trigger=true;
         transition.screen="initial";
       }
       break;
     case "almanac"://General Almanac Screen
-      if(pointBox(mouseX,mouseY,width/4-50,height/2-50,100,100)){
+      if(pointBox(mouseX,mouseY,width/2-125,height/2-50,100,100)){
         transition.trigger=true;transition.screen='almanacPlant';
-      }else if(pointBox(mouseX,mouseY,width*3/4-50,height/2-50,100,100)){
+      }else if(pointBox(mouseX,mouseY,width/2+25,height/2-50,100,100)){
         transition.trigger=true;transition.screen='almanacZombie';
       }
-      if(pointBox(mouseX,mouseY,50,50,100,50)){
+      if(pointBox(mouseX,mouseY,25,height-75,50,50)){
         transition.trigger=true;transition.screen='initial';
       }
       break;
     case "almanacPlant"://Plant Almanac
-      if(pointBox(mouseX,mouseY,width/2-50,350,100,50)){//Tiering System
+      if(pointBox(mouseX,mouseY,width/2-25,420-25,50,50)){//Tiering System
         if (money >= 1000){
           if (plantTier[displayPlant.type - 1] === 1){
             plantTier[displayPlant.type - 1] = 2;
@@ -282,47 +282,44 @@ document.addEventListener("mouseup",function(e){
           money -= 1000;
         }
       }
-      if(pointBox(mouseX,mouseY,50,350,100,50)&&(displayPlant.type>1)){
+      if(pointBox(mouseX,mouseY,100-25,360-25,50,50)&&(displayPlant.type>1)){
         displayPlant.type--;
       }
-      if(pointBox(mouseX,mouseY,width-150,350,100,50)&&(displayPlant.type<29)){
+      if(pointBox(mouseX,mouseY,width-100-25,360-25,50,50)&&(displayPlant.type<29)){
         displayPlant.type++;
       }
-      if(pointBox(mouseX,mouseY,50,50,100,50)){
+      if(pointBox(mouseX,mouseY,25,height-75,50,50)){
         transition.trigger=true;
         transition.screen='almanac';
       }
       break;
     case "almanacZombie"://Zombie Almanac
-      if(pointBox(mouseX,mouseY,50,350,100,50)&&(displayZombie.type>0)){
+      if(pointBox(mouseX,mouseY,100-25,360-25,50,50)&&(displayZombie.type>0)){
         displayZombie.type--;
         if (displayZombie.type === 24){
           displayZombie.type = 23;
         }
       }
-      if(pointBox(mouseX,mouseY,width-150,350,100,50)&&(displayZombie.type<zombieStat.length-1)){
+      if(pointBox(mouseX,mouseY,width-100-25,360-25,50,50)&&(displayZombie.type<zombieStat.length-1)){
         displayZombie.type++;
         if (displayZombie.type === 24){
           displayZombie.type = 25;
         }
       }
-      if(pointBox(mouseX,mouseY,50,50,100,50)){
+      if(pointBox(mouseX,mouseY,25,height-75,100,50)){
         transition.trigger=true;
         transition.screen='almanac';
       }
       break;
     case "shop"://Shop
-      if(pointBox(mouseX,mouseY,50,50,100,50)){
+      if(pointBox(mouseX,mouseY,25,height-75,50,50)){
         transition.trigger=true;
         transition.screen='initial';
       }
       for(let a = 0; a < displayPlants.length; a++){
-        if(pointBox(mouseX,mouseY,displayPlants[a].x-20,displayPlants[a].y-20,100,100)&&money>=10000){
+        if(pointBox(mouseX,mouseY,displayPlants[a].x-20,displayPlants[a].y-20,100,100)&&money>=10000&&!unlockedPackets.includes(displayPlants[a].type)){
           money -= 10000;
-          displayPlants[a].y += 99999;
           unlockedPackets.push(displayPlants[a].type);
-          displayPlants.splice(a,1);
-          a--;
         }
       }
       break;

@@ -1,21 +1,50 @@
 // Draw Title Screen
 function drawTitleScreen(){
   background(0);
+
   noStroke();
-  fill(200);
-  textSize(80);
-  text('NMT',width/2,200);
+  push()
+  translate(width/2,height/2)
+  rotate(actualGlobalTimer*2)
+  rotate(-floor(actualGlobalTimer/50)*(15+sin(actualGlobalTimer)*10))
+  for(let a=0,la=12;a<la;a++){
+    rotate(15+sin(actualGlobalTimer)*10)
+    fill(0,50,100-(a+floor(actualGlobalTimer%100/50))%2*25)
+    let size=(600-a*50-actualGlobalTimer%50)*width/600
+    rect(-size,-size,size*2,size*2)
+  }
+  pop()
+
+  textSize(60);
+  fill(110,105,220);   
+  text('N o  M x a e  o r',width/2,200);
+  fill(80,170,230);
+  text(' e n  i t p  T u ',width/2,200);
   textSize(20);
-  text('MD/DP Production',width/2,250);
-  fill(120);
+  fill(110,105,220);   
+  text('M / P  r d c i n',width/2,250);
+  fill(80,170,230);
+  text(' D D  P o u t o ',width/2,250);
+  for(let a=0,la=3;a<la;a++){
+    push()
+    translate(width*(0.3+0.2*a),400)
+    for(let b=0,lb=6;b<lb;b++){
+      rotate(24)
+      fill(110-(a+b)%2*30,105+(a+b)%2*65,220+(a+b)%2*10);
+      rect(-60+b*2,-60+b*2,120-b*4,120-b*4)
+    }
+    pop()
+  }
+  /*fill(120);
   rect(width/2-60,400,120,50,10);
   rect(width/2-60,460,120,50,10);
-  rect(width/2-60,570,120,50,10);
-  fill(0);
+  rect(width/2-60,570,120,50,10);*/
   textSize(20);
-  text('Adventure',width/2,425);
-  text('Minigames',width/2,485);
-  text('Save',width/2,595);
+  fill(50,45,160);
+  text('Adventure',width*0.3,400);
+  text('Save',width*0.7,400);
+  fill(140,230,255);
+  text('Minigames',width*0.5,400);
 }
 
 // Draw Level Select Screens
@@ -26,7 +55,6 @@ function drawLevelSelect(screenNum){
   switch(screenNum){
     case 1://Level Select
       text("Adventure", 450, 60);
-      noStroke();
       for (let a = 1; a < 37; a++){//Level Button Select
         let levelName = "l" + a.toString();
         let levelUnlocked = unlockedLevels.includes(levelName);
@@ -34,15 +62,24 @@ function drawLevelSelect(screenNum){
         if (levelUnlocked){
           if((a+floor((a-1)/6))%2 === 0){
             fill(110,105,220);
+            stroke(90,85,200);
           }else{
             fill(80,170,230);
+            stroke(60,150,210);
           }
         }else{
           fill(110);
+          stroke(90)
         }
+        strokeWeight(4)
         let buttonX = ((a-1)%6)*80+225;
         let buttonY = floor((a-1)/6)*80+100;
-        rect(buttonX, buttonY, 50, 50,3);
+        strokeJoin(ROUND)
+        rect(buttonX, buttonY, 50, 50);
+        quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+        quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+        strokeJoin(MITER)
+        noStroke();
         fill(0);
         text(a, buttonX + 25, buttonY + 25);
         // Starts levels in various methods
@@ -59,32 +96,39 @@ function drawLevelSelect(screenNum){
             initialLevelSetup();
             chooseSeeds();
           }
-          break;
         }
       }
       break;
     case 2://Minigame Select
       text("Minigames", 450, 60);
-      noStroke();
       for (let a = 1; a < 14; a++){//Minigame Select
         let levelName = "m" + a.toString();
         let levelUnlocked = unlockedLevels.includes(levelName);
         //Level Button
         if (levelUnlocked){
-          if(a%2 === 0){
-            fill(110,105,220);   
+          if((a+floor(a/13))%2 === 0){
+            fill(110,105,220);
+            stroke(90,85,200);
           }else{
             fill(80,170,230);
+            stroke(60,150,210);
           }
         }else{
           fill(110);
+          stroke(90)
         }
         let buttonX = ((a-1)%3)*80+345;
         let buttonY = floor((a-1)/3)*80+130;
         if (a === 13){//Survival Special Placement
           buttonX = 425;
         }
-        rect(buttonX, buttonY, 50, 50,3);
+        strokeWeight(3)
+        strokeJoin(ROUND)
+        rect(buttonX, buttonY, 50, 50);
+        quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+        quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+        strokeJoin(MITER)
+        noStroke()
         fill(0);
         text(`M${a}`, buttonX + 25, buttonY + 25);
         //Make sure level is unlocked
@@ -112,9 +156,45 @@ function drawLevelSelect(screenNum){
     default:
       break;
   }
-
-  //Almanac Button 
-  fill(180);
+  strokeJoin(ROUND)
+  for(let a=0,la=3;a<la;a++){
+    let buttonX=25+a*75
+    let buttonY=height-75
+    fill(180);
+    stroke(160)
+    strokeWeight(3)
+      rect(buttonX, buttonY, 50, 50);
+      quad(buttonX,buttonY,buttonX+50,buttonY,buttonX+55,buttonY-5,buttonX+5,buttonY-5)
+      quad(buttonX+50,buttonY,buttonX+50,buttonY+50,buttonX+55,buttonY+45,buttonX+55,buttonY-5)
+      stroke(120)
+      noFill()
+      strokeWeight(5)
+      switch(a){
+        case 0:
+          line(buttonX+10,buttonY+25,buttonX+20,buttonY+15)
+          line(buttonX+10,buttonY+25,buttonX+20,buttonY+35)
+          line(buttonX+10,buttonY+25,buttonX+30,buttonY+25)
+          arc(buttonX+30,buttonY+30,20,10,-90,90)
+        break
+        case 1:
+          quad(buttonX+10,buttonY+10,buttonX+10,buttonY+30,buttonX+25,buttonY+40,buttonX+25,buttonY+20)
+          quad(buttonX+40,buttonY+10,buttonX+40,buttonY+30,buttonX+25,buttonY+40,buttonX+25,buttonY+20)
+        break
+        case 2:
+          rect(buttonX+10,buttonY+20,30,20)
+          arc(buttonX+25,buttonY+20,20,20,-180,0)
+          strokeWeight(2)
+          arc(buttonX+25,buttonY+28,6,4,90,270)
+          arc(buttonX+25,buttonY+32,6,4,-90,90)
+          line(buttonX+25,buttonY+24,buttonX+25,buttonY+36)
+          line(buttonX+25,buttonY+26,buttonX+27,buttonY+26)
+          line(buttonX+25,buttonY+34,buttonX+23,buttonY+34)
+        break
+      }
+      
+    }
+  strokeJoin(MITER)
+  /*fill(180);
   rect(760,20,120,40,3);
   rect(310,570,120,40,3);
   rect(470,570,120,40,3);
@@ -122,7 +202,7 @@ function drawLevelSelect(screenNum){
   textSize(20);
   text('Almanac',370,590);
   text('Shop',530,590);
-  text('Back',820,40);
+  text('Back',820,40);*/
 }
 
 // Draw Game Over Screen
@@ -382,6 +462,7 @@ function drawConveyor(){
 function drawUserStats(){
   translate(830,635)
   scale(0.6)
+  noStroke()
   fill(225,this.fade)
   ellipse(0,0,30,30)
   stroke(150,this.fade)

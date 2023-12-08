@@ -37,7 +37,16 @@ class SeedPacket extends Entity{
     noStroke();
     fill(0);
     textSize(20);
-    text(this.name,this.x+60,this.y+28);
+    //text(this.name,this.x+60,this.y+28);
+    if(this.type=='shovel'){
+      stroke(200,0,0)
+      noFill()
+      strokeWeight(5)
+      ellipse(this.x+60,this.y+30,40)
+      line(this.x+74,this.y+16,this.x+46,this.y+44)
+    }else{
+      image(seedpacketimages[this.type-1],this.x,this.y,120,60)
+    }
     // Draw Sun Cost
     textSize(18);
     if ((!currentLevel["type"].includes(2))&&(this.type !== "shovel")){//Not Conveyor
