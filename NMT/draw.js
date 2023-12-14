@@ -549,6 +549,11 @@ function drawTiles(){
 function drawBackground(){
   //Draw Background
   background(155,160,170);
+  fill(50,150,50)
+  for(let a=0,la=16;a<la;a++){
+    ellipse((a+0.5)/la*width,(4**a)%35,80+(3**a)%60)
+    ellipse((a+0.5)/la*width,height+20-((4**a)*2+30)%35,80+((3**a)*2+25)%60)
+  }
 }
 
 // Draws progress bar

@@ -291,10 +291,6 @@ function chooseSeedLoop(){
   textSize(18);
   text('Start', 80, 660);
   // Money
-  textSize(15);
-  textAlign(LEFT,CENTER);
-  text('$'+money, 805, 635);
-  textAlign(CENTER,CENTER);
   if (!((currentLevel.type.includes(2))||(currentLevel.type.includes(3)))){//Prevent Seed Select (Locked and Loaded AND Conveyor)
     textSize(13)
     if(rentSlot){
@@ -318,6 +314,27 @@ function chooseSeedLoop(){
   fill(255,255,255);
   textSize(20);
   text("Quit", 830, 50);
+  translate(830,635);
+    scale(0.6);
+    noStroke()
+    fill(225,this.fade);
+    ellipse(0,0,30,30);
+    stroke(150,this.fade);
+    strokeWeight(4);
+    noFill();
+    arc(0,-5,12,10,90,270);
+    arc(0,5,12,10,-90,90);
+    line(0,-10,5,-10);
+    line(0,10,-5,10);
+    line(0,-13,0,13);
+    scale(5/3);
+    translate(-830,-635);
+    noStroke();
+    fill(0);
+    textSize(15);
+    textAlign(LEFT,CENTER);
+    text(money, 845, 635);
+      textAlign(CENTER,CENTER);
 }
 
 //Loop for last stand preparation

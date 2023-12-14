@@ -13,14 +13,51 @@ class SeedPacket extends Entity{
     this.selected = false;
     this.spawnZombie = spawnZombie;
     this.disabled = disabled;
+    this.class = plantStat[type-1].packet
     allPackets.push(this);
   }
 
   draw(){
     // Box
     noStroke();
-    fill(180,200,180);
-    rect(this.x, this.y, 120, 60, 2);
+    switch(this.class){
+      case 0:
+        for(let a=0,la=20;a<la;a++){
+          fill(240,240,160-80*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 1:
+        for(let a=0,la=20;a<la;a++){
+          fill(240,150-60*a/la,60-60*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 2:
+        for(let a=0,la=20;a<la;a++){
+          fill(210-30*a/la,180-60*a/la,240);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 3:
+        for(let a=0,la=20;a<la;a++){
+          fill(160-40*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 4:
+        for(let a=0,la=20;a<la;a++){
+          fill(160-80*a/la,200,160-80*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 5:
+        for(let a=0,la=20;a<la;a++){
+          fill(240-40*a/la,160-80*a/la,160-80*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+    }
     // Draw Recharge
     fill(0,50);
     rect(this.x, this.y, 120, (this.recharge/(this.maxRecharge + 3))*60,2);// Buffer added to make it look nicer/accurate

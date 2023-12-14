@@ -93,6 +93,10 @@ class Plant extends Entity{
         layer.fill(0);
         layer.ellipse(-6,-39,5,5);
         layer.ellipse(6,-39,5,5);
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(0,-33,14,8,30,150)
         break;
       case 2://Twin Sunflower
         layer.fill(120,180,85)
@@ -123,6 +127,11 @@ class Plant extends Entity{
         layer.ellipse(-13,-38,4,4)
         layer.ellipse(23,-38,4,4)
         layer.ellipse(13,-38,4,4)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.25)
+        layer.arc(18,-34,12,7,30,150)
+        layer.arc(-18,-34,12,7,30,150)
       break
       case 3://Solar Tomato
         layer.fill(75,225,75)
@@ -134,6 +143,12 @@ class Plant extends Entity{
         layer.ellipse(15,-32,6,6)
         layer.fill(255,255,180)
         layer.ellipse(-10,-30,20,30)
+        layer.fill(220)
+        layer.rect(6,-24,3,4)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(16,-24,4,-24)
       break
       case 4://Potato Mine
         layer.fill(160)
@@ -148,8 +163,14 @@ class Plant extends Entity{
         layer.ellipse(4.5,-10,10)
         layer.ellipse(13.5,-10,10)
         layer.fill(0)
-        layer.ellipse(-6,-21,5,5)
-        layer.ellipse(6,-21,5,5)
+        layer.ellipse(-6,-22,5,5)
+        layer.ellipse(6,-22,5,5)
+        layer.fill(220)
+        layer.rect(-4,-17,2,3)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(-6,-17,6,-17)
       break
       case 5://Squash
         layer.fill(100,150,100)
@@ -161,6 +182,12 @@ class Plant extends Entity{
         layer.fill(0)
         layer.ellipse(0,-25,6,6)
         layer.ellipse(15,-25,6,6)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(3,-20,12,-20)
+        layer.line(-3,-29,3,-27)
+        layer.line(18,-29,12,-27)
       break
       case 6://Celery Stalker
         layer.fill(100,255,100)
@@ -173,6 +200,15 @@ class Plant extends Entity{
         layer.ellipse(-11,-40,3,3)
         layer.ellipse(15,-40,3,3)
         layer.ellipse(11,-40,3,3)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1)
+        layer.line(-16,-43,-14,-42)
+        layer.line(-12,-42,-10,-43)
+        layer.line(-15,-37,-11,-37)
+        layer.line(16,-43,14,-42)
+        layer.line(12,-42,10,-43)
+        layer.line(15,-37,11,-37)
       break
       case 7://Cherry Bomb
         layer.stroke(25,175,25);
@@ -188,17 +224,31 @@ class Plant extends Entity{
         layer.ellipse(-18,-28,6,6);
         layer.ellipse(18,-28,6,6);
         layer.ellipse(28,-28,6,6);
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(-31,-32,-25,-30)
+        layer.line(-15,-32,-21,-30)
+        layer.arc(-23,-20,12,6,-160,-20)
+        layer.line(31,-32,25,-30)
+        layer.line(15,-32,21,-30)
+        layer.arc(23,-20,12,6,-160,-20)
       break
       case 8://Melon Grenade
         layer.fill(150,255,255)
         layer.ellipse(0,-30,50,50)
-        layer.stroke(0)
+        layer.stroke(0,100,100)
         layer.strokeWeight(1)
         layer.ellipse(0,-30,30,48)
         layer.ellipse(0,-30,10,48)
+        layer.noStroke()
         layer.fill(0)
-        layer.ellipse(15,-30,6,6)
-        layer.ellipse(25,-30,6,6)
+        layer.ellipse(10,-30,6,6)
+        layer.ellipse(20,-30,6,6)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(15,-22,12,4,-165,-15)
       break
       case 9://Primal Potato Mine
         layer.fill(255)
@@ -211,8 +261,14 @@ class Plant extends Entity{
         layer.ellipse(4.5,-10,10)
         layer.ellipse(13.5,-10,10)
         layer.fill(0)
-        layer.ellipse(-6,-21,5,5)
-        layer.ellipse(6,-21,5,5)
+        layer.ellipse(-6,-22,5,5)
+        layer.ellipse(6,-22,5,5)
+        layer.fill(220)
+        layer.rect(-4,-17,2,3)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(-6,-17,6,-17)
       break
       case 10://Dazey
         layer.fill(120,180,85)
@@ -233,6 +289,10 @@ class Plant extends Entity{
         layer.fill(0)
         layer.ellipse(-6,-39,5,5)
         layer.ellipse(6,-39,5,5)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.ellipse(0,-30,10,4)
       break
       case 11://Spring Bean
       layer.translate(0,-10)
@@ -257,6 +317,10 @@ class Plant extends Entity{
           layer.ellipse(-3,-23,4,4)
           layer.ellipse(6,-23,4,4)
         }
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(1.5,-16,6,3,-150,-30)
       break
       case 12://Wall-nut
         layer.fill(120,60,15)
@@ -315,8 +379,14 @@ class Plant extends Entity{
         layer.ellipse(-6,-12,16,16)
         layer.ellipse(6,-12,16,16)
         layer.fill(0)
-        layer.ellipse(-6,-36,6,6)
-        layer.ellipse(9,-36,6,6)
+        layer.ellipse(-3,-36,6,6)
+        layer.ellipse(12,-36,6,6)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1)
+        layer.arc(4.5,-27,12,6,-150,-30)
+        layer.arc(-3,-36,10,10,-180,-90)
+        layer.arc(12,-36,10,10,-90,0)
       break
       case 15://Garlic
         layer.fill(220,220,200);
@@ -330,6 +400,12 @@ class Plant extends Entity{
         layer.fill(0);
         layer.ellipse(6,-28,6,6);
         layer.ellipse(18,-28,6,6);
+        layer.fill(160)
+        layer.rect(12,-22,2,3)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(8,-22,16,-22)
         break;
       case 16://Puff-Shroom
         layer.fill(200,150,200)
@@ -361,6 +437,12 @@ class Plant extends Entity{
         layer.fill(0)
         layer.ellipse(4,-30,6,6)
         layer.ellipse(12,-30,6,6)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(2,-34,6,-32)
+        layer.line(14,-34,10,-32)
+        layer.arc(8,-27,10,6,30,150)
       break
       case 18://Peashooter
         layer.fill(25,200,25)
@@ -391,10 +473,14 @@ class Plant extends Entity{
         layer.ellipse(3,-28,5,5)
         layer.fill(50,150,50)
         layer.ellipse(-20,-30,15,24)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(8,-20,8,4,-150,-30)
       break
       case 20://Spore Shroom
         layer.fill(200,150,200)
-        layer.rect(-6,-24,12,21)
+        layer.rect(-6,-24,12,18)
         layer.fill(150,50,200)
         layer.arc(0,-24,48,48,-180,0)
         layer.arc(0,-24,48,6,0,180)
@@ -405,7 +491,8 @@ class Plant extends Entity{
         layer.ellipse(9,-33,12,12)
         layer.fill(0)
         layer.ellipse(30,-30,6,12)
-        layer.ellipse(3,-15,5,5)
+        layer.ellipse(3,-17,5,5)
+        layer.rect(3,-12,3,1)
       break
       case 21://Threepeater
         layer.fill(25,200,25)
@@ -474,6 +561,10 @@ class Plant extends Entity{
         layer.strokeWeight(3)
         layer.line(0, -21, 6, -12)
         layer.line(0, -21, -1, -9)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(8,-1,7,5,30,150)
       break
       case 24://Pepper Cannon
         layer.fill(240,20,20,50)
@@ -490,6 +581,10 @@ class Plant extends Entity{
         layer.fill(0)
         layer.arc(-2,-33,8,8,30,210)
         layer.arc(12,-33,8,8,-30,150)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.arc(5,-24,7,4,-160,-20)
       break
       case 25://Coconut Cannon
         layer.fill(85,45,5)
@@ -538,6 +633,12 @@ class Plant extends Entity{
         layer.fill(0)
         layer.ellipse(-2,-22,5,5)
         layer.ellipse(6,-22,5,5)
+        layer.fill(160)
+        layer.rect(2,-16,2,3)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(-2,-16,6,-16)
         break
       case 28://Endurian
         layer.fill(200,150,50)
@@ -559,6 +660,12 @@ class Plant extends Entity{
         layer.fill(0)
         layer.ellipse(0,-36,6,6)
         layer.ellipse(10,-36,6,6)
+        layer.stroke(0)
+        layer.noFill()
+        layer.strokeWeight(1.5)
+        layer.line(-2,-41,2,-39)
+        layer.line(12,-41,8,-39)
+        layer.arc(5,-27,12,6,-150,-30)
         break
       case 29://Spikeweed
         layer.fill(200)
@@ -640,6 +747,10 @@ class Plant extends Entity{
         fill(0);
         ellipse(-6,-39,5,5);
         ellipse(6,-39,5,5);
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(0,-33,14,8,30,150)
         break;
       case 2://Twin Sunflower
         fill(120,180,85)
@@ -670,6 +781,11 @@ class Plant extends Entity{
         ellipse(-13,-38,4,4)
         ellipse(23,-38,4,4)
         ellipse(13,-38,4,4)
+        stroke(0)
+        noFill()
+        strokeWeight(1.25)
+        arc(18,-34,12,7,30,150)
+        arc(-18,-34,12,7,30,150)
       break
       case 3://Solar Tomato
         fill(75,225,75)
@@ -681,33 +797,34 @@ class Plant extends Entity{
         ellipse(15,-32,6,6)
         fill(255,255,180)
         ellipse(-10,-30,20,30)
+        fill(220)
+        rect(6,-24,3,4)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(16,-24,4,-24)
       break
       case 4://Potato Mine
-        if(this.reload>0){
-          fill(160)
-          rect(-1.5,-20,3,12)
-          fill(255,0,0)
-          ellipse(0,-22,6,6)
-          fill(120,70,20)
-          ellipse(-9,-10,10,10)
-          ellipse(0,-10,10,10)
-          ellipse(9,-10,10,10)
-        }else{
-          fill(160)
-          rect(-1.5,-34,3,12)
-          fill(255,0,0)
-          ellipse(0,-36,6,6)
-          fill(220,200,100)
-          arc(0,-10,30,36,-180,0)
-          fill(120,70,20)
-          ellipse(-13.5,-10,10)
-          ellipse(-4.5,-10,10)
-          ellipse(4.5,-10,10)
-          ellipse(13.5,-10,10)
-          fill(0)
-          ellipse(-6,-21,5,5)
-          ellipse(6,-21,5,5)
-        }
+        fill(160)
+        rect(-1.5,-34,3,12)
+        fill(255,0,0)
+        ellipse(0,-36,6,6)
+        fill(220,200,100)
+        arc(0,-10,30,36,-180,0)
+        fill(120,70,20)
+        ellipse(-13.5,-10,10)
+        ellipse(-4.5,-10,10)
+        ellipse(4.5,-10,10)
+        ellipse(13.5,-10,10)
+        fill(0)
+        ellipse(-6,-22,5,5)
+        ellipse(6,-22,5,5)
+        fill(220)
+        rect(-4,-17,2,3)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(-6,-17,6,-17)
       break
       case 5://Squash
         fill(100,150,100)
@@ -719,23 +836,33 @@ class Plant extends Entity{
         fill(0)
         ellipse(0,-25,6,6)
         ellipse(15,-25,6,6)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(3,-20,12,-20)
+        line(-3,-29,3,-27)
+        line(18,-29,12,-27)
       break
       case 6://Celery Stalker
-        if(this.reload>0){
-          fill(100,255,100)
-          quad(-10,-10,0,-10,-10,-50,-20,-50)
-          quad(10,-10,0,-10,10,-50,20,-50)
-          rect(-22,-30,12,8)
-          rect(10,-30,12,8)
-          fill(0)
-          ellipse(-15,-40,3,3)
-          ellipse(-11,-40,3,3)
-          ellipse(15,-40,3,3)
-          ellipse(11,-40,3,3)
-        }else{
-          fill(100,255,100)
-          rect(-10,-14,20,4)
-        }
+        fill(100,255,100)
+        quad(-10,-10,0,-10,-10,-50,-20,-50)
+        quad(10,-10,0,-10,10,-50,20,-50)
+        rect(-22,-30,12,8)
+        rect(10,-30,12,8)
+        fill(0)
+        ellipse(-15,-40,3,3)
+        ellipse(-11,-40,3,3)
+        ellipse(15,-40,3,3)
+        ellipse(11,-40,3,3)
+        stroke(0)
+        noFill()
+        strokeWeight(1)
+        line(-16,-43,-14,-42)
+        line(-12,-42,-10,-43)
+        line(-15,-37,-11,-37)
+        line(16,-43,14,-42)
+        line(12,-42,10,-43)
+        line(15,-37,11,-37)
       break
       case 7://Cherry Bomb
         stroke(25,175,25);
@@ -751,40 +878,51 @@ class Plant extends Entity{
         ellipse(-18,-28,6,6);
         ellipse(18,-28,6,6);
         ellipse(28,-28,6,6);
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(-31,-32,-25,-30)
+        line(-15,-32,-21,-30)
+        arc(-23,-20,12,6,-160,-20)
+        line(31,-32,25,-30)
+        line(15,-32,21,-30)
+        arc(23,-20,12,6,-160,-20)
       break
       case 8://Melon Grenade
         fill(150,255,255)
         ellipse(0,-30,50,50)
-        stroke(0)
+        stroke(0,100,100)
         strokeWeight(1)
         ellipse(0,-30,30,48)
         ellipse(0,-30,10,48)
+        noStroke()
         fill(0)
-        ellipse(15,-30,6,6)
-        ellipse(25,-30,6,6)
+        ellipse(10,-30,6,6)
+        ellipse(20,-30,6,6)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(15,-22,12,4,-165,-15)
       break
       case 9://Primal Potato Mine
-        if(this.reload>0){
-          fill(255)
-          triangle(0,-20,4,-10,-4,-10)
-          fill(120,70,20)
-          ellipse(-9,-10,10,10)
-          ellipse(0,-10,10,10)
-          ellipse(9,-10,10,10)
-        }else{
-          fill(255)
-          triangle(4,-26,-4,-26,0,-36)
-          fill(220,200,100)
-          quad(-16,-10,16,-10,12,-26,-12,-26)
-          fill(120,70,20)
-          ellipse(-13.5,-10,10)
-          ellipse(-4.5,-10,10)
-          ellipse(4.5,-10,10)
-          ellipse(13.5,-10,10)
-          fill(0)
-          ellipse(-6,-21,5,5)
-          ellipse(6,-21,5,5)
-        }
+        fill(255)
+        triangle(4,-26,-4,-26,0,-36)
+        fill(220,200,100)
+        quad(-16,-10,16,-10,12,-26,-12,-26)
+        fill(120,70,20)
+        ellipse(-13.5,-10,10)
+        ellipse(-4.5,-10,10)
+        ellipse(4.5,-10,10)
+        ellipse(13.5,-10,10)
+        fill(0)
+        ellipse(-6,-22,5,5)
+        ellipse(6,-22,5,5)
+        fill(220)
+        rect(-4,-17,2,3)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(-6,-17,6,-17)
       break
       case 10://Dazey
         fill(120,180,85)
@@ -805,8 +943,13 @@ class Plant extends Entity{
         fill(0)
         ellipse(-6,-39,5,5)
         ellipse(6,-39,5,5)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        ellipse(0,-30,10,4)
       break
       case 11://Spring Bean
+      translate(0,-10)
         noFill()
         stroke(175,225,125)
         strokeWeight(2)
@@ -828,6 +971,10 @@ class Plant extends Entity{
           ellipse(-3,-23,4,4)
           ellipse(6,-23,4,4)
         }
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(1.5,-16,6,3,-150,-30)
       break
       case 12://Wall-nut
         fill(120,60,15)
@@ -886,8 +1033,14 @@ class Plant extends Entity{
         ellipse(-6,-12,16,16)
         ellipse(6,-12,16,16)
         fill(0)
-        ellipse(-6,-36,6,6)
-        ellipse(9,-36,6,6)
+        ellipse(-3,-36,6,6)
+        ellipse(12,-36,6,6)
+        stroke(0)
+        noFill()
+        strokeWeight(1)
+        arc(4.5,-27,12,6,-150,-30)
+        arc(-3,-36,10,10,-180,-90)
+        arc(12,-36,10,10,-90,0)
       break
       case 15://Garlic
         fill(220,220,200);
@@ -901,6 +1054,12 @@ class Plant extends Entity{
         fill(0);
         ellipse(6,-28,6,6);
         ellipse(18,-28,6,6);
+        fill(160)
+        rect(12,-22,2,3)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(8,-22,16,-22)
         break;
       case 16://Puff-Shroom
         fill(200,150,200)
@@ -932,6 +1091,12 @@ class Plant extends Entity{
         fill(0)
         ellipse(4,-30,6,6)
         ellipse(12,-30,6,6)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(2,-34,6,-32)
+        line(14,-34,10,-32)
+        arc(8,-27,10,6,30,150)
       break
       case 18://Peashooter
         fill(25,200,25)
@@ -962,10 +1127,14 @@ class Plant extends Entity{
         ellipse(3,-28,5,5)
         fill(50,150,50)
         ellipse(-20,-30,15,24)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(8,-20,8,4,-150,-30)
       break
       case 20://Spore Shroom
         fill(200,150,200)
-        rect(-6,-24,12,21)
+        rect(-6,-24,12,18)
         fill(150,50,200)
         arc(0,-24,48,48,-180,0)
         arc(0,-24,48,6,0,180)
@@ -976,7 +1145,8 @@ class Plant extends Entity{
         ellipse(9,-33,12,12)
         fill(0)
         ellipse(30,-30,6,12)
-        ellipse(3,-15,5,5)
+        ellipse(3,-17,5,5)
+        rect(3,-12,3,1)
       break
       case 21://Threepeater
         fill(25,200,25)
@@ -1006,6 +1176,7 @@ class Plant extends Entity{
           ellipse(200-this.graphical.previousAttackAnim*9,-24,360-this.graphical.previousAttackAnim*18,60-this.graphical.previousAttackAnim*3)
           this.graphical.previousAttackAnim--
         }
+        translate(0,-5)
         fill(200,150,200)
         rect(-12,-18,24,15)
         fill(150,50,200)
@@ -1020,6 +1191,7 @@ class Plant extends Entity{
         ellipse(6,-7,5,5)
       break
       case 23://Valley Lily
+      translate(0,-15)
         noFill()
         stroke(0, 180, 0)
         strokeWeight(8)
@@ -1043,6 +1215,10 @@ class Plant extends Entity{
         strokeWeight(3)
         line(0, -21, 6, -12)
         line(0, -21, -1, -9)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(8,-1,7,5,30,150)
       break
       case 24://Pepper Cannon
         fill(240,20,20,50)
@@ -1059,6 +1235,10 @@ class Plant extends Entity{
         fill(0)
         arc(-2,-33,8,8,30,210)
         arc(12,-33,8,8,-30,150)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        arc(5,-24,7,4,-160,-20)
       break
       case 25://Coconut Cannon
         fill(85,45,5)
@@ -1074,11 +1254,9 @@ class Plant extends Entity{
         stroke(0)
         strokeWeight(1)
         line(-24,-48,-28,-52)
-        if(this.reload<=0){
           fill(255,125,0)
           noStroke()
           ellipse(-28,-52,6,6)
-        }
       break
       case 26://Snow Pea
         fill(25,200,25)
@@ -1109,6 +1287,12 @@ class Plant extends Entity{
         fill(0)
         ellipse(-2,-22,5,5)
         ellipse(6,-22,5,5)
+        fill(160)
+        rect(2,-16,2,3)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(-2,-16,6,-16)
         break
       case 28://Endurian
         fill(200,150,50)
@@ -1130,6 +1314,12 @@ class Plant extends Entity{
         fill(0)
         ellipse(0,-36,6,6)
         ellipse(10,-36,6,6)
+        stroke(0)
+        noFill()
+        strokeWeight(1.5)
+        line(-2,-41,2,-39)
+        line(12,-41,8,-39)
+        arc(5,-27,12,6,-150,-30)
         break
       case 29://Spikeweed
         fill(200)
@@ -1163,7 +1353,6 @@ class Plant extends Entity{
     scale(1/this.size);
     translate(-this.x-30,-this.y-70);
   }
-
   move(){
     this.stunTimer -= levelSpeed;
     if (this.stunTimer <= 0){//Plant not stunned
