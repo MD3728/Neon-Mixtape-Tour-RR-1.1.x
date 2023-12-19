@@ -446,6 +446,7 @@ function drawObjectives(){
 //Draw Conveyor Belt
 function drawConveyor(){
   if (currentLevel["type"].includes(2) === true){
+    noStroke()
     fill(40);
     rect(0,0,10,700);
     rect(120,0,10,700);

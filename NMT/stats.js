@@ -1950,7 +1950,7 @@ const plantStat = [
     type: 23,
     name: "Valley Lily",
     description: "Poisonous lilies deal damage over time\nSpecial: Each extra lily will increase permanent damage\nSpecial: Permanent damage goes through shields",
-    packet:5,
+    packet:4,
     t1:{
       sun: 275,
       recharge: 300,

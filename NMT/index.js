@@ -926,11 +926,11 @@ function draw(){
       displayPlant.draw();
       noStroke();
       fill(120)
-      rect(width/2-210,100-50,420,100)
+      rect(width/2-240,100-50,480,100)
       rect(width/3-100,500-130,200,220)
       rect(width*2/3-100,500-130,200,220)
       fill(140)
-      rect(width/2-200,100-40,400,80)
+      rect(width/2-230,100-40,460,80)
       rect(width/3-90,500-120,180,200)
       rect(width*2/3-90,500-120,180,200)
       fill(0);
@@ -1057,10 +1057,10 @@ function draw(){
       currentJam=8
       noStroke();
       fill(120)
-      rect(width/2-210,100-50,420,100)
+      rect(width/2-240,100-50,480,100)
       rect(width/2-100,550-70,200,140)
       fill(140)
-      rect(width/2-200,100-40,400,80)
+      rect(width/2-230,100-40,460,80)
       rect(width/2-90,550-60,180,120)
       fill(0);
       textSize(60);

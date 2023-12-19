@@ -13,7 +13,7 @@ class SeedPacket extends Entity{
     this.selected = false;
     this.spawnZombie = spawnZombie;
     this.disabled = disabled;
-    this.class = plantStat[type-1].packet
+    this.class = type>=1?plantStat[type-1].packet:6
     allPackets.push(this);
   }
 
@@ -54,6 +54,12 @@ class SeedPacket extends Entity{
       case 5:
         for(let a=0,la=20;a<la;a++){
           fill(240-40*a/la,160-80*a/la,160-80*a/la);
+          rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
+        }
+      break
+      case 6:
+        for(let a=0,la=20;a<la;a++){
+          fill(120-40*a/la,80-40*a/la,0);
           rect(this.x+30*a/la, this.y+60*a/la, 120-60*a/la, 60-60*a/la, 2);
         }
       break
@@ -101,8 +107,8 @@ class SeedPacket extends Entity{
       }else if(this.tier === 2){
         stroke(160);
         strokeWeight(4);
-        line(this.x+106,this.y+10,this.x+106,this.y+22);
-        line(this.x+110,this.y+10,this.x+110,this.y+22);
+        line(this.x+105,this.y+10,this.x+105,this.y+22);
+        line(this.x+111,this.y+10,this.x+111,this.y+22);
       }
     }
     // else if(this.tier==3){
