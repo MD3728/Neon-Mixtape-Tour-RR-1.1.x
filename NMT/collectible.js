@@ -106,9 +106,4 @@ class Collectible extends Entity{
 
 }
   
-  
-  
-  
-  
-  
  

@@ -1,12 +1,17 @@
+//
+// Draw File
+//
+
 // Draw Title Screen
 function drawTitleScreen(){
   background(0);
-
   noStroke();
   push()
+
+  // Temporary Solution to constantly changing background
   translate(width/2,height/2)
-  rotate(actualGlobalTimer*2)
-  rotate(-floor(actualGlobalTimer/50)*(15+sin(actualGlobalTimer)*10))
+  rotate((actualGlobalTimer%25)*2)
+  rotate(-floor((actualGlobalTimer%50)/50)*(actualGlobalTimer%10)/10)
   for(let a=0,la=12;a<la;a++){
     rotate(15+sin(actualGlobalTimer)*10)
     fill(0,50,100-(a+floor(actualGlobalTimer%100/50))%2*25)
@@ -88,13 +93,13 @@ function drawLevelSelect(screenNum){
           if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
             daveSetup();
           }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
-            initialLevelSetup();
-            finalLevelSetup();
+            basicLevelSetup();
+            advancedLevelSetup();
             transition.trigger = true;
             transition.screen = "level";
           }else{//Normal
-            initialLevelSetup();
-            chooseSeeds();
+            basicLevelSetup();
+            initiateChooseSeeds();
           }
         }
       }
@@ -141,13 +146,13 @@ function drawLevelSelect(screenNum){
           if (currentLevel.daveSpeech.length !== 0){//There is Dialogue
             daveSetup();
           }else if ((currentLevel.type.includes(10))||(currentLevel.type.includes(14))){//Boss or I Zombie
-            initialLevelSetup();
-            finalLevelSetup();
+            basicLevelSetup();
+            advancedLevelSetup();
             transition.trigger=true;
             transition.screen="level";
           }else{//Normal
-            initialLevelSetup();
-            chooseSeeds();
+            basicLevelSetup();
+            initiateChooseSeeds();
           }
           break;
         }
@@ -423,7 +428,7 @@ function drawObjectives(){
   if (currentLevel["type"].includes(7) === true){
     fill(255,0,0);
     for(let a=0;a<20;a++){
-      image(graphics.minor[a%7],currentLevel["flowerLine"]+((a*a)%4.3)*4-8.6,120+a*25,25,25)
+      image(graphics.minor[a%7],currentLevel["flowerLine"]+((a*a)%4.3)*1.5-8.6,120+a*25,25,25)
     }
   }
   //Draw Zombie Line (I Zombie)
@@ -461,8 +466,29 @@ function drawConveyor(){
 
 // Draws coins and suns
 function drawUserStats(){
-  translate(830,635)
-  scale(0.6)
+  //Draw Coins
+  drawCoinBar();
+  //Display Sun Values
+  textAlign(CENTER,CENTER);
+  noStroke();
+  fill(255);
+  textSize(36);
+  if (!currentLevel["type"].includes(2)){
+    text(sun, 65, 40);
+  }
+}
+
+// Draws coin mini-menu
+function drawCoinBar(){
+  // Coin Rectangle
+  fill(100);
+  stroke(80);
+  strokeWeight(5);
+  rect(760,640,140,40,5);
+  noStroke();
+  // Display Coin
+  translate(781,660)
+  scale(1.1);// Start scaling
   noStroke()
   fill(225,this.fade)
   ellipse(0,0,30,30)
@@ -474,21 +500,16 @@ function drawUserStats(){
   line(0,-10,5,-10)
   line(0,10,-5,10)
   line(0,-13,0,13)
-  scale(5/3)
-  translate(-830,-635)
-  noStroke()
-  fill(0)
-  textSize(15);
-  textAlign(LEFT,CENTER)
-  text(money, 845, 635);
-  textAlign(CENTER,CENTER)
-  //Display Sun Values
+  scale(10/11);
   noStroke();
-  fill(0,0,0);
-  textSize(24);
-  if (!currentLevel["type"].includes(2)){
-    text(sun, 65, 40);
-  }
+  translate(-781,-660);
+  
+  // Coin Text
+  fill(225);
+  textSize(19);
+  textAlign(LEFT,CENTER);
+  text(money, 803, 660);
+  textAlign(CENTER,CENTER);
 }
 
 // Draw navigation buttons
@@ -500,11 +521,11 @@ function drawNavigation(){
   rect(700,50,60,40,5);
   noStroke();
   fill(40);
-  if (levelSpeed === 2){
+  if (levelSpeed === 1.7){
     regTriangle(714,70,10,-30);
     regTriangle(730,70,10,-30);
     regTriangle(746,70,10,-30);
-  }else if (levelSpeed === 1.5){
+  }else if (levelSpeed === 1.35){
     regTriangle(722,70,10,-30);
     regTriangle(738,70,10,-30);
   }else{

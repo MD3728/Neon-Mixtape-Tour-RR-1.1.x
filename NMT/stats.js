@@ -575,7 +575,7 @@ const levels = {
   },
   "l22": {//Level 22 Fog 3 Flag
     type: [5],
-    daveSpeech: ["Click", "It's fog again..."],
+    daveSpeech: ["It's fog again..."],
     flag: [false,false,false,false,true,false,false,false,false,true,false,false,false,false,true],
     jams:[0,0,0,8,8,8,8,0,0,8,8,8,8,0,8],
     waveDelay: [720,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200,1200],
@@ -1327,6 +1327,15 @@ const levels = {
   }
 };
 
+// Plant Background Packet Types
+// 0: Stallers/Support
+// 1: Late Game Instant Use
+// 2: Regular Attack
+// 3: Sun Producers
+// 4: Early Game Instant Use
+// 5: Large Attack 
+// 6: Shovel
+// 7: Walls
 
 //Plant Data
 const plantStat = [
@@ -1334,7 +1343,7 @@ const plantStat = [
     type: 1,
     name: "Sunflower",
     description: "Produces sun every 29 seconds, Damage denotes sun produced",
-    packet:0,
+    packet:3,
     t1:{
       sun: 50,
       recharge: 540,
@@ -1362,7 +1371,7 @@ const plantStat = [
     type: 2,
     name: "Twin Sunflower",
     description: "Produces 2 sun every 29 seconds, Damage denotes sun produced per sun",
-    packet:0,
+    packet:3,
     t1:{
       sun: 150,
       recharge: 900,
@@ -1390,7 +1399,7 @@ const plantStat = [
     type: 3,
     name: "Solar Tomato",
     description: "Produces 50 sun for every zombie in a 3x3 area\nSpecial: Stuns Zombies (Denoted by splashDamage Field)",
-    packet:0,
+    packet:3,
     t1:{
       sun: 100,
       recharge: 900,
@@ -1418,7 +1427,7 @@ const plantStat = [
     type: 4,
     name: "Potato Mine",
     description: "Takes time to arm and explodes in tile area\nSpecial: Takes time to arm (Denoted by reload field)",
-    packet:1,
+    packet:4,
     t1:{
       sun: 25,
       recharge: 900,
@@ -1446,7 +1455,7 @@ const plantStat = [
     type: 5,
     name: "Squash",
     description: "Squashes all zombies in a tile area",
-    packet:1,
+    packet:4,
     t1:{
       sun: 100,
       recharge: 1500,
@@ -1474,7 +1483,7 @@ const plantStat = [
     type: 6,
     name: "Celery Stalker",
     description: "Pops up behind zombies and deals heavy damage",
-    packet:1,
+    packet:4,
     t1:{
       sun: 75,
       recharge: 1200,
@@ -1530,7 +1539,7 @@ const plantStat = [
     type: 8,
     name: "Melon Grenade",
     description: "Deals damage to zombies in 3x3 area and freezes zombies in 5x5 area\nSpecial: Stuns zombies in 5x5 with duration stated by splashDamage field",
-    packet:2,
+    packet:1,
     t1:{
       sun: 150,
       recharge: 1800,
@@ -1586,7 +1595,7 @@ const plantStat = [
     type: 10,
     name: "Dazey",
     description: "Stuns zombies in a 3x3 area\nSpecial: Tier 2 damages zombies denoted by splashDamage field",
-    packet:2,
+    packet:0,
     t1:{
       sun: 0,
       recharge: 720,
@@ -1614,7 +1623,7 @@ const plantStat = [
     type: 11,
     name: "Spring Bean",
     description: "Knocks back zombies by distance specified by damage\nSpecial: Must sleep for time specified by reload",
-    packet:2,
+    packet:0,
     t1:{
       sun: 25,
       recharge: 900,
@@ -1642,7 +1651,7 @@ const plantStat = [
     type: 12,
     name: "Wall-nut",
     description: "Defensive wall against the zombies",
-    packet:3,
+    packet:7,
     t1:{
       sun: 50,
       recharge: 1200,
@@ -1670,7 +1679,7 @@ const plantStat = [
     type: 13,
     name: "Explode-O-Nut",
     description: "Wall-nut that blows up when killed",
-    packet:3,
+    packet:7,
     t1:{
       sun: 75,
       recharge: 1500,
@@ -1726,7 +1735,7 @@ const plantStat = [
     type: 15,
     name: "Garlic",
     description: "Makes a zombie go to a random adjacent lane",
-    packet:2,
+    packet:0,
     t1:{
       sun: 50,
       recharge: 600,
@@ -1754,7 +1763,7 @@ const plantStat = [
     type: 16,
     name: "Puff Shroom",
     description: "Shoots puffs\nSpecial: Has 3 tile range",
-    packet:4,
+    packet:2,
     t1:{
       sun: 25,
       recharge: 360,
@@ -1782,7 +1791,7 @@ const plantStat = [
     type: 17,
     name: "Red Stinger",
     description: "Overpowered attacker with an extremely long recharge",
-    packet:4,
+    packet:5,
     t1:{
       sun: 100,
       recharge: 2700,
@@ -1810,7 +1819,7 @@ const plantStat = [
     type: 18,
     name: "Peashooter",
     description: "Simple attacking plant, shoots peas at zombies",
-    packet:4,
+    packet:2,
     t1:{
       sun: 100,
       recharge: 180,
@@ -1838,7 +1847,7 @@ const plantStat = [
     type: 19,
     name: "Phat Beet",
     description: "Damages zombies in 3x3 area",
-    packet:4,
+    packet:2,
     t1:{
       sun: 200,
       recharge: 600,
@@ -1866,7 +1875,7 @@ const plantStat = [
     type: 20,
     name: "Spore Shroom",
     description: "Shoots damaging spores\nSpecial: Zombies killed by a spore will spawn a new spore shroom",
-    packet:4,
+    packet:2,
     t1:{
       sun: 150,
       recharge: 600,
@@ -1894,7 +1903,7 @@ const plantStat = [
     type: 21,
     name: "Threepeater",
     description: "Shoots peas in three lanes\nSpecial: Shoots two peas if placed in bottom or top lane",
-    packet:4,
+    packet:5,
     t1:{
       sun: 300,
       recharge: 300,
@@ -1922,7 +1931,7 @@ const plantStat = [
     type: 22,
     name: "Fume Shroom",
     description: "Damages all zombies 4 tiles ahead of it",
-    packet:5,
+    packet:2,
     t1:{
       sun: 150,
       recharge: 300,
@@ -1950,7 +1959,7 @@ const plantStat = [
     type: 23,
     name: "Valley Lily",
     description: "Poisonous lilies deal damage over time\nSpecial: Each extra lily will increase permanent damage\nSpecial: Permanent damage goes through shields",
-    packet:4,
+    packet:5,
     t1:{
       sun: 275,
       recharge: 300,
@@ -2034,7 +2043,7 @@ const plantStat = [
     type: 26,
     name: "Snow Pea",
     description: "Fires slowing projectiles",
-    packet:2,
+    packet:0,
     t1:{
       sun: 150,
       recharge: 300,
@@ -2062,7 +2071,7 @@ const plantStat = [
     type: 27,
     name: "Stunion",
     description: "Stuns Zombies In Front of It",
-    packet:2,
+    packet:0,
     t1:{
       sun: 50,
       recharge: 1500,
@@ -2090,7 +2099,7 @@ const plantStat = [
     type: 28,
     name: "Endurian",
     description: "Hurts Zombies That Eat It",
-    packet:3,
+    packet:7,
     t1:{
       sun: 125,
       recharge: 1500,
@@ -2118,7 +2127,7 @@ const plantStat = [
     type: 29,
     name: "Spikeweed",
     description: "Hurts Zombies That Step On It",
-    packet:5,
+    packet:2,
     t1:{
       sun: 100,
       recharge: 300,
@@ -2143,7 +2152,6 @@ const plantStat = [
     }
   }
 ];
-
 
 //Zombie Data
 const zombieStat = [
