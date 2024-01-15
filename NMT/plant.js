@@ -978,7 +978,6 @@ class Plant extends Entity {
         ellipse(0, -30, 10, 4)
         break
       case 11://Spring Bean
-        translate(0, -10)
         noFill()
         stroke(175, 225, 125)
         strokeWeight(2)
