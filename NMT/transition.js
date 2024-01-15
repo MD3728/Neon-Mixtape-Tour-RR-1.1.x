@@ -384,7 +384,7 @@ function prepareDefense() {
 function createSeedPacket(plantIndex, startingX = 0, startingY = 0, tier = 0) {
   let currentPlant = plantStat[plantIndex - 1];//Plant Types start at 1, but array starts at 0
   let newSeed;
-  let determineTier = tier === 0 ? plantTier[plantIndex - 1] : tier;// Tier is specified (eg. Locked and Loaded)
+  let determineTier = tier === 0 ? parseInt(plantTier[plantIndex - 1]) : tier;// Tier is specified (eg. Locked and Loaded)
   if (determineTier === 1) {//Tier 1
     let tier1Stat = currentPlant["t1"];
     newSeed = new SeedPacket(plantIndex, currentPlant["name"], tier1Stat["sun"], 1, tier1Stat["recharge"], tier1Stat["startingRecharge"], false, false, startingX, startingY);//Tier 1
