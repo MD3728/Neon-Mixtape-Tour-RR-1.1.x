@@ -1445,9 +1445,9 @@ const plantStat = [
       startingRecharge: 300,
       health: 300,
       eatable: true,
-      damage: 900,
+      damage: 1000,
       splashDamage: 0,
-      reload: 360,
+      reload: 300,
       projectile: 0
     }
   },
@@ -1457,7 +1457,7 @@ const plantStat = [
     description: "Squashes all zombies in a tile area",
     packet:4,
     t1:{
-      sun: 100,
+      sun: 75,
       recharge: 1500,
       startingRecharge: 600,
       health: 100000,
@@ -1469,7 +1469,7 @@ const plantStat = [
     },
     t2:{
       sun: 50,
-      recharge: 1080,
+      recharge: 900,
       startingRecharge: 300,
       health: 100000,
       eatable: false,
@@ -1485,7 +1485,7 @@ const plantStat = [
     description: "Pops up behind zombies and deals heavy damage",
     packet:4,
     t1:{
-      sun: 75,
+      sun: 100,
       recharge: 1200,
       startingRecharge: 600,
       health: 1200,
@@ -1496,7 +1496,7 @@ const plantStat = [
       projectile: 0
     },
     t2:{
-      sun: 150,
+      sun: 175,
       recharge: 1500,
       startingRecharge: 600,
       health: 2000,
@@ -1766,8 +1766,8 @@ const plantStat = [
     packet:2,
     t1:{
       sun: 25,
-      recharge: 360,
-      startingRecharge: 360,
+      recharge: 300,
+      startingRecharge: 300,
       health: 450,
       eatable: true,
       damage: 25,
@@ -1779,7 +1779,7 @@ const plantStat = [
       sun: 0,
       recharge: 300,
       startingRecharge: 300,
-      health: 150,
+      health: 50,
       eatable: true,
       damage: 10,
       splashDamage: 0,
@@ -1916,7 +1916,7 @@ const plantStat = [
       projectile: 1
     },
     t2:{
-      sun: 475,
+      sun: 450,
       recharge: 600,
       startingRecharge: 600,
       health: 600,

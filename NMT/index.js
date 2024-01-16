@@ -791,6 +791,7 @@ function setup() {
   }
   currentSurvivalNum = localStorage.getItem("survivalStreak");
   money = parseInt(localStorage.getItem("money"));
+  money = money >= maxMoney ? 1000 : money;
   unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
   for (let currentPacket in unlockedPackets){
     unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);

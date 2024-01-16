@@ -421,7 +421,8 @@ function drawJams(){
 function drawObjectives(){
   // Plants Lost
   if (currentLevel["type"].includes(8)){
-    textSize(14);
+    fill(255);
+    textSize(25);
     text(`Plants Left: ${currentLevel["maxLostPlant"] - lostPlants}`, 250, 30);
   }
   //Draw Flower Line (If Level Has It)

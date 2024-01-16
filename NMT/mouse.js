@@ -274,7 +274,7 @@ document.addEventListener("mouseup", function (e) {
     case "almanacPlant"://Plant Almanac
       if (pointBox(mouseX, mouseY, width / 2 - 25, 420 - 25, 50, 50)) {//Tiering System
         if (money >= 1000) {
-          if (plantTier[displayPlant.type - 1] === 1) {
+          if (parseInt(plantTier[displayPlant.type - 1]) === 1) {
             plantTier[displayPlant.type - 1] = 2;
           } else {
             plantTier[displayPlant.type - 1] = 1;
