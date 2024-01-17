@@ -150,9 +150,10 @@ function createZombie(type, lane = 5) {//Keep in mind that lane 0 -> 4 are lanes
   if (lane === 5) {//Random Lane Assignment
     finalLane = Math.floor(Math.random() * 5) + 1;
   }
-  new Zombie(580 + Math.floor(50 * Math.random()), finalLane * 100 + 20, finalLane, type,
-    zombieInfo["health"], zombieInfo["shield"], zombieInfo["degrade"], zombieInfo["speed"],
-    zombieInfo["eatSpeed"], zombieInfo["altSpeed"], zombieInfo["altEatSpeed"], zombieInfo["jam"], 0);
+  result=new Zombie(580 + Math.floor(50 * Math.random()), finalLane * 100 + 20, finalLane, type,
+  zombieInfo["health"], zombieInfo["shield"], zombieInfo["degrade"], zombieInfo["speed"],
+  zombieInfo["eatSpeed"], zombieInfo["altSpeed"], zombieInfo["altEatSpeed"], zombieInfo["jam"], 0);
+  return result
 }
 
 //Finds reward from current level and returns final string
@@ -818,6 +819,18 @@ function setup() {
     seedPacketImages[a].angleMode(DEGREES)
     seedPacketPlant = createPlant(a + 1, 1, 10, a == la - 1 ? -20 : 0)
     seedPacketPlant.layeredDraw(seedPacketImages[a])
+  }
+
+  zombiePacketImages = []
+  for (let a = 0, la = zombieStat.length; a < la; a++) {
+    zombiePacketImages.push(createGraphics(120, 60))
+    zombiePacketImages[a].angleMode(DEGREES)
+    zombiePacketZombie = createZombie(a)
+    zombiePacketZombie.x=30
+    zombiePacketZombie.y=-20
+    zombiePacketZombie.size=0.6
+    zombiePacketZombie.fade=255
+    zombiePacketZombie.layeredDraw(zombiePacketImages[a])
   }
 }
 

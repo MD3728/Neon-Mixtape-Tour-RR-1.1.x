@@ -37,7 +37,7 @@ class Zombie extends Entity{
       case 27: case 30://Cherry Bomb Zombie OR Dazey Zombie
         this.reload = -1;
         break;
-      default://Arcade Spawn Timer OR Regular
+      default://layer.arcade Spawn Timer OR Regular
         this.reload = 180;
     }
     this.waveSpawn = wave;// For determining 75% rule
@@ -47,6 +47,979 @@ class Zombie extends Entity{
     this.size = 1;
     this.graphical = {previousAttackAnim:0};
     allZombies.push(this);
+  }
+
+  layeredDraw(layer){
+    layer.noStroke();
+    layer.fill(0,0,0,50);
+    layer.translate(this.x+15,this.y+80+this.offSetY);
+    layer.scale(this.size);
+    layer.noStroke();
+    let performDraw = false;
+    try{
+      if (!currentLevel["type"].includes(11)){
+        performDraw = true;
+      } 
+    }catch(e){//Almanac draw
+      performDraw = true;
+    }
+    if (performDraw){//Zombies not drawn in Invisighoul
+      switch(this.type){
+        case 0: case 1: case 2: case 3: case 4: case 5: case 6: case 32: //Regulars
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Special health value for Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          if(this.type==1&&this.health>200){//Conehead
+            layer.strokeJoin(ROUND)
+            layer.stroke(255,150,0,this.fade)
+            layer.strokeWeight(4)
+            layer.fill(255,150,0,this.fade)
+            layer.line(-15,-85,15,-85)
+            if(this.health>440){
+              layer.triangle(-10,-85,10,-85,0,-101)
+            }else if(this.health>320){
+              layer.quad(-10,-85,10,-85,5,-93,-5,-93)
+            }
+            layer.strokeJoin(MITER)
+          }else if(this.type==2&&this.health>200){//Buckethead
+            layer.fill(180,185,190,this.fade)
+            if(this.health>930){
+              layer.quad(-15,-81,15,-81,10,-101,-10,-101)
+            }else if(this.health>570){
+              layer.beginShape()
+              layer.vertex(-15,-81)
+              layer.vertex(15,-81)
+              layer.vertex(10,-101)
+              layer.vertex(-4,-101)
+              layer.vertex(-6,-91)
+              layer.vertex(-8,-101)
+              layer.vertex(-10,-101)
+              layer.endShape()
+            }else{
+              layer.quad(-15,-81,15,-81,12.5,-91,-12.5,-91)
+            }
+            layer.quad(-15,-81,-12,-81,-15,-78,-18,-78)
+            layer.quad(0,-81,3,-81,0,-78,-3,-78)
+            layer.rect(-18,-78,18,3)
+          }else if(this.type==3){//Rally Flag
+            layer.fill(200,120,40,this.fade)
+            layer.rect(-28,-84,4,48)
+            layer.fill(240,40,40,this.fade)
+            layer.rect(-52,-82,24,20)
+          }else if(this.type==4&&this.health>200){//Discohead
+            layer.translate(0,-75)
+            layer.rotate(this.rate[0]*30)
+            if(this.health>730){
+              for(let a=0;a<12;a++){
+                layer.fill(200+(a%3)*20,this.fade)
+                if(this.health>1270||a!=11&&a!=9){
+                  layer.arc(0,0,36,36,a*30,a*30+30)
+                }
+              }
+            }else{
+              for(let a=0;a<6;a++){
+                layer.fill(200+(a%3)*20,this.fade)
+                layer.arc(0,0,36,36,a*60,a*60+30)
+              }
+            }
+            layer.rotate(this.rate[0]*-30)
+            layer.translate(0,75)
+          }else if(this.type==5&&this.health>200){//Holohead
+            layer.stroke(100,200,200,this.fade/2)
+            layer.fill(75,150,150,this.fade/2)
+            layer.strokeWeight(1)
+            if(this.health>2070){
+              layer.rect(-20,-95,8,40)
+              layer.rect(-12,-95,8,40)
+              layer.rect(-4,-95,8,40)
+              layer.rect(4,-95,8,40)
+              layer.rect(12,-95,8,40)
+            }else if(this.health>1130){
+              layer.rect(12,-91,8,36)
+              layer.rect(4,-83,8,28)
+              layer.rect(-4,-87,8,32)
+              layer.rect(-12,-79,8,24)
+              layer.rect(-20,-75,8,20)
+            }else{
+              layer.rect(12,-79,8,24)
+              layer.rect(4,-71,8,16)
+              layer.rect(-4,-75,8,20)
+              layer.rect(-12,-67,8,12)
+              layer.rect(-20,-63,8,8)
+            }
+          }else if(this.type==6&&this.shieldHealth>0){//Speakerhead
+            layer.fill(80,this.fade);
+            if(this.shieldHealth>500){
+              layer.rect(-18,-105,36,60);
+              layer.fill(60,this.fade);
+              layer.ellipse(-6,-90,18,18);
+              layer.ellipse(-6,-60,18,18);
+            }else{
+              layer.rect(-18,-75,36,30);
+              layer.fill(60,this.fade);
+              layer.ellipse(-6,-60,18,18);
+            }
+          }else if(this.type==32&&this.health>200){
+            layer.strokeJoin(ROUND)
+            layer.stroke(255,150,0,this.fade)
+            layer.strokeWeight(4)
+            layer.fill(255,150,0,this.fade)
+            layer.line(-15,-85,15,-85)
+            if(this.health>440){
+              layer.triangle(-10,-85,10,-85,0,-101)
+            }else if(this.health>320){
+              layer.quad(-10,-85,10,-85,5,-93,-5,-93)
+            }
+            layer.strokeJoin(MITER)
+            if(this.health>560){
+              layer.noStroke()
+              layer.fill(180,185,190,this.fade)
+              if(this.health>1290){
+                layer.quad(-15,-91,15,-91,10,-111,-10,-111)
+              }else if(this.health>930){
+                layer.beginShape()
+                layer.vertex(-15,-91)
+                layer.vertex(15,-91)
+                layer.vertex(10,-111)
+                layer.vertex(-4,-111)
+                layer.vertex(-6,-101)
+                layer.vertex(-8,-111)
+                layer.vertex(-10,-111)
+                layer.endShape()
+              }else{
+                layer.quad(-15,-91,15,-91,12.5,-101,-12.5,-101)
+              }
+              layer.quad(-15,-91,-12,-91,-15,-88,-18,-88)
+              layer.quad(0,-91,3,-91,0,-88,-3,-88)
+              layer.rect(-18,-88,18,3)
+            }
+          }
+        break
+        case 7://Newspaper
+          if(this.shieldHealth > 0){
+            layer.strokeWeight(4)
+            layer.stroke(220,this.fade)
+            layer.strokeJoin(ROUND)
+            layer.fill(180,190,200,this.fade)
+            layer.beginShape()
+            layer.vertex(-30,-30)
+            layer.vertex(-30,-66)
+            if(this.health>730){
+              layer.vertex(-12,-72)
+            }else{
+              layer.vertex(-24,-68)
+              layer.vertex(-12,-48)
+            }
+            layer.vertex(-12,-36)
+            layer.endShape(CLOSE)
+          }
+          layer.stroke(80,70,60,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(100,90,80,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>200){//Arm
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(100,90,80,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade) 
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          if(this.shieldHealth > 0){
+            layer.strokeWeight(4)
+            layer.stroke(220,this.fade)
+            layer.fill(180,190,200,this.fade)
+            layer.beginShape()
+            layer.vertex(-30,-30)
+            layer.vertex(-30,-66)
+            if(this.shieldHealth > 670){
+              layer.vertex(-12,-60)
+            }else{
+              layer.vertex(-24,-64)
+              layer.vertex(-12,-48)
+            }
+            layer.vertex(-12,-24)
+            layer.endShape(CLOSE)
+          }
+          layer.strokeJoin(MITER)
+        break
+        case 8://Football
+          layer.stroke(200,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(200,20,20,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(200,20,20,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade) 
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          if(this.health>1130){
+            layer.fill(200,20,20,this.fade)
+            layer.arc(0,-75,36,36,-180,90)
+            layer.fill(120,this.fade)
+            layer.rect(-15,-71,15,2)
+            layer.rect(-15,-75,2,4)
+            layer.rect(-9,-75,2,4)
+          }else if(this.health>660){
+            layer.fill(200,20,20,this.fade)
+            layer.arc(0,-75,36,36,-180,60)
+            layer.fill(120,this.fade)
+            layer.rect(-15,-71,8,2)
+            layer.rect(-15,-75,2,4)
+            layer.rect(-9,-75,2,4)
+          }else if(this.health>200){
+            layer.fill(200,20,20,this.fade)
+            layer.arc(0,-75,36,36,-150,15)
+          }
+        break
+        case 9://Punk
+          layer.stroke(100,120,120,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(60,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(60,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(240,120,120,this.fade);
+          layer.arc(0,-75,48,48,-135,-45);
+          layer.fill(120,240,240,this.fade);
+          layer.arc(0,-75,48,48,-105,-75);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          break;
+        case 10://Banger
+          layer.stroke(40,50,40,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(30,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noFill()
+          layer.stroke(120,this.fade)
+          layer.strokeWeight(3)
+          layer.arc(0,-72,16,40,-180,-90)
+          layer.noStroke()
+          layer.fill(30,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,7,6)
+          layer.rect(-12,-73,8,2)
+          layer.ellipse(-12,-72,7,6)
+          layer.stroke(120,this.fade)
+          layer.noFill()
+          layer.strokeWeight(3)
+          layer.arc(0,-72,16,40,-90,0)
+          layer.fill(100,this.fade)
+          layer.ellipse(8,-72,12,12)
+        break
+        case 11://Glitter
+          if(this.inJam()){//Rainbow
+            layer.fill(255,50,50,this.fade/5);
+            layer.rect(0,-80,240,8);
+            layer.fill(255,150,50,this.fade/5);
+            layer.rect(0,-72,240,8);
+            layer.fill(255,255,50,this.fade/5);
+            layer.rect(0,-64,240,8);
+            layer.fill(50,255,50,this.fade/5);
+            layer.rect(0,-56,240,8);
+            layer.fill(50,50,255,this.fade/5);
+            layer.rect(0,-48,240,8);
+            layer.fill(255,50,255,this.fade/5);
+            layer.rect(0,-40,240,8);
+          }
+          layer.stroke(225,200,225,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(250,225,250,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(250,225,250,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          layer.fill(255,this.fade);
+          for(let a=0;a<10;a++){
+            layer.ellipse(sin(this.rate[0]*(36+a)+a*a*25)*24,-96+a*8,3,3);
+          }
+          break;
+        case 12://Sparkly
+          layer.strokeWeight(6)
+          layer.noFill()
+          layer.stroke(255,this.fade*(1-(this.time%30)/30))
+          layer.ellipse(0,-45,(this.time%30)*2,(this.time%30)*4)
+          layer.stroke(220,220,180,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(240,240,200,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(240,240,200,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+        break
+        case 13://MC Zom-B
+          layer.stroke(40,40,80,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          if(this.eating){
+            if(this.inJam()){
+              layer.noStroke()
+              layer.fill(40,this.fade/5)
+              layer.arc(0,-45,240,240,-this.rate[2]*24+90,-this.rate[2]*24+120)
+              layer.stroke(40,this.fade)
+              layer.strokeWeight(3)
+              layer.line(0,-45,sin(this.rate[2]*24)*120,-45+cos(this.rate[2]*24)*120)
+              layer.strokeWeight(4)
+              layer.stroke(60,60,100,this.fade)
+              layer.line(0,-45,sin(this.rate[2]*12)*27,-45+cos(this.rate[2]*12)*27)
+              if(this.health>this.maxHealth/2){
+                layer.line(0,-45,-sin(this.rate[2]*12)*27,-45-cos(this.rate[2]*12)*27)
+              }
+            }else{
+              layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+              if(this.health>this.maxHealth/2){
+                layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+              }
+            }
+          }else{
+            layer.stroke(60,60,100,this.fade)
+            layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+            if(this.health>this.maxHealth/2){
+              layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+            }
+          }
+          layer.noStroke()
+          layer.fill(60,60,100,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.strokeWeight(1)
+          layer.stroke(60,this.fade) 
+          layer.fill(240,this.fade)
+          layer.rect(-7,-74,6,5)
+          layer.rect(-15,-74,6,5)
+          layer.line(-7,-72,-9,-72)
+          layer.strokeWeight(3)
+          layer.stroke(80,120,200,this.fade)
+          layer.fill(80,120,200,this.fade)
+          layer.arc(0,-80,30,20,-180,0)
+          layer.line(-24,-80,15,-80)
+        break
+        case 14://Breakdancer
+          layer.stroke(40,80,120,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          if(this.inJam()){
+            layer.strokeWeight(4)
+            layer.stroke(60,100,140,this.fade)
+            layer.line(0,-45,sin(this.rate[2]*12)*27,-45+cos(this.rate[2]*12)*27)
+            if(this.health>this.maxHealth/2){
+              layer.line(0,-45,-sin(this.rate[2]*12)*27,-45-cos(this.rate[2]*12)*27)
+            }
+          }else{
+            layer.stroke(60,100,140,this.fade)
+            layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+            if(this.health>this.maxHealth/2){
+              layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+            }
+          }
+          layer.noStroke()
+          layer.fill(60,100,140,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade) 
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          layer.stroke(80,200,200,this.fade)
+          layer.fill(80,200,200,this.fade)
+          layer.arc(0,-80,30,20,-180,0)
+          layer.line(-24,-80,16,-80)
+        break
+        case 15://layer.arcade
+          layer.stroke(160,80,80,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(120,60,60,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(80,this.fade);
+          layer.rect(-42,-63,18,30,3);
+          layer.fill(40,this.fade);
+          layer.rect(-40,-61,14,6,2);
+          layer.rect(-40,-51,6,4,2);
+          layer.rect(-32,-51,6,4,2);
+          layer.rect(-40,-45,6,4,2);
+          layer.rect(-32,-45,6,4,2);
+          layer.rect(-40,-39,6,4,2);
+          layer.rect(-32,-39,6,4,2);
+          layer.fill(120,60,60,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.strokeWeight(1.5);
+          layer.stroke(120,this.fade);
+          layer.fill(200,this.fade);
+          layer.ellipse(-4,-72,5,5);
+          layer.ellipse(-12,-72,5,5);
+          layer.line(-6.5,-72,-9.5,-72);
+          break;
+        case 16: case 17://8-bit
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>100){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.rect(-8,-61,16,32)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.rect(-13,-88,26,26)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          if(this.type==17&&this.health>200){
+            layer.strokeJoin(ROUND)
+            layer.stroke(255,150,0,this.fade)
+            layer.strokeWeight(4)
+            layer.fill(255,150,0,this.fade)
+            layer.line(-15,-87,15,-87)
+            if(this.health>440){
+              layer.triangle(-10,-87,10,-87,0,-103)
+            }else if(this.health>320){
+              layer.quad(-10,-87,10,-87,5,-95,-5,-95)
+            }
+            layer.strokeJoin(MITER)
+          }
+        break
+        case 18://Gargantuar
+          layer.stroke(40,50,40,this.fade)
+          layer.strokeWeight(8)
+          layer.line(-10,-45,-15-sin(this.rate[0]*18)*5,0)
+          layer.line(10,-45,15+sin(this.rate[0]*18)*5,0)
+          layer.stroke(30,this.fade)
+          layer.line(-12,-72,-54+this.rate[3],-60-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-12,-84,-54+this.rate[3],-96+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(30,this.fade)
+          layer.ellipse(0,-75,48,96)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-135,30,30)
+          layer.fill(0,this.fade) 
+          layer.ellipse(-4,-132,4,4)
+          layer.ellipse(-12,-132,4,4)
+          if(this.rate[4]>0){
+            this.rate[4]--
+            if(this.rate[4]>=5){
+              this.rate[3]+=6
+            }else{
+              this.rate[3]-=6
+            }
+          }
+        break
+        case 19://Imp
+            layer.stroke(75,this.fade)
+            layer.strokeWeight(4)
+            layer.line(-4,-24,-7-sin(this.rate[0]*18)*3,0)
+            layer.line(4,-24,7+sin(this.rate[0]*18)*3,0)
+            layer.stroke(50,this.fade)
+            layer.line(-6,-34,-21,-30-sin(this.rate[1]*9)*3)
+            if(this.health>this.maxHealth/2){
+              layer.line(-6,-40,-21,-44+sin(this.rate[1]*9)*3)
+            }
+            layer.noStroke()
+            layer.fill(50,this.fade)
+            layer.ellipse(0,-34,18,27)
+            layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+            layer.ellipse(0,-60,30,30)
+            layer.fill(0,this.fade) 
+            layer.ellipse(-4,-57,4,4)
+            layer.ellipse(-12,-57,4,4)
+          break
+        case 20://Shadow
+          layer.stroke(50,0,50,this.fade/3)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(50,0,50,this.fade/3)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(50,0,50,this.fade/3)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(100,0,100,this.fade/3)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade/3) 
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+        break
+        case 21://Techie
+          layer.strokeWeight(2);
+          layer.stroke(80,this.fade);
+          layer.noFill();
+          layer.arc(0,-75,36,36,-180,0);
+          layer.fill(120,this.fade);
+          layer.ellipse(-15,-75,12,12);
+          layer.ellipse(15,-75,12,12);
+          layer.stroke(60,150,60,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(50,125,50,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(50,125,50,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          layer.fill(100,255,100,this.fade/5);
+          if (this.shieldHealth < 0){
+            this.shieldHealth = 0;
+          }
+          layer.rect(-30,15-this.shieldHealth/this.maxShieldHealth*120,60,this.shieldHealth/this.maxShieldHealth*120);
+        break
+        case 22://Gadgeter
+          layer.stroke(80,120,80,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(60,100,60,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(180,this.fade)
+          layer.rect(-36,-45-sin(this.rate[1]*9)*3,12,12)
+          layer.fill(200,this.fade)
+          layer.rect(-34,-43-sin(this.rate[1]*9)*3,8,8)
+          layer.fill(60,100,60,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.strokeWeight(1.5)
+          layer.stroke(120,this.fade)
+          layer.fill(200,this.fade) 
+          layer.ellipse(-4,-72,5,5)
+          layer.ellipse(-12,-72,5,5)
+          layer.line(-6.5,-72,-9.5,-72)
+        break
+        case 23://Boombox
+          layer.stroke(255,100,0,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(255,150,0,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(40,this.fade);
+          layer.rect(-60,-60,36,24,3);
+          layer.fill(60,this.fade);
+          layer.ellipse(-51,-48,12,12);
+          layer.ellipse(-33,-48,12,12);
+          layer.fill(255,150,0,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade); 
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          break;
+        case 24://Zomboss Placeholder Minion
+          break;
+        case 25://Peashooter Zombie
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          if (this.shieldHealth > 0){//Peashooter Head
+            layer.fill(25,200,25);
+            layer.ellipse(-21,-48,30,30);
+            layer.rect(-51,-55,30,16);
+            layer.ellipse(-51,-47,6,16);
+            layer.fill(0);
+            layer.ellipse(-51,-47,4,12);
+            layer.ellipse(-28,-54,5,5);
+          }
+          break;
+        case 26://Wall-nut Zombie
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          //Wall-nut
+          layer.fill(120,60,15);
+          if(this.shieldHealth > this.maxShieldHealth*2/3){
+            layer.ellipse(-30,-48,40,54);
+          }else if(this.shieldHealth > this.maxShieldHealth/3){
+            layer.arc(-30,-48,40,54,-60,285);
+          }else if(this.shieldHealth > 0){
+            layer.arc(-30,-48,40,54,-115,-75);
+            layer.arc(-30,-48,40,54,-60,230);
+          }
+          if(this.shieldHealth > 0){
+            layer.fill(0);
+            layer.ellipse(-24,-54,6,6);
+            layer.ellipse(-36,-54,6,6);
+          }
+          layer.noFill();
+          layer.stroke(0);
+          layer.strokeWeight(2);
+          if(this.shieldHealth > (this.maxShieldHealth-200)/2){
+            layer.arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),0,180);
+          }else if(this.shieldHealth === this.maxShieldHealth/2){
+            layer.line(-30,-28,10,-40);
+          }else if(this.shieldHealth > 0){
+            layer.arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),-180,0);
+          }
+          break;
+        case 27://Cherry Bomb Zombie
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          //Cherry Bomb
+          if (this.shieldHealth > 0){
+            layer.stroke(25,175,25);
+            layer.strokeWeight(6);
+            layer.line(-42,-36,-22,-53);
+            layer.line(-2,-36,-22,-53);
+            layer.noStroke();
+            layer.fill(225,25,25);
+            layer.ellipse(-42,-28,30,30);
+            layer.ellipse(-2,-28,30,30);
+            layer.fill(0);
+            layer.ellipse(-50,-26,6,6);
+            layer.ellipse(-40,-26,6,6);
+            layer.ellipse(-4,-26,6,6);
+            layer.ellipse(6,-26,6,6);
+          }
+        break
+        case 28://Fume Shroom Zombie
+          if(this.graphical.previousAttackAnim>0){
+            layer.fill(200,100,250,this.graphical.previousAttackAnim*8)
+            layer.ellipse(-220+this.graphical.previousAttackAnim*9,-48,360-this.graphical.previousAttackAnim*18,60-this.graphical.previousAttackAnim*3)
+            this.graphical.previousAttackAnim--
+          }
+          layer.stroke(60,80,100,this.fade)
+          layer.strokeWeight(4)
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0)
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0)
+          layer.stroke(120,80,40,this.fade)
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3)
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3)
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade)
+          layer.ellipse(0,-45,18,36)
+          layer.fill(255,this.fade)
+          layer.triangle(4,-70,-20/3,-70,-4,-50)
+          layer.fill(200,50,50,this.fade)
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55)
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade)
+          layer.ellipse(0,-75,30,30)
+          layer.fill(0,this.fade)
+          layer.ellipse(-4,-72,4,4)
+          layer.ellipse(-12,-72,4,4)
+          //Fume Shroom
+          if (this.shieldHealth > 0){
+            layer.fill(150,50,200);
+            layer.ellipse(-30,-48,48,30);
+            layer.rect(-55,-54,20,12);
+            layer.ellipse(-55,-48,10,18);
+            layer.fill(100,50,150);
+            layer.ellipse(-39,-50,14,14);
+            layer.ellipse(-21,-46,12,12);
+            layer.fill(0);
+            layer.ellipse(-55,-48,6,12);
+          }
+          break;
+        case 29://Squash Zombie
+          layer.stroke(60,80,100,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(120,80,40,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke()
+          layer.fill(120,80,40,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(255,this.fade);
+          layer.triangle(4,-70,-20/3,-70,-4,-50);
+          layer.fill(200,50,50,this.fade);
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          //Squash
+          if (this.shieldHealth > 0){
+            layer.fill(100,150,100);
+            layer.rect(-42,-83,4,4);
+            layer.fill(100,200,100);
+            layer.arc(-40,-40,50,40,0,180);
+            layer.quad(-15,-40,-65,-40,-55,-70,-25,-70);
+            layer.arc(-40,-70,30,20,-180,0);
+            layer.fill(0);
+            layer.ellipse(-40,-45,6,6);
+            layer.ellipse(-55,-45,6,6);
+          }
+          break;
+        case 30://Dazey Zombie
+          layer.stroke(60,80,100,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(120,80,40,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(120,80,40,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(255,this.fade);
+          layer.triangle(4,-70,-20/3,-70,-4,-50);
+          layer.fill(200,50,50,this.fade);
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          //Dazey
+          if (this.shieldHealth > 0){
+            layer.fill(120,180,85);
+            layer.rect(-33,-40,6,18);
+            layer.fill(130,190,95);
+            layer.ellipse(-38,-22,11,7);
+            layer.ellipse(-22,-22,11,7);
+            layer.ellipse(-30,-19,11,7);
+            layer.translate(-30,-56);
+            layer.fill(255,75,75);
+            for(let a=0;a<15;a++){
+              layer.rotate(24);
+              layer.arc(14,0,12,7,-90,90);
+            }
+            layer.translate(30,56);
+            layer.fill(255,125,125);
+            layer.ellipse(-30,-56,30,30);
+            layer.fill(0);
+            layer.ellipse(-36,-59,5,5);
+            layer.ellipse(-24,-59,5,5);
+          }
+          break;
+        case 31://Garlic Zombie
+          layer.stroke(60,80,100,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(120,80,40,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if((this.health>100)||((this.health > 175)&&(this.type === 3))){//Flag Zombie
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(120,80,40,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(255,this.fade);
+          layer.triangle(4,-70,-20/3,-70,-4,-50);
+          layer.fill(200,50,50,this.fade);
+          layer.quad(-4,-49,-14/3,-55,-4/3,-70,-2,-55);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          //Garlic
+          if (this.shieldHealth > 0){
+            layer.fill(220,220,200);
+            if(this.shieldHealth>this.maxShieldHealth/2){
+              layer.ellipse(-30,-48,48,48);
+              layer.triangle(-45,-66,-15,-66,-30,-78);
+            }else{
+              layer.arc(-30,-48,48,48,-30,210);
+              layer.triangle(cos(30)*-24-30,-48-sin(30)*24,cos(30)*24-30,-48-sin(30)*24,-30,-47);
+            }
+            layer.fill(0);
+            layer.ellipse(-36,-46,6,6);
+            layer.ellipse(-48,-46,6,6);
+          }
+        break
+        case 9999://Test
+          layer.stroke(40,50,40,this.fade);
+          layer.strokeWeight(4);
+          layer.line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
+          layer.line(4,-30,8+sin(this.rate[0]*18)*3,0);
+          layer.stroke(30,this.fade);
+          layer.line(-6,-45,-24,-39-sin(this.rate[1]*9)*3);
+          if(this.health>this.maxHealth/2){
+            layer.line(-6,-51,-24,-57+sin(this.rate[1]*9)*3);
+          }
+          layer.noStroke();
+          layer.fill(30,this.fade);
+          layer.ellipse(0,-45,18,36);
+          layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
+          layer.ellipse(0,-75,30,30);
+          layer.fill(0,this.fade);
+          layer.ellipse(-4,-72,4,4);
+          layer.ellipse(-12,-72,4,4);
+          break;
+        default://Placeholder Hitbox for Nonexistent Zombies
+          layer.scale(1/this.size);
+          layer.translate(-this.x-15,-this.y-80);
+          layer.fill(0,0,0);
+          layer.rect(this.x, this.y,30,80);
+          return;
+      }
+    }else if(this.determineColor()[0]!==0||this.determineColor()[1]!==0||this.determineColor()[2]!==0){
+      layer.fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade*this.maxFade()*0.8);
+      layer.ellipse(0,-30,40,40);
+    }
+    layer.scale(1/this.size);
+    layer.translate(-this.x-15,-this.y-80-this.offSetY);
   }
 
   //Generic Draw
@@ -132,13 +1105,13 @@ class Zombie extends Entity{
               for(let a=0;a<12;a++){
                 fill(200+(a%3)*20,this.fade)
                 if(this.health>1270||a!=11&&a!=9){
-                  arc(0,0,36,36,a*30,a*30+30)
+                  layer.arc(0,0,36,36,a*30,a*30+30)
                 }
               }
             }else{
               for(let a=0;a<6;a++){
                 fill(200+(a%3)*20,this.fade)
-                arc(0,0,36,36,a*60,a*60+30)
+                layer.arc(0,0,36,36,a*60,a*60+30)
               }
             }
             rotate(this.rate[0]*-30)
@@ -287,21 +1260,21 @@ class Zombie extends Entity{
           ellipse(-12,-72,4,4)
           if(this.health>1130){
             fill(200,20,20,this.fade)
-            arc(0,-75,36,36,-180,90)
+            layer.arc(0,-75,36,36,-180,90)
             fill(120,this.fade)
             rect(-15,-71,15,2)
             rect(-15,-75,2,4)
             rect(-9,-75,2,4)
           }else if(this.health>660){
             fill(200,20,20,this.fade)
-            arc(0,-75,36,36,-180,60)
+            layer.arc(0,-75,36,36,-180,60)
             fill(120,this.fade)
             rect(-15,-71,8,2)
             rect(-15,-75,2,4)
             rect(-9,-75,2,4)
           }else if(this.health>200){
             fill(200,20,20,this.fade)
-            arc(0,-75,36,36,-150,15)
+            layer.arc(0,-75,36,36,-150,15)
           }
         break
         case 9://Punk
@@ -318,9 +1291,9 @@ class Zombie extends Entity{
           fill(60,this.fade);
           ellipse(0,-45,18,36);
           fill(240,120,120,this.fade);
-          arc(0,-75,48,48,-135,-45);
+          layer.arc(0,-75,48,48,-135,-45);
           fill(120,240,240,this.fade);
-          arc(0,-75,48,48,-105,-75);
+          layer.arc(0,-75,48,48,-105,-75);
           fill(this.determineColor()[0],this.determineColor()[1],this.determineColor()[2],this.fade);
           ellipse(0,-75,30,30);
           fill(0,this.fade);
@@ -340,7 +1313,7 @@ class Zombie extends Entity{
           noFill()
           stroke(120,this.fade)
           strokeWeight(3)
-          arc(0,-72,16,40,-180,-90)
+          layer.arc(0,-72,16,40,-180,-90)
           noStroke()
           fill(30,this.fade)
           ellipse(0,-45,18,36)
@@ -353,7 +1326,7 @@ class Zombie extends Entity{
           stroke(120,this.fade)
           noFill()
           strokeWeight(3)
-          arc(0,-72,16,40,-90,0)
+          layer.arc(0,-72,16,40,-90,0)
           fill(100,this.fade)
           ellipse(8,-72,12,12)
         break
@@ -426,7 +1399,7 @@ class Zombie extends Entity{
             if(this.inJam()){
               noStroke()
               fill(40,this.fade/5)
-              arc(0,-45,240,240,-this.rate[2]*24+90,-this.rate[2]*24+120)
+              layer.arc(0,-45,240,240,-this.rate[2]*24+90,-this.rate[2]*24+120)
               stroke(40,this.fade)
               strokeWeight(3)
               line(0,-45,sin(this.rate[2]*24)*120,-45+cos(this.rate[2]*24)*120)
@@ -463,7 +1436,7 @@ class Zombie extends Entity{
           strokeWeight(3)
           stroke(80,120,200,this.fade)
           fill(80,120,200,this.fade)
-          arc(0,-80,30,20,-180,0)
+          layer.arc(0,-80,30,20,-180,0)
           line(-24,-80,15,-80)
         break
         case 14://Breakdancer
@@ -495,10 +1468,10 @@ class Zombie extends Entity{
           ellipse(-12,-72,4,4)
           stroke(80,200,200,this.fade)
           fill(80,200,200,this.fade)
-          arc(0,-80,30,20,-180,0)
+          layer.arc(0,-80,30,20,-180,0)
           line(-24,-80,16,-80)
         break
-        case 15://Arcade
+        case 15://layer.arcade
           stroke(160,80,80,this.fade);
           strokeWeight(4);
           line(-4,-30,-8-sin(this.rate[0]*18)*3,0);
@@ -635,7 +1608,7 @@ class Zombie extends Entity{
           strokeWeight(2);
           stroke(80,this.fade);
           noFill();
-          arc(0,-75,36,36,-180,0);
+          layer.arc(0,-75,36,36,-180,0);
           fill(120,this.fade);
           ellipse(-15,-75,12,12);
           ellipse(15,-75,12,12);
@@ -773,10 +1746,10 @@ class Zombie extends Entity{
           if(this.shieldHealth > this.maxShieldHealth*2/3){
             ellipse(-30,-48,40,54);
           }else if(this.shieldHealth > this.maxShieldHealth/3){
-            arc(-30,-48,40,54,-60,285);
+            layer.arc(-30,-48,40,54,-60,285);
           }else if(this.shieldHealth > 0){
-            arc(-30,-48,40,54,-115,-75);
-            arc(-30,-48,40,54,-60,230);
+            layer.arc(-30,-48,40,54,-115,-75);
+            layer.arc(-30,-48,40,54,-60,230);
           }
           if(this.shieldHealth > 0){
             fill(0);
@@ -787,11 +1760,11 @@ class Zombie extends Entity{
           stroke(0);
           strokeWeight(2);
           if(this.shieldHealth > (this.maxShieldHealth-200)/2){
-            arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),0,180);
+            layer.arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),0,180);
           }else if(this.shieldHealth === this.maxShieldHealth/2){
             line(-30,-28,10,-40);
           }else if(this.shieldHealth > 0){
-            arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),-180,0);
+            layer.arc(-30,-38,20,-6+12*(this.shieldHealth)/(this.maxShieldHealth),-180,0);
           }
           break;
         case 27://Cherry Bomb Zombie
@@ -900,9 +1873,9 @@ class Zombie extends Entity{
             fill(100,150,100);
             rect(-42,-83,4,4);
             fill(100,200,100);
-            arc(-40,-40,50,40,0,180);
+            layer.arc(-40,-40,50,40,0,180);
             quad(-15,-40,-65,-40,-55,-70,-25,-70);
-            arc(-40,-70,30,20,-180,0);
+            layer.arc(-40,-70,30,20,-180,0);
             fill(0);
             ellipse(-40,-45,6,6);
             ellipse(-55,-45,6,6);
@@ -942,7 +1915,7 @@ class Zombie extends Entity{
             fill(255,75,75);
             for(let a=0;a<15;a++){
               rotate(24);
-              arc(14,0,12,7,-90,90);
+              layer.arc(14,0,12,7,-90,90);
             }
             translate(30,56);
             fill(255,125,125);
@@ -981,7 +1954,7 @@ class Zombie extends Entity{
               ellipse(-30,-48,48,48);
               triangle(-45,-66,-15,-66,-30,-78);
             }else{
-              arc(-30,-48,48,48,-30,210);
+              layer.arc(-30,-48,48,48,-30,210);
               triangle(cos(30)*-24-30,-48-sin(30)*24,cos(30)*24-30,-48-sin(30)*24,-30,-47);
             }
             fill(0);

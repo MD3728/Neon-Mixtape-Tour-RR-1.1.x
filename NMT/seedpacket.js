@@ -105,7 +105,11 @@ class SeedPacket extends Entity{
     // Draw Name
     textSize(20);
     if (this.type !== "shovel"){
-      image(seedPacketImages[this.type-1],this.x,this.y,120,60);
+      if(currentLevel["type"].includes(14)){
+        image(zombiePacketImages[this.type],this.x,this.y,120,60)
+      }else{
+        image(seedPacketImages[this.type-1],this.x,this.y,120,60);
+      }
     }
     // Draw Sun Cost
     textSize(22);
