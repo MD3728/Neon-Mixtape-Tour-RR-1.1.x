@@ -83,10 +83,10 @@ let unlockedPackets = [1, 4, 7, 12, 18];
 
 let unlockedLevels = [
   "l1"
-  // ,"l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9", "l10",
-  // "l11", "l12", "l13", "l14", "l15", "l16", "l17", "l18", "l19", "l20",
-  // "l21", "l22", "l23", "l24", "l25", "l26", "l27", "l28", "l29", "l30",
-  // "l31", "l32", "l33", "l34", "l35", "l36", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13"
+  ,"l2", "l3", "l4", "l5", "l6", "l7", "l8", "l9", "l10",
+  "l11", "l12", "l13", "l14", "l15", "l16", "l17", "l18", "l19", "l20",
+  "l21", "l22", "l23", "l24", "l25", "l26", "l27", "l28", "l29", "l30",
+  "l31", "l32", "l33", "l34", "l35", "l36", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "m10", "m11", "m12", "m13"
 ];
 
 let currentSurvivalNum = 1;//Current Survival Level Number
@@ -780,25 +780,25 @@ function setup() {
   displayZombie.size = 2.4;
 
   //Set and Read Save Data
-  money = localStorage.getItem("money");
-  if (money === null){//If Save Data Does Not Exist
-    money = 0;
-    unlockedPackets = [1, 4, 7, 12, 18];
-    unlockedLevels = ["l1"];
-    plantTier = [];
-    for (let a = 0; a < 30; a++){plantTier.push(1);}
-    currentSurvivalNum = 1;
-    saveData();
-  }
-  currentSurvivalNum = localStorage.getItem("survivalStreak");
-  money = parseInt(localStorage.getItem("money"));
-  money = money >= maxMoney ? 1000 : money;
-  unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
-  for (let currentPacket in unlockedPackets){
-    unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
-  }
-  unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
-  plantTier = localStorage.getItem("plantTiers").split(",");
+  // money = localStorage.getItem("money");
+  // if (money === null){//If Save Data Does Not Exist
+  //   money = 0;
+  //   unlockedPackets = [1, 4, 7, 12, 18];
+  //   unlockedLevels = ["l1"];
+  //   plantTier = [];
+  //   for (let a = 0; a < 30; a++){plantTier.push(1);}
+  //   currentSurvivalNum = 1;
+  //   saveData();
+  // }
+  // currentSurvivalNum = localStorage.getItem("survivalStreak");
+  // money = parseInt(localStorage.getItem("money"));
+  // money = money >= maxMoney ? 1000 : money;
+  // unlockedPackets = localStorage.getItem("unlockedPlants").split(",");
+  // for (let currentPacket in unlockedPackets){
+  //   unlockedPackets[currentPacket] = parseInt(unlockedPackets[currentPacket]);
+  // }
+  // unlockedLevels = localStorage.getItem("unlockedLevels").split(",");
+  // plantTier = localStorage.getItem("plantTiers").split(",");
   //Shop Data
   displayPlants = [];
   shopPlantList = [3, 8, 9, 13, 21, 24, 27];//Shop Plants

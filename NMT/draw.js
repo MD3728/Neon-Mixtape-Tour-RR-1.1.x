@@ -434,9 +434,9 @@ function drawObjectives(){
   }
   //Draw Zombie Line (I Zombie)
   if (currentLevel["type"].includes(14) === true){
-    fill(255,0,0);
+    fill(240,0,0);
     for(let a=0;a<20;a++){
-      ellipse(currentLevel["plantLine"]+((a*a)%4.3)*4-18.6,120+a*25,30,30)
+      ellipse(currentLevel["plantLine"]+((a*a)%4.3)*1.5-9.6,120+a*25,30,30)
     }
   }
   //Draw Fog (If Level Has It)
